@@ -1,0 +1,159 @@
+@import '../../styles/variables.scss';
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: $main-background-color;
+  // background-image: url('../../assets/images/card_imgs/rainbow-vortex.svg');
+  // background-size: cover;
+  // background-position: center;
+  // background-repeat: no-repeat;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    padding-bottom: 24px;
+    gap: 24px;
+    width: 448px;
+    max-width: 500px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  &__control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding-inline: 24px;
+    width: 100%;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 96px;
+    text-align: center;
+  }
+
+  &__password {
+    position: relative;
+    width: 100%;
+    height: 64px;
+    margin-top: 16px;
+  }
+
+  &__password-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+  }
+
+  &__input {
+    margin-top: 4px;
+    width: 400px;
+    height: 40px;
+    padding: 8px 12px;
+
+    font-size: 16px;
+    background-color: #f7fafc;
+    border: 1px solid #e1e7ef;
+    border-radius: 6px;
+
+    &:focus {
+      outline: none;
+      border-color: #41b2f9;
+    }
+  }
+
+  &__input-title {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+  }
+
+  &__error {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+    word-break: break-word;
+  }
+
+  &__forgot-password {
+    font-size: 14px;
+    font-weight: 500;
+    color: $main-font-color;
+    text-decoration: none;
+  }
+
+  &__eye {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  &__remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+
+    input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+
+  &__button-login {
+    margin-top: 16px;
+    color: #fff;
+    width: 100%;
+    height: 40px;
+    width: 400;
+    background-color: #3e9ee3;
+    border: 1px solid #3e9ee3;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+    align-self: center;
+    color: #5e6776;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  &__register {
+    margin-top: 16px;
+    font-size: 14px;
+
+    &-link {
+      color: $main-font-color;
+      font-weight: 500;
+    }
+  }
+}

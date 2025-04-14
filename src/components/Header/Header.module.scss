@@ -1,0 +1,66 @@
+@import '../../styles/variables.scss';
+
+.header {
+  display: flex;
+  padding: 0 20px 0 40px;
+  background-color: $main-background-color;
+  height: 64px;
+  width: 100vw;
+  border-bottom: 1px solid #e1e7ef;
+  color: $main-font-color;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__container--center {
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    width: 153px;
+    height: 32px;
+    gap: 8px;
+
+    &--center {
+      display: flex;
+      align-items: center;
+      width: 153px;
+      height: 32px;
+      gap: 8px;
+      transform: translate(-20px, 0);
+    }
+  }
+
+  &__logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 120%;
+  }
+
+  &__auth {
+    padding: 20px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+    cursor: pointer;
+  }
+  &__auth-btn {
+    width: 44px;
+    height: 20px;
+  }
+}

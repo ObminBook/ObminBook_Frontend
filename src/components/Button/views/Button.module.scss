@@ -1,0 +1,29 @@
+@mixin buttonBoldFont {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@mixin buttonRegularFont {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 40px;
+  line-height: 140%;
+
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &--blue {
+    background-color: #3e9ee3;
+    color: #fff;
+    border-color: bl;
+  }
+}

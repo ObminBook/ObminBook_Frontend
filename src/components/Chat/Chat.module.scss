@@ -1,0 +1,124 @@
+.chat {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+
+  &__title {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 28px;
+    color: #333;
+  }
+
+  &__select-user {
+    padding: 10px 16px;
+    margin: 0 8px 20px 0;
+    font-size: 14px;
+    border: 2px solid #0077ff;
+    background-color: #fff;
+    color: #0077ff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.05s ease-in-out;
+
+    &:hover {
+      background-color: #0077ff;
+      color: #fff;
+    }
+
+    &--selected {
+      background-color: #0077ff;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #348ff7;
+        color: #333;
+      }
+    }
+  }
+
+  &__messages {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 0;
+  }
+
+  &__message {
+    max-width: 70%;
+    padding: 10px 16px;
+    margin: 8px 0;
+    border-radius: 16px;
+    word-break: break-word;
+
+    &--my {
+      align-self: flex-end;
+      background-color: #0077ff;
+      color: white;
+      border-radius: 16px 16px 4px 16px;
+
+      .chat__message-user {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    &--other {
+      align-self: flex-start;
+      background-color: #f1f1f1;
+      color: #333;
+      border-radius: 16px 16px 16px 4px;
+
+      .chat__message-user {
+        color: #666;
+      }
+    }
+  }
+
+  &__message-text {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  &__message-user {
+    font-size: 12px;
+  }
+
+  &__form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  &__input {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #0077ff;
+    }
+  }
+
+  &__button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #0077ff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #005fcc;
+    }
+  }
+}
