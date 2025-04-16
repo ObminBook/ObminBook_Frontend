@@ -16,7 +16,7 @@ const Checkbox: React.FC<ICheckboxViewProps> = ({
   return (
     <div
       onClick={onToggle}
-      style={{ display: 'inline-block', width: '16px', height: '16px' }}
+      style={{ display: 'block', width: '16px', height: '16px' }}
     >
       <img
         src={isChecked ? imgChecked : imgUnchecked}

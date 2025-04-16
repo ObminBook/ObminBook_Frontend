@@ -1,31 +1,35 @@
 import classNames from 'classnames';
 import styles from './Button.module.scss';
 
-interface ButtonProps {
-  type?: 'button' | 'submit';
+interface ButtonStyleProps {
+  _iconPosition?: 'left' | 'right';
+  _icon?: string;
+  _fontSize?: 'bold' | 'regular';
+  _buttonColor: 'default' | 'blue' | 'green' | 'red' | 'transparent';
+  _classname?: string;
+}
+
+interface ButtonProps extends ButtonStyleProps {
+  _type?: 'button' | 'submit';
   onClick?: () => void;
-  disabled?: boolean;
-  classname?: string;
-  name: string;
-  iconPosition?: 'left' | 'right';
-  icon?: string;
-  fontSize?: 'bold' | 'regulare';
-  buttonColor: 'default' | 'blue' | 'green' | 'red' | 'transparent';
+  _disabled?: boolean;
+  _name: string;
 }
 
 export const Button = (props: ButtonProps) => {
   return (
     <button
-      type={props.type}
+      type={props._type}
       className={classNames(
-        props.classname,
+        props._classname,
         styles['button'],
-        styles[`button--${props.buttonColor}`]
+        styles[`button--color-${props._buttonColor}`],
+        styles[`button--font-${props._fontSize}`]
       )}
       onClick={props.onClick}
     >
-      {props.icon && <img src={props.icon} alt="button-icon" />}
-      {props.name}
+      {props._icon && <img src={props._icon} alt="button__icon" />}
+      {props._name}
     </button>
   );
 };

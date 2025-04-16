@@ -1,28 +1,32 @@
-import React, { use, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './SortDropdown.module.scss';
 import arrowUp from '../../assets/images/card_imgs/SortDropdown/up.svg';
 import arrowDown from '../../assets/images/card_imgs/SortDropdown/down.svg';
 import selectedImg from '../../assets/images/card_imgs/SortDropdown/checked.svg';
 import useClickOutside from '../../hooks/useClickOutside';
 
-const options = ['Релевантність', 'Відстань', 'Стан'];
+const options = ['Нові оголошення', 'За назвою', 'Випадково'];
 
 type Props = {
   onChange: (value: string) => void;
+  searchParams: URLSearchParams;
 };
 
-export const SortDropdown: React.FC<Props> = ({ onChange }) => {
+export const SortDropdown: React.FC<Props> = ({ onChange, searchParams }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(options[0]);
+  const selected = searchParams.get('sort');
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const dropDownRef = useClickOutside(() => setIsOpen(false));
 
   const handleSelect = (option: string) => {
-    setSelected(option);
     setIsOpen(false);
     onChange(option); // 🔥 відправляємо значення вгору
   };
+
+  useEffect(() => {
+    onChange(options[0]);
+  }, []);
 
   return (
     <div className={styles['sort-dropdown']}>
@@ -69,7 +73,7 @@ export const SortDropdown: React.FC<Props> = ({ onChange }) => {
                   />
                 )}
               </div>
-              {option}
+              {option === options[1] ? `${option} (А-Я)` : option}
             </li>
           ))}
         </ul>

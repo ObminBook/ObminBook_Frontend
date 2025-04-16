@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './FilterSection.module.scss';
 import MultiSelectCheckboxContainer from '../Checkbox/containers/MultiSelectCheckboxContainer';
+import { useSearchParams } from 'react-router-dom';
 
 const genresFromServer = [
   'Фантастика',
@@ -16,77 +17,95 @@ const states = ['Як нова', 'Дуже добра', 'Добра', 'Прий�
 const exchangeTypes = ['Особисто', 'По пошті', 'Будь-який спосіб'];
 
 const FilterSection: React.FC = () => {
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedStates, setSelectedStates] = useState<string[]>([]);
-  const [selectedExchangeTypes, setSelectedExchangeTypes] = useState<string[]>(
-    []
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleCheckboxChange = (type: string, value: string) => {
-    let updatedList = [];
+    const newParams = new URLSearchParams(searchParams);
+    const currentValues = newParams.getAll(type);
 
-    if (type === 'genres') {
-      updatedList = selectedGenres.includes(value)
-        ? selectedGenres.filter((v) => v !== value)
-        : [...selectedGenres, value];
-      setSelectedGenres(updatedList);
-    } else if (type === 'states') {
-      updatedList = selectedStates.includes(value)
-        ? selectedStates.filter((v) => v !== value)
-        : [...selectedStates, value];
-      setSelectedStates(updatedList);
-    } else if (type === 'exchangeTypes') {
-      updatedList = selectedExchangeTypes.includes(value)
-        ? selectedExchangeTypes.filter((v) => v !== value)
-        : [...selectedExchangeTypes, value];
-      setSelectedExchangeTypes(updatedList);
+    if (currentValues.includes(value)) {
+      newParams.delete(type, value);
+    } else {
+      newParams.append(type, value);
     }
+
+    setSearchParams(newParams);
+  };
+
+  const handleReset = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('genres');
+    params.delete('states');
+    params.delete('exchangeType');
+
+    setSearchParams(params);
+  };
+
+  const getCheckedStatus = (type: string, value: string) => {
+    return searchParams.getAll(type).includes(value);
   };
 
   return (
     <div className={styles.filters}>
-      <h3 className={styles.filters__title}>Фільтри</h3>
+      <div className={styles['filters__header']}>
+        <h3 className={styles.filters__title}>Фільтри</h3>
+        <button className={styles.filters__resetButton} onClick={handleReset}>
+          Очистити все
+        </button>
+      </div>
 
       <div className={styles.filters__section}>
-        <strong>Жанр</strong>
+        <div className={styles['filters__block']}>Жанр</div>
         <div className={styles.filters__items}>
           {genresFromServer.map((genre) => (
-            <div key={genre} className={styles.filters__item}>
+            <div
+              key={genre}
+              className={styles.filters__item}
+              onClick={() => handleCheckboxChange('genres', genre)}
+            >
               <MultiSelectCheckboxContainer
-                isChecked={selectedGenres.includes(genre)}
+                isChecked={getCheckedStatus('genres', genre)}
                 onChange={() => handleCheckboxChange('genres', genre)}
               />
-              <span>{genre}</span>
+              <div className={styles['filters__item-name']}>{genre}</div>
             </div>
           ))}
         </div>
       </div>
 
       <div className={styles.filters__section}>
-        <strong>Стан</strong>
+        <div className={styles['filters__block']}>Стан</div>
         <div className={styles.filters__items}>
           {states.map((state) => (
-            <div key={state} className={styles.filters__item}>
+            <div
+              key={state}
+              className={styles.filters__item}
+              onClick={() => handleCheckboxChange('states', state)}
+            >
               <MultiSelectCheckboxContainer
-                isChecked={selectedStates.includes(state)}
+                isChecked={getCheckedStatus('states', state)}
                 onChange={() => handleCheckboxChange('states', state)}
               />
-              <span>{state}</span>
+              <div className={styles['filters__item-name']}>{state}</div>
             </div>
           ))}
         </div>
       </div>
 
       <div className={styles.filters__section}>
-        <strong>Тип обміну</strong>
+        <div className={styles['filters__block']}>Тип обміну</div>
         <div className={styles.filters__items}>
           {exchangeTypes.map((type) => (
-            <div key={type} className={styles.filters__item}>
+            <div
+              key={type}
+              className={styles.filters__item}
+              onClick={() => handleCheckboxChange('exchangeType', type)}
+            >
               <MultiSelectCheckboxContainer
-                isChecked={selectedExchangeTypes.includes(type)}
-                onChange={() => handleCheckboxChange('exchangeTypes', type)}
+                isChecked={getCheckedStatus('exchangeType', type)}
+                onChange={() => handleCheckboxChange('exchangeType', type)}
               />
-              <span>{type}</span>
+              <div className={styles['filters__item-name']}>{type}</div>
             </div>
           ))}
         </div>

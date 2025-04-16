@@ -2,13 +2,10 @@
 import React from 'react';
 import styles from './BookCard.module.scss';
 import { Book } from '../../types/Book';
-
-import imgCategory from '../../assets/images/card_imgs/cardBook/cardDetails/category.svg';
-import imgCondition from '../../assets/images/card_imgs/cardBook/cardDetails/condition.svg';
-import imgCity from '../../assets/images/card_imgs/cardBook/cardDetails/city.svg';
-import imgExchange from '../../assets/images/card_imgs/cardBook/cardDetails/exchange.svg';
-import cardImage from '../../assets/images/card_imgs/cardBook/image.placeholder.svg';
 import { useHover } from '../../hooks/useHover';
+import { cardIcons } from '../../assets/images/card_imgs/cardBook/cardDetails';
+import { buttonIcons } from '../../assets/images/card_imgs/buttonIcons';
+import { Button } from '../Button/views/Button';
 
 interface BookCardProps {
   book: Book;
@@ -17,13 +14,42 @@ interface BookCardProps {
 export const BookCard: React.FC<BookCardProps> = ({ book }) => {
   const { ref, isHovered } = useHover();
 
+  function handleObminButtonClick() {}
+  function handleSaveButtonClick() {}
+
   return (
     <div className={styles.card} ref={ref}>
-      <div className={styles['actionButtonsContainer']}></div>
+      <div
+        className={`${styles['card__actionButtons']} ${
+          styles[`card__actionButtons--${isHovered && 'visible'}`]
+        }`}
+      >
+        <Button
+          _classname="card__actionButton--left"
+          _name="Зберегти"
+          _buttonColor="transparent"
+          _fontSize="bold"
+          _icon={buttonIcons.buttHeart}
+          _iconPosition="left"
+          _type="button"
+          onClick={handleSaveButtonClick}
+        />
+        <Button
+          _classname="card__actionButton--right"
+          _name="Обмін"
+          _buttonColor="blue"
+          _fontSize="bold"
+          _icon={buttonIcons.buttObmin}
+          _iconPosition="left"
+          _type="button"
+          onClick={handleObminButtonClick}
+        />
+      </div>
+
       <div className={styles['card__image-container']}>
         {book.imgUrl ? (
           <img
-            src={cardImage}
+            src={cardIcons.imgPlaceholder}
             alt={book.title}
             className={styles['card__image']}
           />
@@ -41,7 +67,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
             <div className={styles.card__detail}>
               <img
                 className={`${styles['card__detailImg']} ${styles['card__detailImg--category']}`}
-                src={imgCategory}
+                src={cardIcons.category}
                 alt="imgCategory"
               />
               <p>{book.category}</p>
@@ -49,7 +75,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
             <div className={styles.card__detail}>
               <img
                 className={`${styles['card__detailImg']} ${styles['card__detailImg--city']}`}
-                src={imgCity}
+                src={cardIcons.city}
                 alt="imgCity"
               />
               <p>{book.city}</p>
@@ -61,7 +87,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
             <div className={styles.card__detail}>
               <img
                 className={`${styles['card__detailImg']} ${styles['card__detailImg--condition']}`}
-                src={imgCondition}
+                src={cardIcons.condition}
                 alt="imgCondition"
               />
               <p>{book.condition}</p>
@@ -70,7 +96,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
             <div className={styles.card__detail}>
               <img
                 className={`${styles['card__detailImg']} ${styles['card__detailImg--exchange']}`}
-                src={imgExchange}
+                src={cardIcons.exchange}
                 alt="imgExchange"
               />
               <p>{book.exchangeType}</p>

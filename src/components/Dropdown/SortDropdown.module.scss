@@ -1,24 +1,25 @@
-@import '../../styles/variables.scss';
+@use '../../styles/variables' as *;
 
 .sort-dropdown {
+  box-sizing: border-box;
   position: relative;
-  width: 147px;
   font-weight: 400;
 
   &__toggle {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 147px;
+    width: 165px;
     height: 40px;
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
     background-color: $main-background-color;
     cursor: pointer;
+
     font-size: 14px;
-    font-family: inherit;
-    color: #1a1a1a;
+    font-weight: 400;
+    color: #142952;
 
     &:hover {
       background-color: #f9f9f9;
@@ -46,8 +47,8 @@
   &__list {
     position: absolute;
     top: 50px;
-    width: 147px;
-    padding: 2px;
+    width: 165px;
+    padding: 1px;
     margin: 0;
     list-style: none;
     background-color: #ffffff;
@@ -58,7 +59,7 @@
   }
 
   &__item {
-    padding: 10px 12px;
+    padding: 10px 11px;
     display: flex;
     align-items: center;
     gap: 4px;

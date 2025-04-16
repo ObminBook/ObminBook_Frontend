@@ -4,6 +4,8 @@ export function useHover<T extends HTMLDivElement>() {
   const ref = useRef<T>(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  console.log('card hovered', isHovered);
+
   useEffect(() => {
     const node = ref.current;
     if (!node) return;

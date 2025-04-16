@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@use '../../styles/variables' as *;
 
 .search-page {
   margin: 0;
@@ -16,7 +16,9 @@
   }
 
   &__main {
+    display: flex;
     margin-top: 32px;
+    gap: 32px;
     min-height: 100vh;
   }
 }
