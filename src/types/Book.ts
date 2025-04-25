@@ -1,11 +1,11 @@
-export type Book = {
-  id: string;
-  userId: number;
+export interface Book {
+  id: number;
   title: string;
   author: string;
-  category: string;
+  categoryName: string;
+  coverImage: string;
+  ownerId: number;
   condition: string;
   exchangeType: string;
-  imgUrl?: string;
-  city?: string;
-};
+  city: string;
+}

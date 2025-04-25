@@ -47,7 +47,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
       </div>
 
       <div className={styles['card__image-container']}>
-        {book.imgUrl ? (
+        {book.coverImage ? (
           <img
             src={cardIcons.imgPlaceholder}
             alt={book.title}
@@ -70,7 +70,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
                 src={cardIcons.category}
                 alt="imgCategory"
               />
-              <p>{book.category}</p>
+              <p>{book.categoryName}</p>
             </div>
             <div className={styles.card__detail}>
               <img

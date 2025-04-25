@@ -1,11 +1,18 @@
 import loopa from '../../assets/images/card_imgs/input/Loopa.svg';
 import styles from './SearchQuery.module.scss';
-import { useSearchParams } from 'react-router-dom';
+import { SetURLSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks/useDebounce';
 
-export const SearchQuery = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+interface Props {
+  searchParams: URLSearchParams;
+  setSearchParams: SetURLSearchParams;
+}
+
+export const SearchQuery: React.FC<Props> = ({
+  searchParams,
+  setSearchParams,
+}) => {
   const [inputValue, setInputValue] = useState('');
   const debouncedValue = useDebounce(inputValue, 300);
 
