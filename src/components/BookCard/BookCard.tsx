@@ -1,27 +1,35 @@
 // BookCard component
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './BookCard.module.scss';
 import { Book } from '../../types/Book';
 import { useHover } from '../../hooks/useHover';
 import { cardIcons } from '../../assets/images/card_imgs/cardBook/cardDetails';
 import { buttonIcons } from '../../assets/images/card_imgs/buttonIcons';
 import { Button } from '../Button/views/Button';
+import { BookModalPortal } from '../BookModal/BookModalPortal';
 
 interface BookCardProps {
   book: Book;
 }
 
 export const BookCard: React.FC<BookCardProps> = ({ book }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { ref, isHovered } = useHover();
 
-  function handleObminButtonClick() {}
+  function handleObminButtonClick() {
+    setIsModalOpen(true);
+  }
+
   function handleSaveButtonClick() {}
 
   return (
     <div className={styles.card} ref={ref}>
+      {isModalOpen && (
+        <BookModalPortal onClose={() => setIsModalOpen(false)} book={book} />
+      )}
       <div
         className={`${styles['card__actionButtons']} ${
-          styles[`card__actionButtons--${isHovered && 'visible'}`]
+          isHovered ? styles['card__actionButtons--visible'] : ''
         }`}
       >
         <Button
@@ -49,12 +57,16 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
       <div className={styles['card__image-container']}>
         {book.coverImage ? (
           <img
-            src={cardIcons.imgPlaceholder}
+            src={book.coverImage}
             alt={book.title}
             className={styles['card__image']}
           />
         ) : (
-          <div className={styles.card__imagePlaceholder} />
+          <img
+            src={cardIcons.imgPlaceholder}
+            alt="Зображення відсутнє"
+            className={styles['card__image']}
+          />
         )}
       </div>
       <div className={styles.card__info}>

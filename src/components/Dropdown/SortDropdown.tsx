@@ -3,13 +3,12 @@ import styles from './SortDropdown.module.scss';
 import arrowUp from '../../assets/images/card_imgs/SortDropdown/up.svg';
 import arrowDown from '../../assets/images/card_imgs/SortDropdown/down.svg';
 import selectedImg from '../../assets/images/card_imgs/SortDropdown/checked.svg';
-import useClickOutside from '../../hooks/useClickOutside';
 import { SetURLSearchParams } from 'react-router-dom';
+import useClickOutside from '../../hooks/useClickOutside';
 
-// Оптимізована типізація
 type SortOption = 'newest' | 'title' | 'random';
 
-const sortOptions = [
+const sortOptions: { label: string; value: SortOption }[] = [
   { label: 'Нові оголошення', value: 'newest' },
   { label: 'За назвою', value: 'title' },
   { label: 'Випадково', value: 'random' },
@@ -25,23 +24,21 @@ export const SortDropdown: React.FC<Props> = ({
   searchParams,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropDownRef = useClickOutside(() => setIsOpen(false));
+  const dropdownRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
 
-  // Визначаємо вибрану опцію лише один раз
   const selected = searchParams.get('sort') as SortOption | null;
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  // Функція для зміни параметрів сортування
   const handleSortChange = (sort: SortOption) => {
     setSearchParams((prevParams) => {
       const newParams = new URLSearchParams(prevParams);
       newParams.set('sort', sort);
       return newParams;
     });
+    setIsOpen(false);
   };
 
-  // Ініціалізація значення по замовчуванню, якщо воно не встановлено
   useEffect(() => {
     if (!selected) {
       setSearchParams((prev) => {
@@ -52,14 +49,13 @@ export const SortDropdown: React.FC<Props> = ({
     }
   }, [selected, setSearchParams]);
 
-  // Функція для рендеру вибраної опції
   const getSelectedLabel = () => {
     const option = sortOptions.find((el) => el.value === selected);
     return option ? option.label : 'Не вибрано';
   };
 
   return (
-    <div className={styles['sort-dropdown']}>
+    <div ref={dropdownRef} className={styles['sort-dropdown']}>
       <button
         className={styles['sort-dropdown__toggle']}
         onClick={toggleDropdown}
@@ -75,7 +71,7 @@ export const SortDropdown: React.FC<Props> = ({
       </button>
 
       {isOpen && (
-        <ul ref={dropDownRef} className={styles['sort-dropdown__list']}>
+        <ul className={styles['sort-dropdown__list']}>
           {sortOptions.map((option) => (
             <li
               key={option.value}
@@ -84,14 +80,14 @@ export const SortDropdown: React.FC<Props> = ({
                   ? styles['sort-dropdown__item--selected']
                   : styles['sort-dropdown__item']
               }
-              onClick={() => handleSortChange(option.value as SortOption)}
+              onClick={() => handleSortChange(option.value)}
             >
               <div className={styles['sort-dropdown__imgContainer']}>
                 {option.value === selected && (
                   <img
                     className={styles['sort-dropdown__img']}
                     src={selectedImg}
-                    alt="selectedImg"
+                    alt="selected"
                   />
                 )}
               </div>
