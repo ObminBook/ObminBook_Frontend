@@ -17,8 +17,8 @@
 
   &__main {
     display: flex;
+    justify-content: space-between;
     margin-top: 32px;
-    gap: 32px;
     min-height: 100vh;
   }
 }

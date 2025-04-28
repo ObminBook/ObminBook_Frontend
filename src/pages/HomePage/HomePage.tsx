@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './HomePage.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../../components/Header/Header';
-import cardImg_findBook from '../../assets/images/card_imgs/find-books.svg';
-import cardImg_contact from '../../assets/images/card_imgs/contact-with-owner.svg';
-import cardImg_saveMoney from '../../assets/images/card_imgs/save-money.svg';
-import { Footer } from '../../components/Footer/Footer';
+import cardImg_findBook from '../../assets/images/all_imgs/homePage/find-books.svg';
+import cardImg_contact from '../../assets/images/all_imgs/homePage/contact-with-owner.svg';
+import cardImg_saveMoney from '../../assets/images/all_imgs/homePage/save-money.svg';
+import { Footer } from '../../components/1_BigComponents/Footer/Footer';
+import { Header } from '../../components/1_BigComponents/Header/Header';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ const HomePage: React.FC = () => {
             <div className={styles['card__info']}>
               <h4 className={styles['card__title']}>Економте кошти</h4>
               <p className={styles['card__description']}>
-                Обмінюйтесь книгами замість того, щоб купувати нові. Економте
+                Обмінюйтесь книгами замість того, щоб купувати нові. Економте
                 гроші та розширюйте свою бібліотеку.
               </p>
             </div>

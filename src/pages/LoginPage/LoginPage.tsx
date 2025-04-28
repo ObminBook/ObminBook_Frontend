@@ -1,12 +1,11 @@
-import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import styles from './LoginPage.module.scss';
-import { Header } from '../../components/Header/Header';
-import iconEye from '../../assets/images/card_imgs/icon-eye.svg';
-import iconEyeOff from '../../assets/images/card_imgs/icon-eye.svg';
-import SingleCheckboxContainer from '../../components/Checkbox/containers/SingleCheckboxContainer';
+import iconEye from '../../assets/images/all_imgs/registerLogin/icon-eye.svg';
+// import iconEyeOff from '../../assets/images/all_imgs/registerLogin/icon_eye-off.svg';
+import { Header } from '../../components/1_BigComponents/Header/Header';
+import SingleCheckboxContainer from '../../components/3_SmallComponents/Checkbox/containers/SingleCheckboxContainer';
 
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -18,7 +17,7 @@ type Errors = {
 
 const LoginPage = () => {
   const { login } = useAuth();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const initialValues = {
     email: '',

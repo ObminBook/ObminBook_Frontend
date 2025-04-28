@@ -13,4 +13,5 @@ export interface Book {
   realeaseDate?: string;
   pages?: string;
   language?: string;
+  addedOn?: string;
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './BookSearch.module.scss';
-import { Header } from '../../components/Header/Header';
-import { Footer } from '../../components/Footer/Footer';
-import BookListWithFilters from '../../components/BookListWithFilters/BookListWithFilter';
-import FilterSection from '../../components/FilterSection/FilterSection';
+import { Footer } from '../../components/1_BigComponents/Footer/Footer';
+import { Header } from '../../components/1_BigComponents/Header/Header';
+import FilterSection from '../../components/1_BigComponents/FilterSection/FilterSection';
+import BookListWithFilters from '../../components/1_BigComponents/BookListWithFilters/BookListWithFilter';
 
 const BookSearchPage: React.FC = () => {
   return (

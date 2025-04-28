@@ -1,10 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 // import { useNavigate } from 'react-router-dom';
-import { Header } from '../../components/Header/Header';
 import styles from './RegisterPage.module.scss';
-import SingleCheckboxContainer from '../../components/Checkbox/containers/SingleCheckboxContainer';
 import { useAuth } from '../../context/AuthContext';
-import { Button } from '../../components/Button/views/Button';
+import { Button } from '../../components/3_SmallComponents/Button/views/Button';
+import { Header } from '../../components/1_BigComponents/Header/Header';
+import SingleCheckboxContainer from '../../components/3_SmallComponents/Checkbox/containers/SingleCheckboxContainer';
 
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -241,12 +241,12 @@ const RegisterPage = () => {
               </div>
 
               <Button
-                type="submit"
-                disabled={isSubmitting}
-                name="Зарєеструватися"
-                classname={styles['register-page__button-register']}
-                fontSize="bold"
-                buttonColor="blue"
+                _type="submit"
+                _disabled={isSubmitting}
+                _name="Зарєеструватися"
+                _classname={styles['register-page__button-register']}
+                _fontSize="bold"
+                _buttonColor="blue"
               />
 
               <div className={styles['register-page__footer']}>
