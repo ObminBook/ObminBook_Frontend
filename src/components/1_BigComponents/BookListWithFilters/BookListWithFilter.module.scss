@@ -1,0 +1,59 @@
+@use '../../../styles/variables.scss' as *;
+
+.bookList {
+  grid-auto-rows: 659px;
+  grid-auto-flow: row;
+  gap: 24px;
+
+  &__container {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 340px);
+    grid-auto-rows: 659px;
+    grid-auto-flow: row;
+    gap: 24px;
+  }
+
+  &__search {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__sort {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__sortTitle {
+    height: 20px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 140%;
+    color: $main-paragraph-color;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 133%;
+    letter-spacing: 0%;
+    color: $main-font-color;
+  }
+
+  &__empty {
+    font-size: 16px;
+    color: $main-paragraph-color;
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  &__showed {
+    margin-top: 24px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+    color: #5e6776;
+  }
+}

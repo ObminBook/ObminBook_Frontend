@@ -1,0 +1,175 @@
+@use '../../styles/mixins' as *;
+
+.user-profile {
+  &__main {
+    display: flex;
+    padding: 32px 40px 0 40px;
+    min-height: calc(100vh - 160px); // висота хедера + футера
+    background: #f7fafc;
+  }
+
+  &__info {
+    width: 100%;
+    margin-right: 40px;
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    padding: 0 32px;
+    justify-content: space-between;
+  }
+
+  &__name {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  &__notifications {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 170px;
+    height: 38px;
+    border: 1px solid #e1e7ef;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    &-img {
+      height: 16px;
+      width: 16px;
+    }
+
+    &-text {
+      @include mix_fontMainInter;
+      color: #142952;
+    }
+  }
+
+  &__bell {
+    width: 24px;
+    height: 24px;
+    background: url('../../assets/bell.svg') no-repeat center;
+    margin-right: 12px;
+  }
+
+  &__body {
+    display: flex;
+    gap: 32px;
+  }
+
+  &__books {
+    width: 100%;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid #e1e7ef;
+  }
+
+  &__tab {
+    padding-left: 16px;
+    padding-right: 32px;
+    position: relative;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    text-decoration: none;
+    @include mix_fontSec-gray;
+
+    &-img {
+      height: 20px;
+      width: 20px;
+    }
+
+    &-count {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include mix_fontSec-darkblue;
+      color: #3e9ee3;
+      background-color: #d6ecfa;
+      border-radius: 100px;
+    }
+
+    &--active {
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #3e9ee3;
+      }
+    }
+  }
+
+  &__book-list {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  &__user-book-card {
+    width: 248px;
+    height: 394px;
+  }
+}
+
+.owner {
+  display: flex;
+  width: 100%;
+
+  &__container {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+  }
+
+  &__img {
+    width: 80px;
+    height: 80px;
+  }
+
+  &__name-location {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__name {
+    @include mix_fontH2I;
+  }
+
+  &__location {
+    @include mix_fontMainInter;
+  }
+
+  &__config {
+    @include mix_fontSmall-gray;
+    color: #3e9ee3;
+  }
+}

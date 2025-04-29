@@ -1,0 +1,238 @@
+@use '../../../styles/mixins' as *;
+
+.book-modal {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6); // затемнення фону
+  z-index: 9999;
+
+  &__content {
+    position: relative;
+    display: flex;
+    background-color: #fff;
+    border-radius: 12px;
+    max-width: 900px;
+    width: 100%;
+    height: 560px;
+
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+  &__cover {
+    position: sticky;
+    width: 360px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+      width: 100%;
+      background-position: center;
+      background-size: cover;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    position: relative;
+    height: auto;
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+
+    &-scroll-container {
+      padding: 24px;
+    }
+  }
+
+  &__close {
+    height: 24px;
+    width: 24px;
+
+    position: absolute;
+    top: 28px;
+    right: 24px;
+    border: none;
+    cursor: pointer;
+
+    background: none;
+  }
+
+  &__title {
+    width: 85%;
+    @include mix_fontH2I;
+  }
+
+  &__author {
+    margin-top: 8px;
+    @include mix_fontMainTextReg;
+  }
+
+  &__tags {
+    margin-top: 16px;
+    display: flex;
+    gap: 16px;
+  }
+
+  &__tag {
+    @include mix_fontSec-gray;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__description {
+    margin-top: 16px;
+    @include mix_fontSecReg-gray;
+    width: 492px;
+
+    &-title {
+      @include mix_fontSec-darkblue;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__details-title {
+    margin-top: 16px;
+    @include mix_fontSec-darkblue;
+  }
+
+  &__details {
+    height: 52px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 12px;
+    column-gap: 106px;
+  }
+
+  &__detail {
+    max-width: 150px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    @include mix_fontSecReg-gray;
+
+    &-img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__owner {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #e1e7ef;
+    margin-top: 16px;
+    padding-top: 8px;
+    height: 76px;
+
+    &-title {
+      @include mix_fontSec-darkblue;
+    }
+
+    &-container {
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+    }
+
+    &-img {
+      width: 40px;
+      height: 40px;
+    }
+
+    &-name-location {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    &-name {
+      @include mix_fontSecReg-darkblue;
+    }
+
+    &-location {
+      @include mix_fontSmall-gray;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  &__save-exchange-box {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__save {
+    width: 238px;
+  }
+
+  &__exchange {
+    width: 238px;
+  }
+
+  &__copy {
+    margin-top: 16px;
+  }
+
+  &__auth-prompt {
+    margin-top: 24px;
+  }
+}
+
+.auth-prompt {
+  width: 100%;
+  height: 120px;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #f7fafc;
+
+  border: 1px solid #3e9ee3;
+  border-radius: 8px;
+
+  &__description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 371px;
+    height: 40px;
+
+    @include mix_fontSec-darkblue;
+  }
+
+  &__button {
+    margin-top: 8px;
+    width: 100%;
+  }
+}

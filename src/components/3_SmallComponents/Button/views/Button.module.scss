@@ -1,0 +1,81 @@
+@mixin buttonBoldFont {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@mixin buttonRegularFont {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.button {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  height: 40px;
+  line-height: 140%;
+
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &__icon {
+    height: 24px;
+    width: 24px;
+  }
+
+  &--color {
+    &-blue {
+      background-color: #3e9ee3;
+      color: #fff;
+
+      &:hover {
+        background-color: #2e7abd;
+      }
+    }
+
+    &-transparent {
+      border: 1px solid #fff;
+      color: #fff;
+      background-color: #5e677680;
+
+      &:hover {
+        background-color: #2f354080;
+      }
+    }
+
+    &-blueTransparent {
+      background-color: transparent;
+      color: #3e9ee3;
+      border: 1px solid #3e9ee3;
+
+      &:hover {
+        background-color: #ebf5fc;
+      }
+    }
+
+    &-transparentNoBorder {
+      background-color: transparent;
+      color: #5e6776;
+      border: none;
+    }
+  }
+
+  &--font {
+    line-height: 140%;
+
+    &-bold {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    &-regular {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+}

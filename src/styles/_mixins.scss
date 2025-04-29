@@ -1,0 +1,82 @@
+@mixin mix_fontH2IBold {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 133%;
+  vertical-align: middle;
+  color: #3e9ee3;
+}
+
+@mixin mix_fontH2I {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.33;
+  vertical-align: middle;
+  color: #142952;
+}
+
+@mixin mix_fontH3Bold {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 120%;
+  letter-spacing: 1px;
+  vertical-align: middle;
+  color: #142952;
+}
+
+@mixin mix_fontH5-darkblue {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 120%;
+  letter-spacing: 1px;
+  vertical-align: middle;
+}
+
+@mixin mix_fontMainTextReg {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+  vertical-align: middle;
+  color: #5e6776;
+}
+
+@mixin mix_fontMainInter {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  vertical-align: middle;
+  color: #5e6776;
+}
+
+@mixin mix_fontSec-gray {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  vertical-align: middle;
+  color: #5e6776;
+}
+
+@mixin mix_fontSec-darkblue {
+  @include mix_fontSec-gray();
+  color: #142952;
+}
+
+@mixin mix_fontSecReg-gray {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4;
+  vertical-align: middle;
+  color: #5e6776;
+}
+
+@mixin mix_fontSecReg-darkblue {
+  @include mix_fontSecReg-gray();
+  color: #142952;
+}
+
+@mixin mix_fontSmall-gray {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  vertical-align: middle;
+  color: #5e6776;
+}
