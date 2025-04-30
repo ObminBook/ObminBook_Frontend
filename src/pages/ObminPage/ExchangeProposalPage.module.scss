@@ -11,6 +11,14 @@
     flex: 1;
   }
 
+  &__anyButton {
+    position: absolute;
+    top: 16px;
+    left: 184px;
+    width: 237px;
+    z-index: 1;
+  }
+
   &__backButton {
     display: flex;
     align-items: center;
@@ -29,6 +37,7 @@
   }
 
   &__blocks {
+    position: relative;
     margin-top: 40px;
     display: flex;
     gap: 24px;

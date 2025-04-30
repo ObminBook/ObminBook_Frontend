@@ -6,6 +6,8 @@ import buttMessage from './message.svg';
 import iconOpenBook from './openBookTransparent.svg';
 import iconObmin from './iconObminBlue.svg';
 import backButton from './backButton.svg';
+import arrows from './arrows.svg';
+import buttRemoveCard from './deleteButton.svg';
 
 export const buttonIcons = {
   buttHeart,
@@ -16,4 +18,6 @@ export const buttonIcons = {
   iconOpenBook,
   iconObmin,
   backButton,
+  arrows,
+  buttRemoveCard,
 };

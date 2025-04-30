@@ -19,13 +19,6 @@
     @include mix_fontH5-darkblue;
   }
 
-  &__anyButton {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 237px;
-  }
-
   &__list {
     display: flex;
     flex-direction: column;

@@ -30,7 +30,11 @@ export const Button = (props: ButtonProps) => {
       className={classNames(
         props._classname,
         styles['button'],
-        styles[`button--color-${props._buttonColor}`],
+        styles[
+          `button--color-${props._buttonColor}${
+            (props._disabled && '--disabled') || ''
+          }`
+        ],
         styles[`button--font-${props._fontSize}`]
       )}
       onClick={props.onClick}

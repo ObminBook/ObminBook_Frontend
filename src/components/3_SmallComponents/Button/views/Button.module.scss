@@ -36,6 +36,12 @@
       &:hover {
         background-color: #2e7abd;
       }
+
+      &--disabled {
+        pointer-events: none;
+        background-color: #b3d9f4;
+        color: #ffffff;
+      }
     }
 
     &-transparent {

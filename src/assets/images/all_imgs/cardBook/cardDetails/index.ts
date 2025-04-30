@@ -9,6 +9,7 @@ import imgReleaseDate from './realeseDate.svg';
 import imgLanguageBlue from './languageBlue.svg';
 import imgConditionBlue from './conditionBlue.svg';
 import plusObminIcon from './plusObminIcon.svg';
+import anyBookIcon from './anyBookIcon.svg';
 
 export const cardIcons = {
   imgPages,
@@ -22,4 +23,5 @@ export const cardIcons = {
   imgLanguageBlue,
   imgConditionBlue,
   plusObminIcon,
+  anyBookIcon,
 };
