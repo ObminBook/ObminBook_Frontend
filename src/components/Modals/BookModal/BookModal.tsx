@@ -1,21 +1,21 @@
 import styles from './BookModal.module.scss';
-import closeIcon from '../../../assets/images/all_imgs/modal/close_icon.svg';
-import avatar from '../../../assets/images/all_imgs/common/avatar.svg';
+import avatar from '../../../assets/images/common/avatar.svg';
 import { useNavigate } from 'react-router-dom';
-import coverPlaceholder from '../../../assets/images/all_imgs/cardBook/cardDetails/paliturka.png';
+import coverPlaceholder from '../../../assets/images/cardBook/cardDetails/paliturka.png';
 import { useEffect } from 'react';
-import { cardIcons } from '../../../assets/images/all_imgs/cardBook/cardDetails';
-import { TruncatedText } from '../../2_MiddleComponents/TruncatedText/TruncatedText';
-import { Button } from '../../3_SmallComponents/Button/views/Button';
-import { buttonIcons } from '../../../assets/images/all_imgs/buttonIcons';
+import { cardIcons } from '../../../assets/images/cardBook/cardDetails';
+import { TruncatedText } from '../../ base/truncatedText/TruncatedText';
+import { Button } from '../../ base/button/Button';
+import { buttonIcons } from '../../../assets/images/buttonIcons';
 import { Book } from '../../../types/Book';
 
 interface Props {
   onClose: () => void;
+  onUserClick: () => void;
   book: Book;
 }
 
-export const BookModal: React.FC<Props> = ({ book, onClose }) => {
+export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose }) => {
           >
             <button className={styles['book-modal__close']} onClick={onClose}>
               <img
-                src={closeIcon}
+                src={buttonIcons.closeIcon}
                 alt="close-modal"
                 className={styles['book-modal__close-img']}
               />
@@ -126,7 +126,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose }) => {
                 {book.language || 'Українська'}
               </div>
             </div>
-            <div className={styles['book-modal__owner']}>
+            <div className={styles['book-modal__owner']} onClick={onUserClick}>
               <div className={styles['book-modal__owner-title']}>Власник</div>
               <div className={styles['book-modal__owner-container']}>
                 <img
@@ -151,7 +151,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose }) => {
                 <div className={styles['book-modal__save-exchange-box']}>
                   <div className={styles['book-modal__save']}>
                     <Button
-                      _buttonColor="blueTransparent"
+                      _buttonVariant="blueTransparent"
                       _name="Зберегти"
                       _fontSize="bold"
                       _icon={buttonIcons.buttHeartBlue}
@@ -161,7 +161,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose }) => {
                   </div>
                   <div className={styles['book-modal__exchange']}>
                     <Button
-                      _buttonColor="blue"
+                      _buttonVariant="blue"
                       _name="Запропонувати обмін"
                       _fontSize="bold"
                       _icon={buttonIcons.buttObmin}
@@ -173,7 +173,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose }) => {
 
                 <div className={styles['book-modal__copy']}>
                   <Button
-                    _buttonColor="transparentNoBorder"
+                    _buttonVariant="transparentNoBorder"
                     _name="Скопіювати посилання на книгу"
                     _fontSize="bold"
                     _icon={buttonIcons.buttSaveLink}
@@ -196,7 +196,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose }) => {
                   className={styles['auth-prompt__button']}
                 >
                   <Button
-                    _buttonColor="blue"
+                    _buttonVariant="blue"
                     _name="Увійти / Зареєструватися"
                     _fontSize="bold"
                     _type="button"

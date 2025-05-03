@@ -1,14 +1,16 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import styles from './LoginPage.module.scss';
-import iconEye from '../../assets/images/all_imgs/registerLogin/icon-eye.svg';
-// import iconEyeOff from '../../assets/images/all_imgs/registerLogin/icon_eye-off.svg';
-import { Header } from '../../components/1_BigComponents/Header/Header';
-import SingleCheckboxContainer from '../../components/3_SmallComponents/Checkbox/containers/SingleCheckboxContainer';
+import { Header } from '../../components/layout/Header/Header';
+import SingleCheckboxContainer from '../../components/ base/checkbox/containers/SingleCheckboxContainer';
+import errIcon from '../../assets/images/input/errIcon.svg';
+import { useState } from 'react';
+import { inputIcons } from '../../assets/images/registerLogin';
+import { Button } from '../../components/ base/button/Button';
+import { buttonIcons } from '../../assets/images/buttonIcons';
+import { Footer } from '../../components/layout/Footer/Footer';
 
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 type Errors = {
   email?: string;
@@ -16,8 +18,9 @@ type Errors = {
 };
 
 const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const { login } = useAuth();
-  // const navigate = useNavigate();
 
   const initialValues = {
     email: '',
@@ -34,7 +37,6 @@ const LoginPage = () => {
   const onSubmit = async (values: FormValues) => {
     try {
       await login(values.email, values.password);
-      // navigate('/profile');
     } catch (error) {
       console.error('Login failed', error);
     }
@@ -51,112 +53,140 @@ const LoginPage = () => {
 
     if (!values.password) {
       errors.password = 'Обовʼязкове поле';
-    } else if (!regPassword.test(values.password)) {
-      errors.password =
-        'Пароль має бути не менше 8 символів і містити хоча б одну літеру та одну цифру';
     }
-
     return errors;
   };
 
   return (
-    <div className={styles['login-page']}>
+    <div className={styles.loginPage}>
       <Header centerLogo={true} />
-
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         validate={validate}
       >
         {({ isSubmitting, values, setFieldValue }) => (
-          <Form className={styles['login-page__form']}>
-            <h2 className={styles['login-page__title']}>
-              Вхід до облікового запису
-            </h2>
-            <div className={styles['login-page__control']}>
-              <div>
-                <label
-                  className={styles['login-page__input-title']}
-                  htmlFor="email"
-                >
-                  Email
-                </label>
-                <Field
-                  id="email"
-                  type="text"
-                  name="email"
-                  placeholder="example@email.com"
-                  className={styles['login-page__input']}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className={styles['login-page__error']}
-                />
-              </div>
+          <Form className={styles.form}>
+            <h2 className={styles.title}>Вхід до облікового запису</h2>
 
-              <div className={styles['login-page__password']}>
-                <div className={styles['login-page__password-header']}>
-                  <label
-                    className={styles['login-page__input-title']}
-                    htmlFor="password"
-                  >
-                    Пароль
+            <div className={styles.control}>
+              <div className={styles.inputs}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.inputTitle} htmlFor="email">
+                    Email
                   </label>
-                  <a className={styles['login-page__forgot-password']} href="">
-                    Забули пароль?
-                  </a>
+                  <Field
+                    id="email"
+                    type="text"
+                    name="email"
+                    placeholder="example@email.com"
+                    className={styles.input}
+                  />
+                  <ErrorMessage name="email">
+                    {(msg) => (
+                      <div className={styles.errorContainer}>
+                        <img
+                          className={styles.errorImg}
+                          src={errIcon}
+                          alt="error icon"
+                        />
+                        <div className={styles.error}>{msg}</div>
+                      </div>
+                    )}
+                  </ErrorMessage>
                 </div>
-                <Field
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="Введіть пароль"
-                  className={styles['login-page__input']}
-                />
-                <img
-                  className={styles['login-page__eye']}
-                  src={iconEye}
-                  alt="toggle visibility"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className={styles['login-page__error']}
-                />
+
+                <div className={styles.inputContainer}>
+                  <div className={styles.passwordHeader}>
+                    <label className={styles.inputTitle} htmlFor="password">
+                      Пароль
+                    </label>
+                    <a className={styles.forgotPassword} href="">
+                      Забули пароль?
+                    </a>
+                  </div>
+                  <Field
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    placeholder="Введіть пароль"
+                    className={styles.input}
+                  />
+                  <img
+                    className={styles.eye}
+                    src={showPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
+                    alt="toggle visibility"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  />
+                  <ErrorMessage name="password">
+                    {(msg) => (
+                      <div className={styles.errorContainer}>
+                        <img
+                          className={styles.errorImg}
+                          src={errIcon}
+                          alt="error icon"
+                        />
+                        <div className={styles.error}>{msg}</div>
+                      </div>
+                    )}
+                  </ErrorMessage>
+                </div>
               </div>
 
-              <div className={styles['login-page__remember-me']}>
+              <div className={styles.rememberMe}>
                 <label
-                  className={styles['login-page__remember-me']}
+                  className={styles.rememberMe}
                   style={{ cursor: 'pointer' }}
                   onClick={() =>
                     setFieldValue('rememberMe', !values.rememberMe)
                   }
                 >
                   <SingleCheckboxContainer name="rememberMe" alt="checkbox" />
-                  <span className={styles['login-page__input-title']}>
-                    Запам'ятати мене
-                  </span>
+                  <span className={styles.inputTitle}>Запам'ятати мене</span>
                 </label>
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={styles['login-page__button-login']}
+                className={styles.buttonLogin}
               >
                 Увійти
               </button>
 
-              <div className={styles['login-page__footer']}>
+              <div className={styles.aboLine}>
+                <div className={styles.abo}>АБО</div>
+                <div className={styles.line}></div>
+              </div>
+
+              <div className={styles.logWithSocial}>
+                <div className={styles.logWithSocialButton}>
+                  <Button
+                    _buttonVariant="social"
+                    _name="Google"
+                    _fontSize="bold"
+                    _iconPosition="left"
+                    _icon={buttonIcons.iconGoogle}
+                    _type="button"
+                  />
+                </div>
+                <div className={styles.logWithSocialButton}>
+                  <Button
+                    _buttonVariant="social"
+                    _name="Facebook"
+                    _fontSize="bold"
+                    _iconPosition="left"
+                    _icon={buttonIcons.iconFacebook}
+                    _type="button"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.footer}>
                 <div style={{ alignSelf: 'center' }}>АБО</div>
-                <p className={styles['login-page__register']}>
+                <p className={styles.register}>
                   Немає облікового запису?{' '}
-                  <a
-                    className={styles['login-page__register-link']}
-                    href="/register"
-                  >
+                  <a className={styles.registerLink} href="/register">
                     Зареєструйтесь
                   </a>
                 </p>
@@ -165,6 +195,7 @@ const LoginPage = () => {
           </Form>
         )}
       </Formik>
+      <Footer />
     </div>
   );
 };

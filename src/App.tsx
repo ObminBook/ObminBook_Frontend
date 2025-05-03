@@ -4,11 +4,11 @@ import './App.module.scss';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import { AuthProvider } from './context/AuthContext';
-import RegisterPage from './pages/Register/RegisterPage';
-import BookSearch from './pages/BookSearch/BookSearch';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 import UserProfile from './pages/UserProfile/UserProfile';
-import { Chat } from './components/1_BigComponents/Chat/Chat';
 import { ExchangeProposalPage } from './pages/ObminPage/ExchangeProposalPage';
+import BookSearchPage from './pages/BookSearchPage/BookSearchPage';
+import { ChatPage } from './pages/ChatPage/ChatPage';
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/search" element={<BookSearch />} />
+          <Route path="/search" element={<BookSearchPage />} />
           <Route path="/obmin" element={<ExchangeProposalPage />} />
 
           <Route path="/profile" element={<UserProfile />}>
@@ -27,7 +27,7 @@ const App = () => {
             <Route path="requests" element={<div>Всі запити</div>} />
           </Route>
 
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </Router>
     </AuthProvider>

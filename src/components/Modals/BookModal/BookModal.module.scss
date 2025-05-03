@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6); // затемнення фону
+  background-color: rgba(0, 0, 0, 0.85); // затемнення фону
   z-index: 9999;
 
   &__content {
@@ -71,12 +71,12 @@
 
   &__title {
     width: 85%;
-    @include mix_fontH2I;
+    @include fontH2;
   }
 
   &__author {
     margin-top: 8px;
-    @include mix_fontMainTextReg;
+    @include fontMainText--reg;
   }
 
   &__tags {
@@ -86,7 +86,7 @@
   }
 
   &__tag {
-    @include mix_fontSec-gray;
+    @include fontSec--gray;
 
     display: flex;
     justify-content: center;
@@ -101,18 +101,18 @@
 
   &__description {
     margin-top: 16px;
-    @include mix_fontSecReg-gray;
+    @include fontSec--reg--gray;
     width: 492px;
 
     &-title {
-      @include mix_fontSec-darkblue;
+      @include fontSec--darkblue;
       margin-bottom: 8px;
     }
   }
 
   &__details-title {
     margin-top: 16px;
-    @include mix_fontSec-darkblue;
+    @include fontSec--darkblue;
   }
 
   &__details {
@@ -131,7 +131,7 @@
     align-items: center;
     gap: 4px;
 
-    @include mix_fontSecReg-gray;
+    @include fontSec--reg--gray;
 
     &-img {
       width: 16px;
@@ -146,9 +146,10 @@
     margin-top: 16px;
     padding-top: 8px;
     height: 76px;
+    cursor: pointer;
 
     &-title {
-      @include mix_fontSec-darkblue;
+      @include fontSec--darkblue;
     }
 
     &-container {
@@ -169,11 +170,11 @@
     }
 
     &-name {
-      @include mix_fontSecReg-darkblue;
+      @include fontSecReg-darkblue;
     }
 
     &-location {
-      @include mix_fontSmall-gray;
+      @include fontSmall--gray;
     }
   }
 
@@ -228,7 +229,7 @@
     width: 371px;
     height: 40px;
 
-    @include mix_fontSec-darkblue;
+    @include fontSec--darkblue;
   }
 
   &__button {

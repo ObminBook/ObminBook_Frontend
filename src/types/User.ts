@@ -1,8 +1,13 @@
+import { Book } from './Book';
+
 export interface User {
-  id: string;
-  name: string;
+  id: number;
+  firstName: string;
+  lastName: string;
+  about?: string;
+  city: string;
   email: string;
-  avatar: string;
-  createdAt: Date;
-  updatedAt: Date;
+  avatar?: string;
+  succesfullExchanges?: number;
+  books: Book[];
 }

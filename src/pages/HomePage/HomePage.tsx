@@ -1,73 +1,65 @@
 import React from 'react';
 import styles from './HomePage.module.scss';
+
 import { useNavigate } from 'react-router-dom';
-import cardImg_findBook from '../../assets/images/all_imgs/homePage/find-books.svg';
-import cardImg_contact from '../../assets/images/all_imgs/homePage/contact-with-owner.svg';
-import cardImg_saveMoney from '../../assets/images/all_imgs/homePage/save-money.svg';
-import { Footer } from '../../components/1_BigComponents/Footer/Footer';
-import { Header } from '../../components/1_BigComponents/Header/Header';
+import { Header } from '../../components/layout/Header/Header';
+import { Footer } from '../../components/layout/Footer/Footer';
+import { homePageIcons } from '../../assets/images/homePage';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles['home-page']}>
+    <div className={styles.wrapper}>
       <Header showLoginButton={true} />
-      <div className={styles['home-page__main']}>
-        <section className={styles['intro']}>
-          <h1 className={styles['intro__title']}>
+      <div className={styles.main}>
+        <section className={styles.intro}>
+          <h1 className={styles.title}>
             Безкоштовно обмінюйтесь книгами по всьому світу
           </h1>
-          <p className={styles['intro__description']}>
+          <p className={styles.description}>
             В нас можна обміняти свої прочитані книжки на інші або знайти те, що
             вас цікавить. <br /> Просто знайдіть потрібний екземпляр і
             зв'яжіться з його власником. <br /> Це безкоштовно. Міняйтесь з ким
             завгодно, де б ви не були.
-            {/* Також можете додати свою книгу до списку обміну,
-            щоб інші могли її знайти. Це чудовий спосіб розширити свою
-            бібліотеку і поділитися тими книгами, що ви більше не читаєте.
-            Приєднуйтесь до нас сьогодні і почніть обмін! */}
           </p>
         </section>
-        <section className={styles['actions']}>
-          <button
-            className={styles['actions__button']}
-            onClick={() => navigate('/search')}
-          >
+        <section className={styles.actions}>
+          <button className={styles.button} onClick={() => navigate('/search')}>
             Знайти книгу
           </button>
           <button
-            className={styles['actions__button']}
+            className={styles.button}
             onClick={() => navigate('/profile')}
           >
-            Обміняти книгу
+            Додати книгу
           </button>
         </section>
-        <section className={styles['features']}>
-          <div className={styles['card']}>
-            <img className={styles['card__img']} src={cardImg_findBook} />
-            <div className={styles['card__info']}>
-              <h4 className={styles['card__title']}>Знаходьте книги</h4>
-              <p className={styles['card__description']}>
+        <section className={styles.features}>
+          <div className={styles.card}>
+            <img className={styles.cardImg} src={homePageIcons.findBooks} />
+            <div className={styles.cardInfo}>
+              <h4 className={styles.cardTitle}>Знаходьте книги</h4>
+              <p className={styles.cardDescription}>
                 Шукайте книги за жанром, автором або станом, щоб знайти саме те,
                 що вам потрібно.
               </p>
             </div>
           </div>
-          <div className={styles['card']}>
-            <img className={styles['card__img']} src={cardImg_contact} />
-            <div className={styles['card__info']}>
-              <h4 className={styles['card__title']}>Зв’яжіться з власником</h4>
-              <p className={styles['card__description']}>
+          <div className={styles.card}>
+            <img className={styles.cardImg} src={homePageIcons.contactOwner} />
+            <div className={styles.cardInfo}>
+              <h4 className={styles.cardTitle}>Зв’яжіться з власником</h4>
+              <p className={styles.cardDescription}>
                 Домовтеся про обмін особисто або поштою, як вам зручніше.
               </p>
             </div>
           </div>
-          <div className={styles['card']}>
-            <img className={styles['card__img']} src={cardImg_saveMoney} />
-            <div className={styles['card__info']}>
-              <h4 className={styles['card__title']}>Економте кошти</h4>
-              <p className={styles['card__description']}>
+          <div className={styles.card}>
+            <img className={styles.cardImg} src={homePageIcons.saveMoney} />
+            <div className={styles.cardInfo}>
+              <h4 className={styles.cardTitle}>Економте кошти</h4>
+              <p className={styles.cardDescription}>
                 Обмінюйтесь книгами замість того, щоб купувати нові. Економте
                 гроші та розширюйте свою бібліотеку.
               </p>

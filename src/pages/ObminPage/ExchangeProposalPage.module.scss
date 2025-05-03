@@ -28,12 +28,12 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    @include mix_fontSec-gray;
+    @include fontSec--gray;
   }
 
   &__title {
     margin-top: 8px;
-    @include mix_fontH2IBold;
+    @include fontH2--bold;
   }
 
   &__blocks {

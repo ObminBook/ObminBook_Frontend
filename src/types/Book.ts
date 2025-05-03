@@ -1,10 +1,10 @@
 export interface Book {
   id: number;
+  ownerId: number;
   title: string;
   author: string;
   categoryName: string;
   coverImage: string;
-  ownerId: number;
   ownerName?: string;
   condition: string;
   exchangeType: string;

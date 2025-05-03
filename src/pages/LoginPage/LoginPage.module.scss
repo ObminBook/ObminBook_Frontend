@@ -1,22 +1,19 @@
 @use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
 
-.login-page {
+.loginPage {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   height: 100vh;
   background-color: $main-background-color;
-  // background-image: url('../../assets/images/all_imgs/rainbow-vortex.svg');
-  // background-size: cover;
-  // background-position: center;
-  // background-repeat: no-repeat;
 
-  &__form {
+  .form {
     display: flex;
+
     flex-direction: column;
-    margin-top: 100px;
     padding-bottom: 24px;
-    gap: 24px;
     width: 448px;
     max-width: 500px;
     background-color: #fff;
@@ -24,16 +21,14 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-  &__control {
+  .control {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-
     padding-inline: 24px;
     width: 100%;
   }
 
-  &__title {
+  .title {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,31 +37,39 @@
     text-align: center;
   }
 
-  &__password {
-    position: relative;
-    width: 100%;
-    height: 64px;
-    margin-top: 16px;
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
-  &__password-header {
+  .inputContainer {
+    position: relative;
+    width: 100%;
+    height: 80px;
+  }
+
+  .passwordHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     width: 100%;
   }
 
-  &__input {
+  .input {
     margin-top: 4px;
     width: 400px;
     height: 40px;
     padding: 8px 12px;
-
     font-size: 16px;
     background-color: #f7fafc;
     border: 1px solid #e1e7ef;
     border-radius: 6px;
+
+    &::placeholder {
+      @include fontSec--gray;
+      color: #8691a7;
+    }
 
     &:focus {
       outline: none;
@@ -74,43 +77,52 @@
     }
   }
 
-  &__input-title {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 140%;
-    letter-spacing: 0%;
-    vertical-align: middle;
+  .inputTitle {
+    @include fontSec--darkblue;
   }
 
-  &__error {
-    color: red;
-    font-size: 14px;
-    margin-top: 4px;
+  .errorContainer {
+    margin-top: 3px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .errorImg {
+    height: 14px;
+    width: 14px;
+  }
+
+  .error {
+    padding-top: 1px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #ef4444;
     word-break: break-word;
   }
 
-  &__forgot-password {
+  .forgotPassword {
     font-size: 14px;
     font-weight: 500;
-    color: $main-font-color;
+    color: $color-blue;
     text-decoration: none;
   }
 
-  &__eye {
+  .eye {
     position: absolute;
-    top: 50%;
-    right: 16px;
+    top: 32px;
+    right: 12px;
     width: 24px;
     height: 24px;
     cursor: pointer;
   }
 
-  &__remember-me {
+  .rememberMe {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-top: 16px;
-
     font-weight: 500;
     font-size: 14px;
     line-height: 140%;
@@ -124,12 +136,12 @@
     }
   }
 
-  &__button-login {
+  .buttonLogin {
     margin-top: 16px;
     color: #fff;
     width: 100%;
     height: 40px;
-    width: 400;
+    width: 400px;
     background-color: #3e9ee3;
     border: 1px solid #3e9ee3;
     border-radius: 6px;
@@ -137,7 +149,7 @@
     cursor: pointer;
   }
 
-  &__footer {
+  .footer {
     display: flex;
     flex-direction: column;
     margin-top: 24px;
@@ -147,12 +159,51 @@
     font-weight: 400;
   }
 
-  &__register {
+  .aboLine {
+    margin-top: 16px;
+    position: relative;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .abo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include fontSmall--gray;
+    background-color: #fff;
+    width: 40px;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .line {
+    position: absolute;
+    top: 9px;
+    left: 0;
+    height: 1px;
+    background-color: #e1e7ef;
+    width: 100%;
+  }
+
+  .logWithSocial {
+    margin-top: 16px;
+    display: flex;
+    gap: 16px;
+
+    &Button {
+      width: 192px;
+    }
+  }
+
+  .register {
     margin-top: 16px;
     font-size: 14px;
 
     &-link {
-      color: $main-font-color;
+      color: $color-blue;
       font-weight: 500;
     }
   }

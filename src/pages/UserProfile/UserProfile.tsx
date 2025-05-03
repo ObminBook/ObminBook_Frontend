@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './UserProfile.module.scss';
 import { useNavigate, useLocation, NavLink } from 'react-router-dom';
-import AddBookCard from '../../components/BookCards/AddBookCard/AddBookCard';
 import { getMockBooksByPage } from '../../books/books';
 import { BookSearchResponse } from '../../types/BookSearchResponse';
 import { useAuth } from '../../context/AuthContext';
-import NotificationsPanel from '../../components/2_MiddleComponents/NotificationPanel/NotificationPanel';
-import { Footer } from '../../components/1_BigComponents/Footer/Footer';
-import avatar from '../../assets/images/all_imgs/common/avatar.svg';
-import { buttonIcons } from '../../assets/images/all_imgs/buttonIcons';
-import { Header } from '../../components/1_BigComponents/Header/Header';
-import { SimpleBookCard } from '../../components/BookCards/SimpleBookCard/SimpleBookCard';
+import NotificationsPanel from '../../components/widgets/notificationPanel/NotificationPanel';
+import { Footer } from '../../components/layout/Footer/Footer';
+import avatar from '../../assets/images/common/avatar.svg';
+import { buttonIcons } from '../../assets/images/buttonIcons';
+import { Header } from '../../components/layout/Header/Header';
+import AddBookCard from '../../components/ base/bookCards/AddBookCard/AddBookCard';
+import { SimpleBookCard } from '../../components/ base/bookCards/SimpleBookCard/SimpleBookCard';
 
 const TABS = [
   { key: 'my', label: 'Мої книги', img: buttonIcons.iconOpenBook },

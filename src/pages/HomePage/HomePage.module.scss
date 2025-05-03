@@ -1,14 +1,19 @@
 @use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
 
-.home-page {
-  &__main {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    display: flex;
-    background-color: $main-background-color;
-  }
+.wrapper {
+  background-color: $main-background-color;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .intro {
@@ -17,29 +22,19 @@
   align-items: center;
   width: 850px;
   height: 212px;
-  margin-top: 112px;
+}
 
-  &__title {
-    color: $main-font-color;
-    font-weight: 700;
-    font-size: 48px;
-    line-height: 120%;
-    letter-spacing: 0%;
-    text-align: center;
-    vertical-align: middle;
-  }
+.title {
+  @include fontH1;
+  text-align: center;
+}
 
-  &__description {
-    margin-top: 24px;
-    width: 850px;
-    color: $main-paragraph-color;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 120%;
-    letter-spacing: 0%;
-    text-align: center;
-    vertical-align: middle;
-  }
+.description {
+  margin-top: 24px;
+  width: 850px;
+
+  @include fontH4;
+  text-align: center;
 }
 
 .actions {
@@ -48,22 +43,22 @@
   width: 352px;
   height: 48px;
   gap: 16px;
+}
 
-  &__button {
-    color: $main-font-color;
-    background-color: $main-background-color;
-    width: 176px;
-    height: 48px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    border-radius: 6px;
-    border: 1px solid $main-font-color;
-    cursor: pointer;
+.button {
+  color: $color-white;
+  background-color: $color-blue;
+  width: 176px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid $color-blue;
+  cursor: pointer;
 
-    &:hover {
-      background-color: $main-font-color;
-      color: #fff;
-    }
+  @include fontSec--white;
+
+  &:hover {
+    background-color: $color-white;
+    color: $color-blue;
   }
 }
 
@@ -72,7 +67,6 @@
   display: flex;
   gap: 32px;
   width: 1024px;
-  height: 208px;
 }
 
 .card {
@@ -84,28 +78,28 @@
   background-color: #fff;
   border: 1px solid #e1e7ef;
   border-radius: 8px;
+}
 
-  &__img {
-    margin-top: 24px;
-    width: 48px;
-    height: 48px;
-  }
+.cardImg {
+  margin-top: 24px;
+  width: 48px;
+  height: 48px;
+}
 
-  &__info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 263px;
-    height: 98px;
-  }
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 263px;
+  height: 98px;
+}
 
-  &__title {
-    margin-top: 16px;
-  }
+.cardTitle {
+  margin-top: 16px;
+}
 
-  &__description {
-    text-align: center;
-    margin-top: 8px;
-    color: $main-card-description;
-  }
+.cardDescription {
+  text-align: center;
+  margin-top: 8px;
+  color: #525f7a;
 }

@@ -53,7 +53,7 @@
     }
 
     &-text {
-      @include mix_fontMainInter;
+      @include fontMain;
       color: #142952;
     }
   }
@@ -93,7 +93,7 @@
     justify-content: start;
     gap: 8px;
     text-decoration: none;
-    @include mix_fontSec-gray;
+    @include fontSec--gray;
 
     &-img {
       height: 20px;
@@ -106,7 +106,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      @include mix_fontSec-darkblue;
+      @include fontSec--darkblue;
       color: #3e9ee3;
       background-color: #d6ecfa;
       border-radius: 100px;
@@ -161,15 +161,15 @@
   }
 
   &__name {
-    @include mix_fontH2I;
+    @include fontH2;
   }
 
   &__location {
-    @include mix_fontMainInter;
+    @include fontMain;
   }
 
   &__config {
-    @include mix_fontSmall-gray;
+    @include fontSmall--gray;
     color: #3e9ee3;
   }
 }

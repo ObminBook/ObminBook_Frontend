@@ -1,82 +1,118 @@
-@mixin mix_fontH2IBold {
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 133%;
-  vertical-align: middle;
-  color: #3e9ee3;
+@use './variables' as *;
+
+@mixin fontH1 {
+  font-weight: $fw-bold;
+  font-size: $fs-h1;
+  line-height: $lh-tight;
+  vertical-align: $valign-middle;
+  color: $color-blue;
 }
 
-@mixin mix_fontH2I {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 1.33;
-  vertical-align: middle;
-  color: #142952;
+@mixin fontH2 {
+  font-weight: $fw-bold;
+  font-size: $fs-h2;
+  line-height: $lh-normal;
+  vertical-align: $valign-middle;
+  color: $color-darkblue;
 }
 
-@mixin mix_fontH3Bold {
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 120%;
-  letter-spacing: 1px;
-  vertical-align: middle;
-  color: #142952;
+@mixin fontH2--bold {
+  font-weight: $fw-bold;
+  font-size: $fs-h2-bold;
+  line-height: $lh-normal;
+  vertical-align: $valign-middle;
+  color: $color-blue;
 }
 
-@mixin mix_fontH5-darkblue {
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 120%;
-  letter-spacing: 1px;
-  vertical-align: middle;
+@mixin fontH3--bold {
+  font-weight: $fw-semibold;
+  font-size: $fs-h3;
+  line-height: $lh-tight;
+  letter-spacing: $ls-wide;
+  vertical-align: $valign-middle;
+  color: $color-darkblue;
 }
 
-@mixin mix_fontMainTextReg {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.4;
-  vertical-align: middle;
-  color: #5e6776;
+@mixin fontH4 {
+  font-weight: $fw-regular;
+  font-size: $fs-h4;
+  line-height: $lh-tight;
+  vertical-align: $valign-middle;
+  color: $color-gray;
 }
 
-@mixin mix_fontMainInter {
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 140%;
-  vertical-align: middle;
-  color: #5e6776;
+@mixin fontH4--semiBold--darkblue {
+  font-weight: $fw-semibold;
+  font-size: $fs-h4;
+  line-height: $lh-tight;
+  vertical-align: $valign-middle;
+  color: $color-darkblue;
 }
 
-@mixin mix_fontSec-gray {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.4;
-  vertical-align: middle;
-  color: #5e6776;
+@mixin fontH5--darkblue {
+  font-weight: $fw-semibold;
+  font-size: $fs-h3;
+  line-height: $lh-tight;
+  letter-spacing: $ls-wide;
+  vertical-align: $valign-middle;
 }
 
-@mixin mix_fontSec-darkblue {
-  @include mix_fontSec-gray();
-  color: #142952;
+@mixin fontMainText--reg {
+  font-weight: $fw-regular;
+  font-size: $fs-main;
+  line-height: $lh-main;
+  vertical-align: $valign-middle;
+  color: $color-gray;
 }
 
-@mixin mix_fontSecReg-gray {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.4;
-  vertical-align: middle;
-  color: #5e6776;
+@mixin fontMain {
+  font-weight: $fw-medium;
+  font-size: $fs-main;
+  line-height: $lh-main;
+  vertical-align: $valign-middle;
+  color: $color-gray;
 }
 
-@mixin mix_fontSecReg-darkblue {
-  @include mix_fontSecReg-gray();
-  color: #142952;
+@mixin fontSec--gray {
+  font-weight: $fw-medium;
+  font-size: $fs-sec;
+  line-height: $lh-main;
+  vertical-align: $valign-middle;
+  color: $color-gray;
 }
 
-@mixin mix_fontSmall-gray {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.4;
-  vertical-align: middle;
-  color: #5e6776;
+@mixin fontSec--darkblue {
+  @include fontSec--gray();
+  color: $color-darkblue;
+}
+
+@mixin fontSec--blue {
+  @include fontSec--gray();
+  color: $color-blue;
+}
+
+@mixin fontSec--white {
+  @include fontSec--gray();
+  color: $color-white;
+}
+
+@mixin fontSec--reg--gray {
+  font-weight: $fw-regular;
+  font-size: $fs-sec;
+  line-height: $lh-main;
+  vertical-align: $valign-middle;
+  color: $color-gray;
+}
+
+@mixin fontSecReg-darkblue {
+  @include fontSec--reg--gray();
+  color: $color-darkblue;
+}
+
+@mixin fontSmall--gray {
+  font-weight: $fw-regular;
+  font-size: $fs-small;
+  line-height: $lh-main;
+  vertical-align: $valign-middle;
+  color: $color-gray;
 }
