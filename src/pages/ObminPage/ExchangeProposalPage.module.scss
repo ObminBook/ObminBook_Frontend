@@ -1,7 +1,8 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/variables.scss' as *;
 
 .exchangePage {
-  background-color: #f7fafc;
+  background: $main-background-color;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

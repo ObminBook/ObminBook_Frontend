@@ -1,4 +1,8 @@
-$main-background-color: #f7fafc;
+$background1: #f7fafc;
+$background2: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+$background3: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
+$main-background-color: $background1;
 
 // Font weights
 $fw-regular: 400;
@@ -28,6 +32,7 @@ $ls-wide: 1px;
 $color-blue: #3e9ee3;
 $color-darkblue: #142952;
 $color-gray: #5e6776;
+$color-lightGray: #8691a7;
 $color-white: #fff;
 
 // Alignment

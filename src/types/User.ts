@@ -9,5 +9,5 @@ export interface User {
   email: string;
   avatar?: string;
   succesfullExchanges?: number;
-  books: Book[];
+  books: Book[] | [];
 }

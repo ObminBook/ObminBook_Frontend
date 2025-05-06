@@ -4,11 +4,11 @@ import './App.module.scss';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import { AuthProvider } from './context/AuthContext';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
 import UserProfile from './pages/UserProfile/UserProfile';
 import { ExchangeProposalPage } from './pages/ObminPage/ExchangeProposalPage';
 import BookSearchPage from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 const App = () => {
   return (

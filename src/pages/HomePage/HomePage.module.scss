@@ -2,7 +2,7 @@
 @use '../../styles/mixins' as *;
 
 .wrapper {
-  background-color: $main-background-color;
+  background: $main-background-color;
   height: 100vh;
 
   display: flex;
@@ -57,7 +57,7 @@
   @include fontSec--white;
 
   &:hover {
-    background-color: $color-white;
+    background: $main-background-color;
     color: $color-blue;
   }
 }

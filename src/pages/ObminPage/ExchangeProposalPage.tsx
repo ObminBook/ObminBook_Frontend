@@ -8,9 +8,9 @@ import {
 } from '../../features/exchangeSlice/exchangeSlice';
 
 import { getMockBooksByPage } from '../../books/books';
-import { buttonIcons } from '../../assets/images/buttonIcons';
+import { miniIcons } from '../../assets/images/miniIcons';
 import { Header } from '../../components/layout/Header/Header';
-import { Button } from '../../components/ base/button/Button';
+import { Button } from '../../components/base/button/Button';
 import { ListMiniCards } from '../../components/widgets/listMiniCards/ListMiniCards';
 import { ExchangeBlock } from '../../components/layout/ExchangeBlock/ExchangeBlock';
 import { Footer } from '../../components/layout/Footer/Footer';
@@ -36,7 +36,7 @@ export const ExchangeProposalPage = () => {
           onClick={() => navigate(-1)}
         >
           <img
-            src={buttonIcons.backButton}
+            src={miniIcons.backButton}
             alt="Назад"
             style={{ width: '16px', height: '16px' }}
           />

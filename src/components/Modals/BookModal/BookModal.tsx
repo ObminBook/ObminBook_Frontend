@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import coverPlaceholder from '../../../assets/images/cardBook/cardDetails/paliturka.png';
 import { useEffect } from 'react';
 import { cardIcons } from '../../../assets/images/cardBook/cardDetails';
-import { TruncatedText } from '../../ base/truncatedText/TruncatedText';
-import { Button } from '../../ base/button/Button';
-import { buttonIcons } from '../../../assets/images/buttonIcons';
+import { TruncatedText } from '../../base/truncatedText/TruncatedText';
+import { Button } from '../../base/button/Button';
+import { miniIcons } from '../../../assets/images/miniIcons';
 import { Book } from '../../../types/Book';
 
 interface Props {
@@ -46,7 +46,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
           >
             <button className={styles['book-modal__close']} onClick={onClose}>
               <img
-                src={buttonIcons.closeIcon}
+                src={miniIcons.closeIcon}
                 alt="close-modal"
                 className={styles['book-modal__close-img']}
               />
@@ -154,7 +154,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                       _buttonVariant="blueTransparent"
                       _name="Зберегти"
                       _fontSize="bold"
-                      _icon={buttonIcons.buttHeartBlue}
+                      _icon={miniIcons.buttHeartBlue}
                       _type="button"
                       _iconPosition="left"
                     />
@@ -164,7 +164,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                       _buttonVariant="blue"
                       _name="Запропонувати обмін"
                       _fontSize="bold"
-                      _icon={buttonIcons.buttObmin}
+                      _icon={miniIcons.buttObmin}
                       _type="button"
                       _iconPosition="left"
                     />
@@ -176,7 +176,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                     _buttonVariant="transparentNoBorder"
                     _name="Скопіювати посилання на книгу"
                     _fontSize="bold"
-                    _icon={buttonIcons.buttSaveLink}
+                    _icon={miniIcons.buttSaveLink}
                     _type="button"
                     _iconPosition="left"
                   />

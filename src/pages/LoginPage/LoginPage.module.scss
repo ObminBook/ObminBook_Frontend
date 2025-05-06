@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100vh;
-  background-color: $main-background-color;
+  background: $main-background-color;
 
   .form {
     display: flex;
@@ -62,7 +62,7 @@
     height: 40px;
     padding: 8px 12px;
     font-size: 16px;
-    background-color: #f7fafc;
+    background: $main-background-color;
     border: 1px solid #e1e7ef;
     border-radius: 6px;
 

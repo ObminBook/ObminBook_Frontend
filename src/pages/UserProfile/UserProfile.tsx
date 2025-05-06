@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import styles from './UserProfile.module.scss';
-import { useNavigate, useLocation, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { getMockBooksByPage } from '../../books/books';
 import { BookSearchResponse } from '../../types/BookSearchResponse';
 import { useAuth } from '../../context/AuthContext';
 import NotificationsPanel from '../../components/widgets/notificationPanel/NotificationPanel';
 import { Footer } from '../../components/layout/Footer/Footer';
 import avatar from '../../assets/images/common/avatar.svg';
-import { buttonIcons } from '../../assets/images/buttonIcons';
+import { miniIcons } from '../../assets/images/miniIcons';
 import { Header } from '../../components/layout/Header/Header';
-import AddBookCard from '../../components/ base/bookCards/AddBookCard/AddBookCard';
-import { SimpleBookCard } from '../../components/ base/bookCards/SimpleBookCard/SimpleBookCard';
+import AddBookCard from '../../components/base/bookCards/AddBookCard/AddBookCard';
+import { SimpleBookCard } from '../../components/base/bookCards/SimpleBookCard/SimpleBookCard';
 
 const TABS = [
-  { key: 'my', label: 'Мої книги', img: buttonIcons.iconOpenBook },
-  { key: 'saved', label: 'Збережені книги', img: buttonIcons.buttHeartBlue },
-  { key: 'requests', label: 'Всі запити', img: buttonIcons.iconObmin },
+  { key: 'my', label: 'Мої книги', img: miniIcons.iconOpenBook },
+  { key: 'saved', label: 'Збережені книги', img: miniIcons.buttHeartBlue },
+  { key: 'requests', label: 'Всі запити', img: miniIcons.iconObmin },
 ];
 
 const UserProfile: React.FC = () => {
   const [books, setBooks] = useState<BookSearchResponse['content']>();
-  const [activeTab, setActiveTab] = useState('my');
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -30,12 +29,6 @@ const UserProfile: React.FC = () => {
     setBooks(books);
     navigate('my');
   }, []);
-
-  useEffect(() => {
-    // Витягуємо таб з урла
-    const tab = location.pathname.split('/').pop();
-    if (TABS.some((t) => t.key === tab)) setActiveTab(tab as string);
-  }, [location.pathname]);
 
   return (
     <div className={styles['user-profile']}>
@@ -70,7 +63,7 @@ const UserProfile: React.FC = () => {
 
             <div className={styles['user-profile__notifications']}>
               <img
-                src={buttonIcons.buttMessage}
+                src={miniIcons.buttMessage}
                 className={styles['user-profile__notifications-img']}
               ></img>
               <span className={styles['user-profile__notifications-text']}>

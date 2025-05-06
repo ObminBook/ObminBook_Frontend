@@ -2,12 +2,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useAuth } from '../../context/AuthContext';
 import styles from './LoginPage.module.scss';
 import { Header } from '../../components/layout/Header/Header';
-import SingleCheckboxContainer from '../../components/ base/checkbox/containers/SingleCheckboxContainer';
+import SingleCheckboxContainer from '../../components/base/checkbox/containers/SingleCheckboxContainer';
 import errIcon from '../../assets/images/input/errIcon.svg';
 import { useState } from 'react';
 import { inputIcons } from '../../assets/images/registerLogin';
-import { Button } from '../../components/ base/button/Button';
-import { buttonIcons } from '../../assets/images/buttonIcons';
+import { Button } from '../../components/base/button/Button';
+import { miniIcons } from '../../assets/images/miniIcons';
 import { Footer } from '../../components/layout/Footer/Footer';
 
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -166,7 +166,7 @@ const LoginPage = () => {
                     _name="Google"
                     _fontSize="bold"
                     _iconPosition="left"
-                    _icon={buttonIcons.iconGoogle}
+                    _icon={miniIcons.iconGoogle}
                     _type="button"
                   />
                 </div>
@@ -176,7 +176,7 @@ const LoginPage = () => {
                     _name="Facebook"
                     _fontSize="bold"
                     _iconPosition="left"
-                    _icon={buttonIcons.iconFacebook}
+                    _icon={miniIcons.iconFacebook}
                     _type="button"
                   />
                 </div>
