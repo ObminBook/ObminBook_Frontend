@@ -1,0 +1,240 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.register {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background: $main-background-color;
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 448px;
+  max-width: 500px;
+  padding: 0 24px 24px;
+  background-color: $color-white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-header {
+  height: 124px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  @include fontH2--bold;
+}
+
+.subtitle {
+  width: 344px;
+  margin-top: 4px;
+  @include fontSec--reg--gray;
+  text-align: center;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-group {
+  position: relative;
+  height: 81px;
+}
+
+.input-eye,
+.eye {
+  position: absolute;
+  top: 34px;
+  right: 12px;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
+}
+
+.password {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  margin-top: 16px;
+}
+
+.password-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.input {
+  margin-top: 4px;
+  width: 400px;
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background: $main-background-color;
+  border: 1px solid #e1e7ef;
+  border-radius: 6px;
+
+  &-name {
+    width: 192px;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-blue;
+  }
+}
+
+.input-label {
+  @include fontSec--darkblue;
+}
+
+.terms-link {
+  text-decoration: none;
+  color: $color-blue;
+}
+
+.error-group {
+  margin-top: 3px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.error-icon {
+  height: 14px;
+  width: 14px;
+}
+
+.error {
+  padding-top: 1px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ef4444;
+  word-break: break-word;
+}
+
+.forgot-link {
+  @include fontSec--gray;
+  font-weight: 500;
+  color: $color-blue;
+  text-decoration: none;
+}
+
+.regButton {
+  margin-top: 16px;
+}
+
+.social {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  @include fontSec--gray;
+
+  input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+
+    &::placeholder {
+      @include fontSec--gray;
+      color: $color-lightGray;
+    }
+  }
+}
+
+.termsText {
+  height: 34px;
+  margin-top: 8px;
+  @include fontSmall--gray;
+}
+
+.divider {
+  margin-top: 16px;
+  position: relative;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dividerText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include fontSmall--gray;
+  background-color: $color-white;
+  width: 40px;
+  height: 100%;
+  z-index: 1;
+}
+
+.dividerLine {
+  position: absolute;
+  top: 9px;
+  left: 0;
+  height: 1px;
+  background-color: #e1e7ef;
+  width: 100%;
+}
+
+.socialRow {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+
+  .socialBtn {
+    width: 192px;
+  }
+}
+
+.footer {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-self: center;
+  @include fontSec--reg--gray;
+}
+
+.login {
+  margin-top: 16px;
+  font-size: 14px;
+
+  &-link {
+    text-decoration: none;
+    color: $color-blue;
+    font-weight: 500;
+  }
+}

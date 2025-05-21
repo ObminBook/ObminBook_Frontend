@@ -1,0 +1,71 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/variables.scss' as *;
+
+.addCity {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+}
+
+.content {
+  position: relative;
+  background-color: white;
+  width: 448px;
+  height: 352px;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+  @include fontH2;
+  color: $color-darkblue;
+}
+
+.info {
+  margin-top: 4px;
+  @include fontSec--reg--gray;
+  text-align: center;
+  width: 100%;
+}
+
+.cityTitle {
+  margin-top: 24px;
+  @include fontSec--darkblue;
+}
+
+.selectContainer {
+  margin-top: 4px;
+  width: 100%;
+}
+
+.buttons {
+  margin-top: 80px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonCancel {
+  width: 98px;
+}
+
+.buttonAccept {
+  width: 112px;
+}

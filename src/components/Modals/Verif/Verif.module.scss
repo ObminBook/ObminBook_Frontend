@@ -1,0 +1,151 @@
+@use '../../../styles/variables.scss' as *;
+@use '../../../styles/mixins' as *;
+
+.confirm {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.85); // затемнення фону
+  z-index: 9999;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  background-color: $color-white;
+  border-radius: 12px;
+  max-width: 448px;
+  width: 100%;
+
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.emailIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.title {
+  @include fontH4--darkblue;
+  margin-top: 16px;
+}
+
+.subtitle {
+  @include fontSec--gray;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.enterInput {
+  @include fontSec--darkblue;
+  margin-top: 16px;
+}
+
+.inputCode {
+  margin-top: 8px;
+}
+
+.checkSpam {
+  margin-top: 8px;
+  @include fontSmall--gray;
+}
+
+.sendAgainBox {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.didntRecieve {
+  @include fontSec--reg--gray;
+}
+
+.sendAgain {
+  @include fontSec--blue;
+}
+
+.buttons {
+  width: 100%;
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancelButt {
+  width: 98px;
+}
+
+.submitButt {
+  width: 176px;
+}
+
+.errMessage {
+  margin-top: 8px;
+  display: flex;
+  gap: 4px;
+
+  @include fontSmall--red;
+}
+
+.errIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.codeResent {
+  margin-top: 8px;
+  display: flex;
+  gap: 4px;
+
+  @include fontSmall--green;
+}
+
+.verificationSuccess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 128, 0, 0.15);
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+}
+
+.successButton {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #1b5e20;
+  }
+}
+
+.navigating {
+  display: flex;
+  gap: 5px;
+}

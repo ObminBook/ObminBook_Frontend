@@ -3,34 +3,53 @@ import './App.module.scss';
 
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import { AuthProvider } from './context/AuthContext';
 import UserProfile from './pages/UserProfile/UserProfile';
 import { ExchangeProposalPage } from './pages/ObminPage/ExchangeProposalPage';
 import BookSearchPage from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import PersonalInfo from './pages/PersonalInfo/PersonalInfo';
+
+import { useAppDispatch } from './reduxHooks/useAppDispatch';
+import { useEffect } from 'react';
+import { checkAuth } from './features/authSlice/authSlice';
+
+import PublicRoute from './components/routes/PublicRoute';
+import ProtectedRoute from './components/routes/ProtectedRoute';
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
+    <Router>
+      <Routes>
+        {/* Гостьові маршрути */}
+        <Route path="/" element={<HomePage />} />
+        <Route element={<PublicRoute />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/search" element={<BookSearchPage />} />
+        </Route>
+
+        <Route path="/search" element={<BookSearchPage />} />
+        <Route path="/chat" element={<ChatPage />} />
+
+        {/* Захищені маршрути */}
+        <Route element={<ProtectedRoute />}>
           <Route path="/obmin" element={<ExchangeProposalPage />} />
+          <Route path="/personal" element={<PersonalInfo />} />
 
           <Route path="/profile" element={<UserProfile />}>
             <Route path="my" element={<div>Мої книги</div>} />
             <Route path="saved" element={<div>Збережені книги</div>} />
             <Route path="requests" element={<div>Всі запити</div>} />
           </Route>
-
-          <Route path="/chat" element={<ChatPage />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+        </Route>
+      </Routes>
+    </Router>
   );
 };
 

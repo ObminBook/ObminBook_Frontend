@@ -1,0 +1,92 @@
+@use '../../../../styles/mixins' as *;
+@use '../../../../styles/variables.scss' as *;
+
+.card {
+  background-color: $color-white;
+  border: 1px solid #e1e7ef;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+
+  &:hover .actionButtons {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &:hover .image {
+    filter: brightness(0.15);
+  }
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 328px;
+  background-color: #dbe1e7;
+  border-bottom: 1px solid #e1e7ef;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.actionButtons {
+  position: absolute;
+  top: 140px;
+  left: 68px;
+  display: flex;
+  gap: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+.actionButton {
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+
+  &__left {
+    background-image: url('../../../../assets/images/miniIcons/bookEditIcon.svg');
+
+    &:hover {
+      background-image: url('../../../../assets/images/miniIcons/bookEditIconHover.svg');
+    }
+  }
+
+  &__right {
+    background-image: url('../../../../assets/images/miniIcons/deleteBookIcon.svg');
+
+    &:hover {
+      background-image: url('../../../../assets/images/miniIcons/deleteBookIconHover.svg');
+    }
+  }
+}
+
+.info {
+  padding: 12.5px 12px;
+}
+
+.title {
+  @include fontSec__darkblue;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bookAdded {
+  margin-top: 4px;
+  @include fontSmall__gray;
+}

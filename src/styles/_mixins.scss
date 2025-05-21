@@ -37,6 +37,10 @@
   @include font($fw-regular, $fs-h4, $lh-tight, $color-gray);
 }
 
+@mixin fontH4--darkblue {
+  @include font($fw-regular, $fs-h4, $lh-tight, $color-darkblue);
+}
+
 @mixin fontH4--semiBold--darkblue {
   @include font($fw-semibold, $fs-h4, $lh-tight, $color-darkblue);
 }
@@ -83,4 +87,12 @@
 
 @mixin fontSmall--gray {
   @include font($fw-regular, $fs-small, $lh-main, $color-gray);
+}
+
+@mixin fontSmall--red {
+  @include font($fw-regular, $fs-small, $lh-main, $color-err);
+}
+
+@mixin fontSmall--green {
+  @include font($fw-regular, $fs-small, $lh-main, $color-success);
 }

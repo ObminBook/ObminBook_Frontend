@@ -1,4 +1,5 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/variables.scss' as *;
 
 .user-profile {
   &__main {
@@ -54,7 +55,7 @@
 
     &-text {
       @include fontMain;
-      color: #142952;
+      color: $color-darkblue;
     }
   }
 
@@ -107,7 +108,7 @@
       align-items: center;
       justify-content: center;
       @include fontSec--darkblue;
-      color: #3e9ee3;
+      color: $color-blue;
       background-color: #d6ecfa;
       border-radius: 100px;
     }
@@ -120,7 +121,7 @@
         left: 0;
         width: 100%;
         height: 3px;
-        background-color: #3e9ee3;
+        background-color: $color-blue;
       }
     }
   }
@@ -170,6 +171,11 @@
 
   &__config {
     @include fontSmall--gray;
-    color: #3e9ee3;
+    color: $color-blue;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-blue--hover;
+    }
   }
 }

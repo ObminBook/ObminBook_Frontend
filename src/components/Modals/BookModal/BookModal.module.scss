@@ -17,7 +17,7 @@
   &__content {
     position: relative;
     display: flex;
-    background-color: #fff;
+    background-color: $color-white;
     border-radius: 12px;
     max-width: 900px;
     width: 100%;
@@ -219,7 +219,7 @@
 
   background: $main-background-color;
 
-  border: 1px solid #3e9ee3;
+  border: 1px solid $color-blue;
   border-radius: 8px;
 
   &__description {

@@ -1,0 +1,29 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/variables' as *;
+
+.block {
+  position: relative;
+  width: 437px;
+  height: 600px;
+  background: $color-white;
+  border: 1px solid #e1e7ef;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    @include fontH5--darkblue;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+}

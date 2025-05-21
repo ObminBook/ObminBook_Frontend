@@ -1,0 +1,19 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.search-page {
+  padding-inline: 40px;
+  padding-top: 32px;
+  background: $main-background-color;
+
+  &__title {
+    @include fontH2--bold;
+  }
+
+  &__main {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    min-height: 100vh;
+  }
+}

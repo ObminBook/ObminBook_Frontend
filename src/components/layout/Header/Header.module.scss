@@ -1,0 +1,69 @@
+@use '../../../styles/variables.scss' as *;
+
+.header {
+  display: flex;
+  flex-shrink: 0;
+  padding-inline: 40px;
+  background: $main-background-color;
+  height: 64px;
+  width: 100%;
+  border-bottom: 1px solid #e1e7ef;
+  color: $color-blue;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.container__center {
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  width: 153px;
+  height: 32px;
+  gap: 8px;
+  cursor: pointer;
+
+  &__center {
+    display: flex;
+    align-items: center;
+    width: 153px;
+    height: 32px;
+    gap: 8px;
+    transform: translate(-20px, 0);
+    cursor: pointer;
+  }
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.auth {
+  padding: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  cursor: pointer;
+}
+.authBtn {
+  width: 44px;
+  height: 20px;
+}

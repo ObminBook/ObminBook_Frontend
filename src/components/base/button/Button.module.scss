@@ -1,0 +1,93 @@
+@use '../../../styles/variables.scss' as *;
+
+.button {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  height: 40px;
+  line-height: 140%;
+
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &__icon {
+    height: 24px;
+    width: 24px;
+  }
+
+  &--variant {
+    &-blue {
+      background-color: $color-blue;
+      color: $color-white;
+
+      &:hover {
+        background-color: #2e7abd;
+      }
+
+      &--disabled {
+        pointer-events: none;
+        background-color: #b3d9f4;
+        color: $color-white;
+      }
+    }
+
+    &-transparent {
+      border: 1px solid $color-white;
+      color: $color-white;
+      background-color: $color-gray;
+
+      &:hover {
+        background-color: #2f354080;
+      }
+    }
+
+    &-blueTransparent {
+      background-color: transparent;
+      color: $color-blue;
+      border: 1px solid $color-blue;
+
+      &:hover {
+        background-color: #ebf5fc;
+      }
+    }
+
+    &-transparentNoBorder {
+      background-color: transparent;
+      color: $color-gray;
+      border: none;
+    }
+
+    &-social {
+      color: $color-darkblue;
+      background: $main-background-color;
+      border: 1px solid #e1e7ef;
+
+      &:hover {
+        background-color: #e9edf2;
+      }
+
+      &:active {
+        background-color: #a0a9b8;
+      }
+    }
+  }
+
+  &--font {
+    line-height: 140%;
+
+    &-bold {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    &-regular {
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+}

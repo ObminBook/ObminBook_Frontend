@@ -16,7 +16,7 @@
     padding-bottom: 24px;
     width: 448px;
     max-width: 500px;
-    background-color: #fff;
+    background-color: $color-white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
@@ -68,7 +68,7 @@
 
     &::placeholder {
       @include fontSec--gray;
-      color: #8691a7;
+      color: $color-lightGray;
     }
 
     &:focus {
@@ -138,12 +138,12 @@
 
   .buttonLogin {
     margin-top: 16px;
-    color: #fff;
+    color: $color-white;
     width: 100%;
     height: 40px;
     width: 400px;
-    background-color: #3e9ee3;
-    border: 1px solid #3e9ee3;
+    background-color: $color-blue;
+    border: 1px solid $color-blue;
     border-radius: 6px;
     font-weight: 500;
     cursor: pointer;
@@ -154,7 +154,7 @@
     flex-direction: column;
     margin-top: 24px;
     align-self: center;
-    color: #5e6776;
+    color: $color-gray;
     font-size: 12px;
     font-weight: 400;
   }
@@ -173,7 +173,7 @@
     justify-content: center;
     align-items: center;
     @include fontSmall--gray;
-    background-color: #fff;
+    background-color: $color-white;
     width: 40px;
     height: 100%;
     z-index: 1;

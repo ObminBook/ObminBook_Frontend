@@ -1,0 +1,24 @@
+@use '../../../styles/mixins' as *;
+
+.inputCell {
+  width: 40px;
+  height: 48px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include fontH4--darkblue;
+  text-align: center;
+
+  border: 1px solid #e1e7ef;
+  border-radius: 6px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &__err {
+    border-color: #ef4444;
+  }
+}

@@ -3,7 +3,6 @@ import styles from './UserProfile.module.scss';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { getMockBooksByPage } from '../../books/books';
 import { BookSearchResponse } from '../../types/BookSearchResponse';
-import { useAuth } from '../../context/AuthContext';
 import NotificationsPanel from '../../components/widgets/notificationPanel/NotificationPanel';
 import { Footer } from '../../components/layout/Footer/Footer';
 import avatar from '../../assets/images/common/avatar.svg';
@@ -11,6 +10,8 @@ import { miniIcons } from '../../assets/images/miniIcons';
 import { Header } from '../../components/layout/Header/Header';
 import AddBookCard from '../../components/base/bookCards/AddBookCard/AddBookCard';
 import { SimpleBookCard } from '../../components/base/bookCards/SimpleBookCard/SimpleBookCard';
+import { useSelector } from 'react-redux';
+import { select } from '@/features/authSlice/authSlice';
 
 const TABS = [
   { key: 'my', label: 'Мої книги', img: miniIcons.iconOpenBook },
@@ -21,8 +22,7 @@ const TABS = [
 const UserProfile: React.FC = () => {
   const [books, setBooks] = useState<BookSearchResponse['content']>();
   const navigate = useNavigate();
-  // const location = useLocation();
-  const { user } = useAuth();
+  const user = useSelector(select.user);
 
   useEffect(() => {
     const books = getMockBooksByPage(1, 4).content;
@@ -51,10 +51,17 @@ const UserProfile: React.FC = () => {
                       <div className={styles['owner__name']}>
                         {user
                           ? `${user?.firstName} ${user?.lastName}`
-                          : 'Ігор Барбан'}
+                          : 'Непрацюючий Юзер'}
                       </div>
-                      <p className={styles['owner__location']}>Київ, Україна</p>
-                      <p className={styles['owner__config']}>Налаштування</p>
+                      <p className={styles['owner__location']}>
+                        {user?.city || 'Київ, Україна'}
+                      </p>
+                      <p
+                        className={styles['owner__config']}
+                        onClick={() => navigate('/personal')}
+                      >
+                        Налаштування
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -101,7 +108,10 @@ const UserProfile: React.FC = () => {
                   <AddBookCard />
                 </div>
                 {books?.map((book) => (
-                  <div className={styles['user-profile__user-book-card']}>
+                  <div
+                    className={styles['user-profile__user-book-card']}
+                    key={book.id}
+                  >
                     <SimpleBookCard book={book} />
                   </div>
                 ))}

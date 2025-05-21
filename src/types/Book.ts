@@ -1,17 +1,34 @@
+import { User } from './User';
+
 export interface Book {
   id: number;
-  ownerId: number;
   title: string;
   author: string;
   categoryName: string;
   coverImage: string;
-  ownerName?: string;
+  owner: User;
   condition: string;
   exchangeType: string;
-  city: string;
-  description?: string;
-  realeaseDate?: string;
-  pages?: string;
-  language?: string;
-  addedOn?: string;
+  description: string;
+  publishedYear: number;
+  numberOfPages: number;
+  language: string;
+  bookStatus: string;
+  creatingDate: string;
+}
+
+export interface AddBookResponce extends Book {
+  owner: User;
+}
+
+export interface AddBookRequest {
+  title: string;
+  author: string;
+  category: string;
+  language: string;
+  publishedYear: number | null;
+  numberOfPages: number | null;
+  description: string | null;
+  condition: string;
+  exchangeType: string;
 }

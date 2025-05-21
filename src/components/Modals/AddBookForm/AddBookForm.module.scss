@@ -1,0 +1,426 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/variables.scss' as *;
+
+.bookForm {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.85); // затемнення фону
+  z-index: 9999;
+}
+
+.form {
+  padding: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: $color-white;
+  border-radius: 12px;
+  width: 448px;
+  min-height: 580px;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.title {
+  @include fontH2;
+  text-align: center;
+}
+
+.subtitle {
+  margin-top: 4px;
+  @include fontSec--reg--gray;
+  text-align: center;
+}
+
+.progress {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stepAbout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stepNumber {
+  @include fontSec--darkblue;
+}
+
+.about {
+  @include fontSec--reg--gray;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 8px;
+
+  &--1 {
+    background: linear-gradient(
+      to right,
+      $color-blue 33.33%,
+      $main-background-color 33.33%
+    );
+  }
+
+  &--2 {
+    background: linear-gradient(
+      to right,
+      $color-blue 66.66%,
+      $main-background-color 33.33%
+    );
+  }
+  &--3 {
+    background-color: $color-blue;
+  }
+}
+
+.required {
+  color: $color-lightGray;
+  font-size: 14px;
+}
+
+.step {
+  margin-top: 24px;
+}
+
+.errorGroup {
+  margin-top: 3px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.errorIcon {
+  height: 14px;
+  width: 14px;
+}
+
+.error {
+  padding-top: 1px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ef4444;
+  word-break: break-word;
+}
+
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonContainer {
+  &__left {
+    min-width: 98px;
+  }
+
+  &__right {
+    min-width: 120px;
+  }
+}
+
+.step1 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__fieldContainer {
+    @include fontSec--darkblue;
+    height: 80px;
+    width: 100%;
+  }
+
+  &__input {
+    margin-top: 4px;
+    height: 40px;
+    min-width: 192px;
+    width: 100%;
+    padding: 8px 12px;
+    background: $main-background-color;
+    border: 1px solid #e1e7ef;
+    border-radius: 6px;
+    @include fontSec--darkblue;
+
+    &::placeholder {
+      @include fontSec--lightgray;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-blue;
+    }
+  }
+
+  &__inputNumber {
+    -moz-appearance: textfield; // Firefox
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none; // Chrome, Safari, Edge
+      margin: 0;
+    }
+  }
+
+  &__row {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 150px;
+    height: auto;
+    background-color: $main-background-color;
+    border: 1px solid #e1e7ef;
+    border-radius: 8px;
+    padding: 8px 12px;
+    resize: none;
+    @include fontSec--darkblue;
+
+    &:focus {
+      outline: none;
+      border-color: $color-blue;
+    }
+
+    &::placeholder {
+      @include fontSec--lightgray;
+    }
+  }
+}
+
+.step2 {
+  &__coverTitle {
+    margin-top: 32px;
+    @include fontSec--darkblue;
+  }
+
+  &__options {
+    margin-top: 16px;
+    width: 100%;
+    height: 184px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  &__option {
+    padding: 16px;
+    width: 192px;
+    height: 84px;
+    border: 1px solid #e1e7ef;
+    border-radius: 8px;
+    background-color: transparent;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    cursor: pointer;
+
+    &:hover {
+      border-color: $color-blue;
+    }
+  }
+
+  &__optionSelected {
+    background-color: $main-background-color;
+    border-color: $color-blue;
+  }
+
+  &__optionTitle {
+    font-weight: $fw-medium;
+    font-size: $fs-sec;
+    line-height: 14px;
+    color: $color-black;
+  }
+
+  &__optionDescription {
+    @include fontSmall--gray;
+  }
+
+  &__optionRadio {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  &__conditionTitle {
+    @include fontSec--darkblue;
+  }
+
+  &__addImageContainer {
+    margin-top: 8px;
+    width: 100%;
+    height: 198px;
+    display: flex;
+    gap: 17px;
+  }
+
+  &__upload {
+    border: 1px dashed #e1e7ef;
+    border-radius: 8px;
+    cursor: pointer;
+
+    padding-block: 16px;
+
+    width: 191px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      border-color: $color-blue;
+    }
+  }
+
+  &__uploadImg {
+    width: 32px;
+    height: 32px;
+  }
+
+  &__uploadText {
+    margin-top: 8px;
+    width: 123px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__uploadTitle {
+    @include fontSec--darkblue;
+    color: $color-black;
+    width: 92px;
+  }
+
+  &__uploadImgtype {
+    @include fontSmall--gray;
+    text-align: center;
+  }
+
+  &__preview {
+    border: 1px solid #e1e7ef;
+    border-radius: 8px;
+    background-color: $main-background-color;
+    width: 191px;
+    height: 100%;
+  }
+
+  &__previewTextBox {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__previewText {
+    width: 159px;
+    height: 40px;
+    @include fontSec--reg--gray;
+    text-align: center;
+  }
+
+  &__image {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  &__chooseImg {
+    display: none;
+  }
+
+  &__fakeButton {
+    margin-top: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include fontSec--darkblue;
+    width: 123px;
+    height: 40px;
+    background-color: #f7fafc;
+    border: 1px solid #e1e7ef;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: #e9edf2;
+    }
+
+    &:active {
+      background-color: #a0a9b8;
+    }
+  }
+}
+
+.step3 {
+  &__options {
+    margin-top: 16px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  &__option {
+    padding: 16px;
+    width: 100%;
+    height: 84px;
+    border: 1px solid #e1e7ef;
+    border-radius: 8px;
+    background-color: transparent;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    cursor: pointer;
+
+    &:hover {
+      border-color: $color-blue;
+    }
+  }
+
+  &__optionSelected {
+    background-color: $main-background-color;
+    border-color: $color-blue;
+  }
+
+  &__optionTitle {
+    font-weight: $fw-medium;
+    font-size: $fs-sec;
+    line-height: 14px;
+    color: $color-black;
+  }
+
+  &__optionDescription {
+    @include fontSmall--gray;
+  }
+
+  &__optionRadio {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+}

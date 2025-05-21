@@ -1,0 +1,77 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/variables.scss' as *;
+
+.terms {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 1171px;
+    height: 801px;
+    padding: 40px;
+    border-radius: 8px;
+
+    background-color: $color-white;
+  }
+
+  &__close {
+    height: 24px;
+    width: 24px;
+
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    border: none;
+    cursor: pointer;
+
+    background: none;
+  }
+
+  &__title {
+    @include fontH2--bold;
+  }
+
+  &__info {
+    margin-top: 24px;
+    @include fontH4;
+  }
+
+  &__list {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__listItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &-title {
+      @include fontH4--semiBold--darkblue;
+    }
+
+    &-text {
+      @include fontMainText--reg;
+    }
+  }
+
+  &__lastUpdate {
+    margin-top: 24px;
+
+    @include fontSmall--gray;
+  }
+}

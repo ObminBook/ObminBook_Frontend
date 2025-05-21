@@ -1,200 +1,207 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useAuth } from '../../context/AuthContext';
+import { FormProvider, useForm } from 'react-hook-form';
 import styles from './LoginPage.module.scss';
 import { Header } from '../../components/layout/Header/Header';
 import SingleCheckboxContainer from '../../components/base/checkbox/containers/SingleCheckboxContainer';
 import errIcon from '../../assets/images/input/errIcon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { inputIcons } from '../../assets/images/registerLogin';
 import { Button } from '../../components/base/button/Button';
 import { miniIcons } from '../../assets/images/miniIcons';
 import { Footer } from '../../components/layout/Footer/Footer';
+import { login, select } from '../../features/authSlice/authSlice';
+import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Loader } from '@/components/base/Loader/Loader';
 
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-type Errors = {
-  email?: string;
-  password?: string;
+type FormValues = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
 };
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
+  const isLoading = useSelector(select.loginStatus) === 'loading';
 
-  const { login } = useAuth();
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    },
+  });
 
-  const initialValues = {
-    email: '',
-    password: '',
-    rememberMe: false,
-  };
-
-  type FormValues = {
-    email: string;
-    password: string;
-    rememberMe: boolean;
-  };
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+    watch,
+  } = methods;
 
   const onSubmit = async (values: FormValues) => {
+    const toLogin = {
+      email: values.email,
+      password: values.password,
+    };
     try {
-      await login(values.email, values.password);
+      await dispatch(login(toLogin));
     } catch (error) {
       console.error('Login failed', error);
     }
   };
 
-  const validate = (values: FormValues) => {
-    const errors: Errors = {};
+  const rememberMeValue = watch('rememberMe');
 
-    if (!values.email) {
-      errors.email = 'Обовʼязкове поле';
-    } else if (!regEmail.test(values.email)) {
-      errors.email = 'Некоректний email';
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/search');
     }
-
-    if (!values.password) {
-      errors.password = 'Обовʼязкове поле';
-    }
-    return errors;
-  };
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className={styles.loginPage}>
-      <Header centerLogo={true} />
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validate={validate}
-      >
-        {({ isSubmitting, values, setFieldValue }) => (
-          <Form className={styles.form}>
-            <h2 className={styles.title}>Вхід до облікового запису</h2>
+      <Header centerLogo={true} withSkeleton={false} />
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <h2 className={styles.title}>Вхід до облікового запису</h2>
 
-            <div className={styles.control}>
-              <div className={styles.inputs}>
-                <div className={styles.inputContainer}>
-                  <label className={styles.inputTitle} htmlFor="email">
-                    Email
-                  </label>
-                  <Field
-                    id="email"
-                    type="text"
-                    name="email"
-                    placeholder="example@email.com"
-                    className={styles.input}
-                  />
-                  <ErrorMessage name="email">
-                    {(msg) => (
-                      <div className={styles.errorContainer}>
-                        <img
-                          className={styles.errorImg}
-                          src={errIcon}
-                          alt="error icon"
-                        />
-                        <div className={styles.error}>{msg}</div>
-                      </div>
-                    )}
-                  </ErrorMessage>
-                </div>
-
-                <div className={styles.inputContainer}>
-                  <div className={styles.passwordHeader}>
-                    <label className={styles.inputTitle} htmlFor="password">
-                      Пароль
-                    </label>
-                    <a className={styles.forgotPassword} href="">
-                      Забули пароль?
-                    </a>
-                  </div>
-                  <Field
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    name="password"
-                    placeholder="Введіть пароль"
-                    className={styles.input}
-                  />
-                  <img
-                    className={styles.eye}
-                    src={showPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
-                    alt="toggle visibility"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                  />
-                  <ErrorMessage name="password">
-                    {(msg) => (
-                      <div className={styles.errorContainer}>
-                        <img
-                          className={styles.errorImg}
-                          src={errIcon}
-                          alt="error icon"
-                        />
-                        <div className={styles.error}>{msg}</div>
-                      </div>
-                    )}
-                  </ErrorMessage>
-                </div>
-              </div>
-
-              <div className={styles.rememberMe}>
-                <label
-                  className={styles.rememberMe}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() =>
-                    setFieldValue('rememberMe', !values.rememberMe)
-                  }
-                >
-                  <SingleCheckboxContainer name="rememberMe" alt="checkbox" />
-                  <span className={styles.inputTitle}>Запам'ятати мене</span>
+          <div className={styles.control}>
+            <div className={styles.inputs}>
+              <div className={styles.inputContainer}>
+                <label className={styles.inputTitle} htmlFor="email">
+                  Email
                 </label>
+                <input
+                  id="email"
+                  type="text"
+                  placeholder="example@email.com"
+                  className={styles.input}
+                  {...register('email', {
+                    required: 'Обовʼязкове поле',
+                    pattern: {
+                      value: regEmail,
+                      message: 'Некоректний email',
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <div className={styles.errorContainer}>
+                    <img
+                      className={styles.errorImg}
+                      src={errIcon}
+                      alt="error icon"
+                    />
+                    <div className={styles.error}>{errors.email.message}</div>
+                  </div>
+                )}
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={styles.buttonLogin}
-              >
-                Увійти
-              </button>
-
-              <div className={styles.aboLine}>
-                <div className={styles.abo}>АБО</div>
-                <div className={styles.line}></div>
-              </div>
-
-              <div className={styles.logWithSocial}>
-                <div className={styles.logWithSocialButton}>
-                  <Button
-                    _buttonVariant="social"
-                    _name="Google"
-                    _fontSize="bold"
-                    _iconPosition="left"
-                    _icon={miniIcons.iconGoogle}
-                    _type="button"
-                  />
-                </div>
-                <div className={styles.logWithSocialButton}>
-                  <Button
-                    _buttonVariant="social"
-                    _name="Facebook"
-                    _fontSize="bold"
-                    _iconPosition="left"
-                    _icon={miniIcons.iconFacebook}
-                    _type="button"
-                  />
-                </div>
-              </div>
-
-              <div className={styles.footer}>
-                <div style={{ alignSelf: 'center' }}>АБО</div>
-                <p className={styles.register}>
-                  Немає облікового запису?{' '}
-                  <a className={styles.registerLink} href="/register">
-                    Зареєструйтесь
+              <div className={styles.inputContainer}>
+                <div className={styles.passwordHeader}>
+                  <label className={styles.inputTitle} htmlFor="password">
+                    Пароль
+                  </label>
+                  <a className={styles.forgotPassword} href="">
+                    Забули пароль?
                   </a>
-                </p>
+                </div>
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Введіть пароль"
+                  className={styles.input}
+                  {...register('password', {
+                    required: 'Обовʼязкове поле',
+                  })}
+                />
+                <img
+                  className={styles.eye}
+                  src={showPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
+                  alt="toggle visibility"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+                {errors.password && (
+                  <div className={styles.errorContainer}>
+                    <img
+                      className={styles.errorImg}
+                      src={errIcon}
+                      alt="error icon"
+                    />
+                    <div className={styles.error}>
+                      {errors.password.message}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </Form>
-        )}
-      </Formik>
+
+            <div className={styles.rememberMe}>
+              <label
+                className={styles.rememberMe}
+                style={{ cursor: 'pointer' }}
+                onClick={() => setValue('rememberMe', !rememberMeValue)}
+              >
+                <SingleCheckboxContainer name="rememberMe" alt="checkbox" />
+                <span className={styles.inputTitle}>Запам'ятати мене</span>
+              </label>
+            </div>
+
+            <Button
+              _buttonVariant="blue"
+              _name={isLoading ? <Loader /> : 'Увійти'}
+              _classname={styles.buttonLogin}
+              _fontSize="bold"
+              _type="submit"
+            />
+
+            <div className={styles.aboLine}>
+              <div className={styles.abo}>АБО</div>
+              <div className={styles.line}></div>
+            </div>
+
+            <div className={styles.logWithSocial}>
+              <div className={styles.logWithSocialButton}>
+                <Button
+                  _buttonVariant="social"
+                  _name="Google"
+                  _fontSize="bold"
+                  _iconPosition="left"
+                  _icon={miniIcons.iconGoogle}
+                  _type="button"
+                />
+              </div>
+              <div className={styles.logWithSocialButton}>
+                <Button
+                  _buttonVariant="social"
+                  _name="Facebook"
+                  _fontSize="bold"
+                  _iconPosition="left"
+                  _icon={miniIcons.iconFacebook}
+                  _type="button"
+                />
+              </div>
+            </div>
+
+            <div className={styles.footer}>
+              <div style={{ alignSelf: 'center' }}>АБО</div>
+              <p className={styles.register}>
+                Немає облікового запису?{' '}
+                <a className={styles.registerLink} href="/register">
+                  Зареєструйтесь
+                </a>
+              </p>
+            </div>
+          </div>
+        </form>
+      </FormProvider>
+
       <Footer />
     </div>
   );

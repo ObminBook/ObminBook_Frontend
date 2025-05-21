@@ -1,0 +1,193 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables.scss' as *;
+
+.chat {
+  height: 100vh;
+  background: $main-background-color;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 328px;
+  height: 100%;
+  background-color: $color-white;
+  border-right: 1px solid #e1e7ef;
+
+  &__findUserContainer {
+    padding: 12px 12px 0;
+    height: 100px;
+    border-bottom: 1px solid #e1e7ef;
+  }
+
+  &__backButton {
+    width: 75px;
+    height: 28px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 140%;
+    vertical-align: middle;
+    color: $color-gray;
+
+    &-img {
+      height: 16px;
+      width: 16px;
+    }
+  }
+
+  &__searchUserInput {
+    margin-top: 8px;
+  }
+
+  &__usersList {
+    margin-top: 8px;
+  }
+}
+
+.usersList {
+  &__user {
+    padding-inline: 12px;
+    display: flex;
+    align-items: center;
+    height: 72px;
+    gap: 12px;
+    cursor: pointer;
+
+    &--selected {
+      background-color: $color-blue;
+
+      .usersList__userName {
+        color: $color-white;
+      }
+
+      .usersList__userMessage {
+        color: white;
+      }
+    }
+  }
+
+  &__userImg {
+    width: 48px;
+    height: 48px;
+  }
+
+  &__userInfo {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__userName {
+    @include fontMain;
+    color: $color-darkblue;
+  }
+
+  &__userMessage {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @include fontSec--reg--gray;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__header {
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $color-white;
+    border-bottom: 1px solid #e1e7ef;
+  }
+
+  &__selectedUser {
+    display: flex;
+    gap: 12px;
+
+    &-aboutUser {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    &-name {
+      @include fontMain;
+      color: $color-black;
+    }
+
+    &-location {
+      @include fontSmall--gray;
+    }
+  }
+
+  &__infoButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-img {
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+}
+
+.chatFooter {
+  background-color: $color-white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+
+  &__input {
+    height: 40px;
+    min-width: 192px;
+    width: 100%;
+    padding: 8px 12px;
+    background: $main-background-color;
+    border: 1px solid #e1e7ef;
+    border-radius: 6px;
+    @include fontSec--darkblue;
+
+    &::placeholder {
+      @include fontSec--lightgray;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-blue;
+    }
+  }
+
+  &__sendButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+  }
+}
