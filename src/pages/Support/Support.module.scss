@@ -1,0 +1,160 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables.scss' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main {
+  background-color: $main-background-color;
+  padding: 40px;
+  flex-grow: 1;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 75px;
+  height: 28px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  @include fontSec--gray;
+}
+
+.title {
+  margin-top: 8px;
+  @include fontH2--bold;
+}
+
+.mainContent {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.support {
+  width: 896px;
+}
+
+.supportBlock {
+  margin-top: 40px;
+  border: 1px solid #e1e7ef;
+  border-radius: 8px;
+
+  padding: 24px;
+  background-color: white;
+}
+
+.freqQuestions {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    @include fontH2;
+  }
+
+  &__infoBox {
+    margin-top: 24px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    position: relative;
+    width: 100%;
+    // padding-block: 17px;
+    min-height: 54px;
+    border-bottom: 1px solid #e1e7ef;
+    cursor: pointer;
+  }
+
+  &__itemTitle {
+    @include fontMain--darkblue;
+    height: 54px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &_opened {
+      height: 54px;
+    }
+  }
+
+  &__itemDescr {
+    @include fontSec--gray;
+    width: calc(100% - 24px);
+    margin-bottom: 24px;
+  }
+
+  &__itemImg {
+    position: absolute;
+    top: 8px;
+    right: 0;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.reportProblem {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__reportIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  &__titleText {
+    @include fontH2;
+  }
+
+  &__importantBox {
+    margin-top: 16px;
+  }
+}
+
+.importantBox {
+  width: 100%;
+  height: 114px;
+
+  border: 1px solid $color-blue;
+  border-radius: 6px;
+
+  padding: 16px 24px;
+  background-color: #d6ecfa;
+  margin-bottom: 24px;
+
+  &__title {
+    display: flex;
+    gap: 8px;
+
+    @include fontMain;
+    color: $color-blue;
+  }
+
+  &__img {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__description {
+    margin-left: 28.5px;
+
+    width: 515px;
+    @include fontSecReg--darkblue;
+  }
+}

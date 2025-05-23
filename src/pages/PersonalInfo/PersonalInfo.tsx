@@ -3,19 +3,13 @@ import { miniIcons } from '../../assets/images/miniIcons';
 import { Footer } from '../../components/layout/Footer/Footer';
 import { Header } from '../../components/layout/Header/Header';
 import styles from './PersonalInfo.module.scss';
-import { User } from '../../types/User';
 import avatar from '../../assets/images/common/avatar.svg';
+import { select } from '@/features/authSlice/authSlice';
+import { useSelector } from 'react-redux';
 
 const PersonalInfo = () => {
   const navigate = useNavigate();
-  const user: User = {
-    id: 1,
-    email: 'barbanihor@gmail.com',
-    city: 'Kyiv',
-    firstName: 'Ihor',
-    lastName: 'Barban',
-    books: [],
-  };
+  const user = useSelector(select.user);
 
   return (
     <div className={styles.page}>

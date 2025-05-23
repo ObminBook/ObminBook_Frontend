@@ -16,6 +16,7 @@ import { checkAuth } from './features/authSlice/authSlice';
 
 import PublicRoute from './components/routes/PublicRoute';
 import ProtectedRoute from './components/routes/ProtectedRoute';
+import { Support } from './pages/Support/Support';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,7 @@ const App = () => {
       <Routes>
         {/* Гостьові маршрути */}
         <Route path="/" element={<HomePage />} />
+        <Route path="support" element={<Support />} />
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

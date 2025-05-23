@@ -21,8 +21,20 @@ import emailIcon from './email.svg';
 import errIcon from '../input/errIcon.svg';
 import spinner from './spinner.svg';
 import recentIcon from './resentIcon.svg';
+import chevronUp from './chevronUp.svg';
+import chevronDown from './chevronDown.svg';
+import reportProblem from './reportProblem.svg';
+import reportInfo from './reportInfo.svg';
+import radioChecked from './radioChecked.svg';
+import radioUnchecked from './radioUnchecked.svg';
 
 export const miniIcons = {
+  radioChecked,
+  radioUnchecked,
+  reportInfo,
+  reportProblem,
+  chevronDown,
+  chevronUp,
   recentIcon,
   spinner,
   errIcon,

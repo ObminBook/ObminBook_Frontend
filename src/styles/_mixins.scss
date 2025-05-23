@@ -57,6 +57,10 @@
   @include font($fw-medium, $fs-main, $lh-main, $color-gray);
 }
 
+@mixin fontMain--darkblue {
+  @include font($fw-medium, $fs-main, $lh-main, $color-darkblue);
+}
+
 @mixin fontSec--gray {
   @include font($fw-medium, $fs-sec, $lh-main, $color-gray);
 }
@@ -87,6 +91,10 @@
 
 @mixin fontSmall--gray {
   @include font($fw-regular, $fs-small, $lh-main, $color-gray);
+}
+
+@mixin fontSmall--darkblue {
+  @include font($fw-regular, $fs-small, $lh-main, $color-darkblue);
 }
 
 @mixin fontSmall--red {
