@@ -2,17 +2,9 @@ import React from 'react';
 import styles from './FilterSection.module.scss';
 import { useSearchParams } from 'react-router-dom';
 import MultiSelectCheckboxContainer from '../../base/checkbox/containers/MultiSelectCheckboxContainer';
+import { bookCategories as genres } from '@/resources/bookCategories/bookCategories';
+import { CustomSearchParamMultiSelect } from '@/components/base/customSelect/CustomSearchParamMultiSelect/CustomSearchParamMultiSelect';
 
-const genresFromServer = [
-  'Фантастика',
-  'Художня література',
-  'Історія',
-  'Мемуари',
-  'Детективи',
-  'Психологія',
-  'Наукова фантастика',
-  'Саморозвиток',
-];
 const states = ['Як нова', 'Дуже добра', 'Добра', 'Прийнятна'];
 const exchangeTypes = ['Особисто', 'По пошті', 'Будь-який спосіб'];
 
@@ -34,8 +26,8 @@ const FilterSection: React.FC = () => {
 
   const handleReset = () => {
     const params = new URLSearchParams(searchParams);
-    params.delete('genres');
-    params.delete('states');
+    params.delete('categories');
+    params.delete('condition');
     params.delete('exchangeType');
 
     setSearchParams(params);
@@ -57,19 +49,24 @@ const FilterSection: React.FC = () => {
       <div className={styles.section}>
         <div className={styles.block}>Жанр</div>
         <div className={styles.items}>
-          {genresFromServer.map((genre) => (
+          {/* {genres.map((genre) => (
             <div
-              key={genre}
+              key={genre.value}
               className={styles.item}
-              onClick={() => handleCheckboxChange('genres', genre)}
+              onClick={() => handleCheckboxChange('genres', genre.value)}
             >
               <MultiSelectCheckboxContainer
-                isChecked={getCheckedStatus('genres', genre)}
-                onChange={() => handleCheckboxChange('genres', genre)}
+                isChecked={getCheckedStatus('genres', genre.value)}
+                onChange={() => handleCheckboxChange('genres', genre.value)}
               />
-              <div className={styles.itemName}>{genre}</div>
+              <div className={styles.itemName}>{genre.label}</div>
             </div>
-          ))}
+          ))} */}
+          <CustomSearchParamMultiSelect
+            paramKey="categories"
+            options={genres}
+            placeholder="Виберіть категорію"
+          />
         </div>
       </div>
 

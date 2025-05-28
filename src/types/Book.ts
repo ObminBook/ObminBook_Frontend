@@ -17,10 +17,6 @@ export interface Book {
   creatingDate: string;
 }
 
-export interface AddBookResponce extends Book {
-  owner: User;
-}
-
 export interface AddBookRequest {
   title: string;
   author: string;
@@ -31,4 +27,28 @@ export interface AddBookRequest {
   description: string | null;
   condition: string;
   exchangeType: string;
+}
+
+export interface AddBookResponce extends Book {
+  owner: User;
+}
+
+export interface SearchBooksResponce {
+  content: Book[];
+  totalElements: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  hasNext: true;
+}
+
+export interface SearchBooksRequest {
+  page: number;
+  size: number;
+  sort: string;
+  categories: string[];
+  condition: string[];
+  exchangeType: string[];
+  titleAndAuthor: string;
+  totalElements: number;
 }

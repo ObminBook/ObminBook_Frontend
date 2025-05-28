@@ -1,112 +1,92 @@
-import { useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import styles from './BookListWithFilter.module.scss';
-import { useInView } from 'react-intersection-observer';
-import { BookSearchResponse } from '../../../types/BookSearchResponse';
-import { getMockBooksByPage } from '../../../books/books';
 import SortDropdown from '../../widgets/dropdown/containers/SortDropdown';
 import { SearchQueryContainer } from '../../widgets/searchQuery/containers/SearchQueryContainer';
-import { BookCard } from '../../base/bookCards/BookCard/BookCard';
-
-const DEFAULT_PAGE_SIZE = 6;
+import { BookCard } from '@/components/base/bookCards/BookCard/BookCard';
+import {
+  clearBooks,
+  searchBooks,
+  select,
+  setNextPage,
+} from '@/features/bookSearchSlice/bookSearchSlice';
+import { useEffect, useMemo } from 'react';
+import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { useInView } from 'react-intersection-observer';
+import { SearchBooksRequest } from '@/types/Book';
 
 const BookListWithFilters = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [books, setBooks] = useState<BookSearchResponse['content']>([]);
-  const [hasNext, setHasNext] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const { ref, inView } = useInView({ threshold: 0 });
+  const dispatch = useAppDispatch();
+  const books = useSelector(select.books);
+  const hasNext = useSelector(select.hasNext);
+  const areBooksLoading = useSelector(select.booksLoadingState) === 'pending';
 
-  const page = Number(searchParams.get('page') || 1);
-  const pageSize = Number(searchParams.get('pageSize') || DEFAULT_PAGE_SIZE);
+  const page = useSelector(select.page);
+  const size = useSelector(select.size);
+  const titleAndAuthor = useSelector(select.titleAndAuthor);
+  const categories = useSelector(select.categories);
+  const exchangeType = useSelector(select.exchangeType);
+  const condition = useSelector(select.condition);
+  const sort = useSelector(select.sort);
+  const totalElements = useSelector(select.totalElements);
 
-  const genre = searchParams.get('genre') || '';
-  const sort = searchParams.get('sort') || '';
-  const query = searchParams.get('query') || '';
+  const filterParams: SearchBooksRequest = useMemo(
+    () => ({
+      page,
+      size,
+      titleAndAuthor,
+      categories,
+      exchangeType,
+      condition,
+      sort,
+      totalElements,
+    }),
+    [page, size, titleAndAuthor, categories, exchangeType, condition, sort]
+  );
 
-  // Фетч книжок
-  const fetchBooks = async (pageToLoad: number) => {
-    setIsLoading(true);
-    try {
-      const data = getMockBooksByPage(pageToLoad, pageSize); // тут можна підключити реальний API
-      setBooks((prev) =>
-        pageToLoad === 1 ? data.content : [...prev, ...data.content]
-      );
-      setHasNext(data.hasNext);
-    } catch (error) {
-      console.error('Помилка завантаження:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
 
-  // Завантажити першу сторінку при зміні фільтрів
   useEffect(() => {
-    setBooks([]);
-    setHasNext(true);
-    setSearchParams((params) => {
-      params.set('page', '1');
-      params.set('pageSize', pageSize.toString());
-      return params;
-    });
-    fetchBooks(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genre, sort, query]);
-
-  // Lazy loading наступних сторінок
-  useEffect(() => {
-    if (inView && hasNext && !isLoading) {
-      const nextPage = page + 1;
-      setSearchParams((params) => {
-        params.set('page', nextPage.toString());
-        return params;
-      });
-      fetchBooks(nextPage);
+    if (inView && hasNext && !areBooksLoading) {
+      dispatch(setNextPage());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
+  }, [inView, hasNext, dispatch, areBooksLoading]);
+
+  useEffect(() => {
+    console.log('searching new books');
+
+    dispatch(searchBooks(filterParams));
+  }, [page]);
+
+  useEffect(() => {
+    dispatch(clearBooks());
+
+    dispatch(searchBooks(filterParams));
+  }, [titleAndAuthor, categories, exchangeType, condition, sort]);
 
   return (
     <div className={styles.bookList}>
       <div className={styles.search}>
         <div className={styles.searchContainer}>
-          <SearchQueryContainer
-            placeholder="Пошук у результатах"
-            searchParams={searchParams}
-            setSearchParams={setSearchParams}
-          />
+          <SearchQueryContainer placeholder="Пошук у результатах" />
         </div>
-
         <div className={styles.sort}>
           <span className={styles.sortTitle}>Сортувати за:</span>
-          <SortDropdown
-            searchParams={searchParams}
-            setSearchParams={setSearchParams}
-          />
+          <SortDropdown />
         </div>
       </div>
 
-      <div className={styles.showed}>Показано {books.length} книг</div>
-
       <div className={styles.container}>
         {books.map((book, index) => {
-          const isLast = index === books.length - 1;
           return (
-            <div
-              key={book.id || `${book.title}-${index}`}
-              ref={isLast ? ref : null}
-              className={styles.bookWrapper}
-            >
-              <BookCard book={book} />
+            <div key={book.id} className={styles.bookWrapper}>
+              <BookCard book={book} ref={index === books.length - 1 ? ref : null} />
             </div>
           );
         })}
       </div>
-
-      {isLoading && <div className={styles.loading}>Завантаження...</div>}
-      {!hasNext && books.length > 0 && (
-        <div className={styles.endText}>Усі книжки завантажено </div>
-      )}
     </div>
   );
 };

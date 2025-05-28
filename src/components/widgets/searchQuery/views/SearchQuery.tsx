@@ -3,28 +3,20 @@ import styles from './SearchQuery.module.scss';
 
 interface Props {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
 }
 
-export const SearchQuery: React.FC<Props> = ({
-  value,
-  onChange,
-  placeholder,
-}) => {
+export const SearchQuery: React.FC<Props> = ({ value, onChange, placeholder }) => {
   return (
     <div className={styles['searchQuery']}>
-      <img
-        src={inputIcons.loopa}
-        className={styles['searchQuery__img']}
-        alt="search"
-      />
+      <img src={inputIcons.loopa} className={styles['searchQuery__img']} alt="search" />
       <input
         type="text"
         placeholder={placeholder}
         className={styles['searchQuery__input']}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(event) => onChange(event)}
       />
     </div>
   );

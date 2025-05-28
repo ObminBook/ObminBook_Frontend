@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { addBook } from '@/features/addBookSlice/addBookSlice';
 import { AddBookRequest } from '@/types/Book';
+import { getMyBooks } from '@/features/manageBookSlice/manageBookSlice';
 
 const bookFormSchema = z.object({
   title: z.string().min(1, 'Назва обовʼязкова'),
@@ -24,9 +25,6 @@ const bookFormSchema = z.object({
   description: z.string().optional(),
   condition: z.string().min(1, 'Оберіть один з доступних нижче варіантів'),
   cover: z.any().optional(),
-  // .refine((file) => file instanceof File && file.size > 0, {
-  //   message: 'Додайте зображення обкладинки',
-  // }),
   exchangeMethod: z.string().min(1, 'Оберіть спосіб обміну'),
 });
 
@@ -73,10 +71,10 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
 
     try {
       await dispatch(addBook(bookPayload)).unwrap();
-      // Якщо успішно, можна закрити форму або показати повідомлення
+      dispatch(getMyBooks());
+
       onClose();
     } catch (error) {
-      // Обробка помилки (наприклад, показати повідомлення)
       console.error('Failed to add book:', error);
     }
   };
@@ -139,10 +137,10 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
     const fields = getStepFields(step);
     const valid = await methods.trigger(fields);
 
-    if (!valid) {
-      console.log('Validation errors:', methods.formState.errors);
-    } else {
+    if (valid) {
       setStep((prevStep) => prevStep + 1);
+    } else {
+      console.log('Validation errors:', methods.formState.errors);
     }
   };
 
@@ -151,7 +149,6 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
   const handleCloseForm = (ev: React.MouseEvent) => {
     ev.stopPropagation();
     onClose();
-    console.log('Form closed');
   };
 
   return (
@@ -202,10 +199,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
             ) : (
               <div
                 className={`${styles.buttonContainer} ${styles.buttonContainer__left}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClose();
-                }}
+                onClick={handleCloseForm}
               >
                 <Button
                   _buttonVariant="social"
@@ -221,7 +215,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
               onClick={async (e) => {
                 e.stopPropagation();
                 if (step === 2) {
-                  methods.handleSubmit(onSubmit)();
+                  await methods.handleSubmit(onSubmit)();
                 } else {
                   await nextStep();
                 }
@@ -233,7 +227,6 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                 _icon={step !== 2 ? miniIcons.arrowRightWhite : null}
                 _iconPosition="right"
                 _type="button"
-                onClick={handleCloseForm}
               />
             </div>
           </div>

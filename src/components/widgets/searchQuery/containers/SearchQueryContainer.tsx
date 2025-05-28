@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { SetURLSearchParams } from 'react-router-dom';
-import { useDebounce } from '../../../../hooks/useDebounce';
+import debounce from 'lodash.debounce';
 import { SearchQuery } from '../views/SearchQuery';
+import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { setTitleAndAuthor } from '@/features/bookSearchSlice/bookSearchSlice';
 
 interface Props {
   searchParams?: URLSearchParams;
@@ -9,40 +11,25 @@ interface Props {
   placeholder: string;
 }
 
-export const SearchQueryContainer: React.FC<Props> = ({
-  searchParams,
-  setSearchParams,
-  placeholder,
-}) => {
+export const SearchQueryContainer: React.FC<Props> = ({ placeholder }) => {
+  const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState('');
-  const debouncedValue = useDebounce(inputValue, 300);
 
-  useEffect(() => {
-    if (!searchParams || !setSearchParams) return;
+  const debouncedDispatch = useMemo(
+    () =>
+      debounce((value: string) => {
+        dispatch(setTitleAndAuthor(value));
+      }, 500),
+    [dispatch]
+  );
 
-    const newParams = new URLSearchParams(searchParams);
-
-    if (debouncedValue) {
-      newParams.set('title', debouncedValue);
-    } else {
-      newParams.delete('title');
-    }
-
-    newParams.set('page', '1');
-    setSearchParams(newParams);
-  }, [debouncedValue, searchParams, setSearchParams]);
-
-  useEffect(() => {
-    if (!searchParams) return;
-    const queryParam = searchParams.get('title') || '';
-    setInputValue(queryParam);
-  }, [searchParams]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    debouncedDispatch(value);
+  };
 
   return (
-    <SearchQuery
-      value={inputValue}
-      onChange={setInputValue}
-      placeholder={placeholder}
-    />
+    <SearchQuery value={inputValue} onChange={handleChange} placeholder={placeholder} />
   );
 };

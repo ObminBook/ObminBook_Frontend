@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from '@/api/axiosInstance';
 import { AddBookRequest, AddBookResponce } from '@/types/Book';
+import { getMyBooks } from '../manageBookSlice/manageBookSlice';
 
 interface AddBookState {
   loading: boolean;
@@ -20,6 +21,7 @@ export const addBook = createAsyncThunk<AddBookResponce, AddBookRequest>(
   async (bookData, thunkAPI) => {
     try {
       const response = await axiosInstance.post('/books', bookData);
+
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(

@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 
 export function useHover<T extends HTMLDivElement>() {
-  const ref = useRef<T>(null);
+  const hoverRef = useRef<T>(null);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    const node = ref.current;
+    const node = hoverRef.current;
     if (!node) return;
 
     const handleMouseEnter = () => setIsHovered(true);
@@ -20,5 +20,5 @@ export function useHover<T extends HTMLDivElement>() {
     };
   }, []);
 
-  return { ref, isHovered };
+  return { hoverRef, isHovered };
 }
