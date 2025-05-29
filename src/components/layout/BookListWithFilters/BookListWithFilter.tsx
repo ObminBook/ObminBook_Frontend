@@ -8,12 +8,13 @@ import {
   searchBooks,
   select,
   setNextPage,
+  setPage,
 } from '@/features/bookSearchSlice/bookSearchSlice';
 import { useEffect, useMemo } from 'react';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { useInView } from 'react-intersection-observer';
 import { SearchBooksRequest } from '@/types/Book';
-import { bookCategories as genres } from '../../../resources/bookCategories/bookCategories';
+import { CustomSortSelect } from '@/components/base/customSelect/customSortSelect/customSortSelect';
 
 const BookListWithFilters = () => {
   const dispatch = useAppDispatch();
@@ -55,16 +56,13 @@ const BookListWithFilters = () => {
   }, [inView, hasNext, dispatch, areBooksLoading]);
 
   useEffect(() => {
-    console.log('searching new books');
-
-    dispatch(searchBooks(filterParams));
-  }, [page]);
+    dispatch(clearBooks());
+    dispatch(setPage(0));
+  }, [titleAndAuthor, categories, exchangeType, condition, sort]);
 
   useEffect(() => {
-    dispatch(clearBooks());
-
     dispatch(searchBooks(filterParams));
-  }, [titleAndAuthor, categories, exchangeType, condition, sort]);
+  }, [page, titleAndAuthor, categories, exchangeType, condition, sort]);
 
   return (
     <div className={styles.bookList}>
@@ -73,11 +71,15 @@ const BookListWithFilters = () => {
           <div className={styles.searchContainer__input}>
             <SearchQueryContainer placeholder="Пошук у результатах" />
           </div>
+          <div className={styles.searchContainer__sort}>
+            Сортувати за:
+            <CustomSortSelect placeholder="Сортувати за" />
+          </div>
         </div>
-        {/* <div className={styles.sort}>
-          <span className={styles.sortTitle}>Сортувати за:</span>
-          <SortDropdown />
-        </div> */}
+      </div>
+
+      <div className={styles.showAmount}>
+        Показано {books.length} з {totalElements}
       </div>
 
       <div className={styles.container}>

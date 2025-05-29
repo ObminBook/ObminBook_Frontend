@@ -4,14 +4,13 @@ import { useHover } from '../../../../hooks/useHover';
 import { useNavigate } from 'react-router-dom';
 import { Book } from '../../../../types/Book';
 import { useAppDispatch } from '../../../../reduxHooks/useAppDispatch';
-import { User } from '../../../../types/User';
-import { getMockBooksByPage } from '../../../../books/books';
 import { setAnotherUserBook } from '../../../../features/exchangeSlice/exchangeSlice';
-import { BookModalPortal } from '../../../modals/BookModal/BookModalPortal';
-import { TargetUserPortal } from '../../../modals/TargerUser/TargetUser_Portal';
 import { Button } from '../../button/Button';
 import { miniIcons } from '../../../../assets/images/miniIcons';
 import { cardIcons } from '../../../../assets/images/cardBook/cardDetails';
+import { TargetUserPortal } from '@/components/Modals/TargerUser/TargetUser_Portal';
+import { BookModalPortal } from '@/components/Modals/BookModal/BookModalPortal';
+import { userMenuIcons } from '@/assets/images/userMenu';
 
 interface BookCardProps {
   book: Book;
@@ -24,15 +23,6 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const mockedUser: User = {
-    id: 35,
-    firstName: 'Піся',
-    lastName: 'Камушкін',
-    city: 'Київ',
-    email: 'pisya@gmail.com',
-    books: getMockBooksByPage(1, 4).content,
-  };
 
   function handleCardClick() {
     setIsUserModalOpen(false);
@@ -70,7 +60,10 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
           />
         )}
         {isUserModalOpen && (
-          <TargetUserPortal targetUser={mockedUser} onClose={handleUserModalClose} />
+          <TargetUserPortal
+            targetUser={userMenuIcons.iconUserProfile}
+            onClose={handleUserModalClose}
+          />
         )}
         <div
           className={`${styles.actionButtons} ${
@@ -106,7 +99,11 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
         <div className={styles.imageContainer}>
           {book.coverImage ? (
             <img
-              src={cardIcons.imgPlaceholder}
+              src={
+                book.coverImage === 'NOT FOUND'
+                  ? cardIcons.imgPlaceholder
+                  : book.coverImage
+              }
               alt={book.title}
               className={styles.image}
             />

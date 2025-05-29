@@ -4,11 +4,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  // gap: 24px;
 }
 
 .filters {
-  margin-top: 16px;
   width: 260px;
   height: fit-content;
   background-color: rgb(255, 255, 255);
@@ -19,6 +17,14 @@
   box-shadow: 3px 5px 4px rgba(0, 0, 0, 0.082);
   border: 1px solid #e1e7ef;
   border-radius: 12px;
+
+  &_categories {
+    margin-top: 59px;
+  }
+
+  &_checkboxes {
+    margin-top: 16px;
+  }
 }
 
 .category {

@@ -33,3 +33,7 @@ export const bookCategories = [
   { value: 'politics', label: 'Політика / Соціологія' },
   { value: 'other', label: 'Інше' },
 ];
+
+export const findCategoryLabel = (value: string) => {
+  return bookCategories.find((el) => el.value === value)?.label;
+};

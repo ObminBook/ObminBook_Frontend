@@ -52,6 +52,12 @@ const bookSearchSlice = createSlice({
   name: 'bookFilter',
   initialState,
   reducers: {
+    setPage(state, action) {
+      state.page = action.payload;
+    },
+    setNextPage(state) {
+      state.page = state.page + 1;
+    },
     setCondition(state, action) {
       if (state.condition.includes(action.payload)) {
         state.condition = state.condition.filter((el) => el !== action.payload);
@@ -69,6 +75,9 @@ const bookSearchSlice = createSlice({
         state.exchangeType.push(action.payload);
       }
     },
+    setSort(state, action) {
+      state.sort = action.payload;
+    },
     clearBooks(state) {
       state.books = [];
       state.page = 0;
@@ -76,11 +85,14 @@ const bookSearchSlice = createSlice({
       state.totalElements = 0;
       state.booksLoadingState = 'idle';
     },
+    clearSearchOption(state) {
+      state.titleAndAuthor = '';
+      state.condition = [];
+      state.exchangeType = [];
+      state.categories = [];
+    },
     setTitleAndAuthor(state, action) {
       state.titleAndAuthor = action.payload;
-    },
-    setNextPage(state) {
-      state.page = state.page + 1;
     },
   },
   extraReducers: (builder) => {
@@ -113,10 +125,13 @@ export const select = {
 
 export const {
   setNextPage,
+  setPage,
   setTitleAndAuthor,
   clearBooks,
   setCondition,
   setType,
   setCategory,
+  setSort,
+  clearSearchOption,
 } = bookSearchSlice.actions;
 export default bookSearchSlice.reducer;

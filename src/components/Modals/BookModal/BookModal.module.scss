@@ -47,7 +47,6 @@
 
   &__info {
     position: relative;
-    height: auto;
     max-width: 540px;
     display: flex;
     flex-direction: column;
@@ -101,7 +100,7 @@
   }
 
   &__description {
-    margin-top: 16px;
+    margin-top: 30px;
     @include fontSec--reg--gray;
     width: 492px;
 
@@ -182,7 +181,7 @@
   &__actions {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    align-self: flex-end;
     margin-top: 24px;
   }
 

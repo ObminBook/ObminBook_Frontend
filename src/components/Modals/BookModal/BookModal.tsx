@@ -8,6 +8,10 @@ import { TruncatedText } from '../../base/truncatedText/TruncatedText';
 import { Button } from '../../base/button/Button';
 import { miniIcons } from '../../../assets/images/miniIcons';
 import { Book } from '../../../types/Book';
+import { useSelector } from 'react-redux';
+import { select } from '@/features/authSlice/authSlice';
+import { findCategoryLabel } from '@/resources/bookCategories/bookCategories';
+import { findLabelLanguage } from '@/resources/languages/languages';
 
 interface Props {
   onClose: () => void;
@@ -17,7 +21,7 @@ interface Props {
 
 export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
   const navigate = useNavigate();
-
+  const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -36,7 +40,10 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
     <div className={styles['book-modal']}>
       <div className={styles['book-modal__content']}>
         <div className={styles['book-modal__cover']}>
-          <img src={coverPlaceholder} alt="Обкладинка тимчасово недоступна" />
+          <img
+            src={book.coverImage === 'NOT FOUND' ? coverPlaceholder : book.coverImage}
+            alt="Обкладинка тимчасово недоступна"
+          />
         </div>
 
         <div className={styles['book-modal__info']}>
@@ -60,7 +67,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   src={cardIcons.category}
                   alt="categoryIcon"
                 />
-                {book.categoryName}
+                {findCategoryLabel(book.categoryName)}
               </div>
               <div className={styles['book-modal__tag']}>
                 <img
@@ -80,18 +87,14 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
               </div>
             </div>
             <div className={styles['book-modal__description']}>
-              <div className={styles['book-modal__description-title']}>
-                Опис
-              </div>
+              <div className={styles['book-modal__description-title']}>Опис</div>
               <TruncatedText
                 text={
                   'У захопливій подорожі крізь час і простір герой намагається розгадати таємниці минулого, борючись із внутрішніми демонами та зовнішніми ворогами. Це глибока історія про вибір, самопізнання та силу надії, що змінює долі цілих поколінь.Ця книжка — захоплива історія про людину, яка вирушає в подорож, щоб знайти відповіді на питання, що мучили її все життя. Розгадуючи таємниці свого походження, герой проходить крізь випробування, зустрічає несподіваних союзників і ворогів. Події розгортаються на тлі мальовничих краєвидів, де кожен крок відкриває новий пласт правди. Це не просто пригодницький роман — це глибоке дослідження людської душі, сили вибору та тіні минулого, яка впливає на майбутнє. Історія зачіпає теми втрат, прощення та сили мрії, яка може змінити все.'
                 }
               />
             </div>
-            <div className={styles['book-modal__details-title']}>
-              Характеристики
-            </div>
+            <div className={styles['book-modal__details-title']}>Характеристики</div>
             <div className={styles['book-modal__details']}>
               <div className={styles['book-modal__detail']}>
                 <img
@@ -99,7 +102,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   src={cardIcons.imgReleaseDate}
                   alt="realeaseImg"
                 />
-                Рік видання: {book.realeaseDate || '2025'}
+                Рік видання: {book.publishedYear || '2025'}
               </div>
               <div className={styles['book-modal__detail']}>
                 <img
@@ -107,7 +110,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   src={cardIcons.city}
                   alt="realeaseImg"
                 />
-                {book.city}
+                {book.owner?.city || 'Місто не вказано'}
               </div>
               <div className={styles['book-modal__detail']}>
                 <img
@@ -115,7 +118,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   src={cardIcons.imgPages}
                   alt="realeaseImg"
                 />
-                Сторінок: {book.pages || '228'}
+                Сторінок: {book.numberOfPages || '228'}
               </div>
               <div className={styles['book-modal__detail']}>
                 <img
@@ -123,7 +126,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   src={cardIcons.imgLanguage}
                   alt="realeaseImg"
                 />
-                {book.language || 'Українська'}
+                {findLabelLanguage(book.language) || 'Українська'}
               </div>
             </div>
             <div className={styles['book-modal__owner']} onClick={onUserClick}>
@@ -139,14 +142,13 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                     <div className={styles['book-modal__owner-name']}>
                       {book.ownerName || 'Ігор Барбан'}
                     </div>
-                    <p className={styles['book-modal__owner-location']}>
-                      Київ, Україна
-                    </p>
+                    <p className={styles['book-modal__owner-location']}>Київ, Україна</p>
                   </div>
                 </div>
               </div>
             </div>
-            {false && (
+            {}
+            {isAuthenticated ? (
               <div className={styles['book-modal__actions']}>
                 <div className={styles['book-modal__save-exchange-box']}>
                   <div className={styles['book-modal__save']}>
@@ -182,14 +184,13 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   />
                 </div>
               </div>
-            )}
-            {true && (
+            ) : (
               <div
                 className={`${styles['book-modal__auth-prompt']} ${styles['auth-prompt']}`}
               >
                 <p className={styles['auth-prompt__description']}>
-                  Увійдіть або зареєструйтеся, щоб зберегти книгу, запропонувати
-                  обмін або переглядати профіль
+                  Увійдіть або зареєструйтеся, щоб зберегти книгу, запропонувати обмін або
+                  переглядати профіль
                 </p>
                 <div
                   onClick={() => navigate('/login')}

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { SetURLSearchParams } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import { SearchQuery } from '../views/SearchQuery';

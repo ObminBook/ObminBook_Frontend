@@ -22,3 +22,7 @@ export const languages = [
   { value: 'cs', label: 'Чеська' },
   { value: 'other', label: 'Інша' },
 ];
+
+export const findLabelLanguage = (value: string) => {
+  return languages.find((el) => el?.value === value)?.label;
+};
