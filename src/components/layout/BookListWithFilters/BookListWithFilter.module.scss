@@ -21,7 +21,17 @@
 }
 
 .searchContainer {
-  width: 783px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+
+  &__input {
+    flex: 3;
+  }
+
+  &__select {
+    flex: 1;
+  }
 }
 
 .sort {

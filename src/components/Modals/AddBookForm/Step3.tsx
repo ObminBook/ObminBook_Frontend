@@ -26,7 +26,7 @@ const Step3: React.FC<Props> = ({ buildErrorMessage }) => {
         'Надішліть книгу поштою — виберіть зручного перевізника і домовтесь про доставку.',
     },
     {
-      title: 'Будь-який',
+      title: 'Будь-який спосіб',
       description:
         'Підійде як зустріч, так і доставка поштою — домовитесь із користувачем після згоди на обмін.',
     },
@@ -42,9 +42,7 @@ const Step3: React.FC<Props> = ({ buildErrorMessage }) => {
           <label
             key={option.title}
             className={`${styles['step3__option']} ${
-              selectedCondition === option.title
-                ? styles['step3__optionSelected']
-                : ''
+              selectedCondition === option.title ? styles['step3__optionSelected'] : ''
             }`}
           >
             <input
@@ -56,9 +54,7 @@ const Step3: React.FC<Props> = ({ buildErrorMessage }) => {
               })}
             />
             <p className={styles['step3__optionTitle']}>{option.title}</p>
-            <p className={styles['step3__optionDescription']}>
-              {option.description}
-            </p>
+            <p className={styles['step3__optionDescription']}>{option.description}</p>
           </label>
         ))}
       </div>

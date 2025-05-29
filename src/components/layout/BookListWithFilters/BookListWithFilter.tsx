@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 
 import styles from './BookListWithFilter.module.scss';
-import SortDropdown from '../../widgets/dropdown/containers/SortDropdown';
 import { SearchQueryContainer } from '../../widgets/searchQuery/containers/SearchQueryContainer';
 import { BookCard } from '@/components/base/bookCards/BookCard/BookCard';
 import {
@@ -14,6 +13,7 @@ import { useEffect, useMemo } from 'react';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { useInView } from 'react-intersection-observer';
 import { SearchBooksRequest } from '@/types/Book';
+import { bookCategories as genres } from '../../../resources/bookCategories/bookCategories';
 
 const BookListWithFilters = () => {
   const dispatch = useAppDispatch();
@@ -70,12 +70,14 @@ const BookListWithFilters = () => {
     <div className={styles.bookList}>
       <div className={styles.search}>
         <div className={styles.searchContainer}>
-          <SearchQueryContainer placeholder="Пошук у результатах" />
+          <div className={styles.searchContainer__input}>
+            <SearchQueryContainer placeholder="Пошук у результатах" />
+          </div>
         </div>
-        <div className={styles.sort}>
+        {/* <div className={styles.sort}>
           <span className={styles.sortTitle}>Сортувати за:</span>
           <SortDropdown />
-        </div>
+        </div> */}
       </div>
 
       <div className={styles.container}>

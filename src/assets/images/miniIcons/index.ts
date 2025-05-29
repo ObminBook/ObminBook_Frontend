@@ -27,8 +27,12 @@ import reportProblem from './reportProblem.svg';
 import reportInfo from './reportInfo.svg';
 import radioChecked from './radioChecked.svg';
 import radioUnchecked from './radioUnchecked.svg';
+import checkboxChecked from './checkboxChecked.svg';
+import checkboxUnchecked from './checkboxUnchecked.svg';
 
 export const miniIcons = {
+  checkboxChecked,
+  checkboxUnchecked,
   radioChecked,
   radioUnchecked,
   reportInfo,

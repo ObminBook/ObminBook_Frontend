@@ -1,110 +1,83 @@
 import React from 'react';
 import styles from './FilterSection.module.scss';
-import { useSearchParams } from 'react-router-dom';
-import MultiSelectCheckboxContainer from '../../base/checkbox/containers/MultiSelectCheckboxContainer';
-import { bookCategories as genres } from '@/resources/bookCategories/bookCategories';
-import { CustomSearchParamMultiSelect } from '@/components/base/customSelect/CustomSearchParamMultiSelect/CustomSearchParamMultiSelect';
+import { miniIcons } from '@/assets/images/miniIcons';
+import { useSelector } from 'react-redux';
+import {
+  select,
+  setCondition,
+  setType,
+} from '@/features/bookSearchSlice/bookSearchSlice';
+import { dispatch } from '@/reduxStore/store';
+import { CustomCategorySelect } from '@/components/base/customSelect/CustomSearchParamMultiSelect/CustomCategorySelect';
+import { Button } from '@/components/base/button/Button';
 
-const states = ['Як нова', 'Дуже добра', 'Добра', 'Прийнятна'];
+const conditions = ['Як нова', 'Дуже добра', 'Добра', 'Прийнятна'];
 const exchangeTypes = ['Особисто', 'По пошті', 'Будь-який спосіб'];
 
 const FilterSection: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const handleCheckboxChange = (type: string, value: string) => {
-    const newParams = new URLSearchParams(searchParams);
-    const currentValues = newParams.getAll(type);
-
-    if (currentValues.includes(value)) {
-      newParams.delete(type, value);
-    } else {
-      newParams.append(type, value);
-    }
-
-    setSearchParams(newParams);
-  };
-
-  const handleReset = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete('categories');
-    params.delete('condition');
-    params.delete('exchangeType');
-
-    setSearchParams(params);
-  };
-
-  const getCheckedStatus = (type: string, value: string) => {
-    return searchParams.getAll(type).includes(value);
-  };
+  const selectedCondition = useSelector(select.condition);
+  const selectedType = useSelector(select.exchangeType);
 
   return (
-    <div className={styles.filters}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>Фільтри</h3>
-        <button className={styles.resetButton} onClick={handleReset}>
-          Очистити все
-        </button>
+    <div className={styles.container}>
+      <div className={styles.clearButton}>
+        <Button _name="Очистити" _buttonVariant="blueTransparent" _fontSize="bold" />
       </div>
-
-      <div className={styles.section}>
-        <div className={styles.block}>Жанр</div>
-        <div className={styles.items}>
-          {/* {genres.map((genre) => (
-            <div
-              key={genre.value}
-              className={styles.item}
-              onClick={() => handleCheckboxChange('genres', genre.value)}
-            >
-              <MultiSelectCheckboxContainer
-                isChecked={getCheckedStatus('genres', genre.value)}
-                onChange={() => handleCheckboxChange('genres', genre.value)}
-              />
-              <div className={styles.itemName}>{genre.label}</div>
-            </div>
-          ))} */}
-          <CustomSearchParamMultiSelect
-            paramKey="categories"
-            options={genres}
-            placeholder="Виберіть категорію"
-          />
+      <div className={styles.filters}>
+        <h3 className={styles.block}>Категорії</h3>
+        <div className={styles.category}>
+          <CustomCategorySelect placeholder="Виберіть категорії" />
         </div>
       </div>
-
-      <div className={styles.section}>
-        <div className={styles.block}>Стан</div>
-        <div className={styles.items}>
-          {states.map((state) => (
-            <div
-              key={state}
-              className={styles.item}
-              onClick={() => handleCheckboxChange('states', state)}
-            >
-              <MultiSelectCheckboxContainer
-                isChecked={getCheckedStatus('states', state)}
-                onChange={() => handleCheckboxChange('states', state)}
-              />
-              <div className={styles.itemName}>{state}</div>
-            </div>
-          ))}
+      <div className={styles.filters}>
+        <div className={styles.section}>
+          <div className={`${styles.block} ${styles.block_condition}`}>Стан</div>
+          <div className={styles.items}>
+            {conditions.map((condition) => (
+              <div
+                key={condition}
+                className={`${styles.item} ${
+                  selectedCondition.includes(condition) && styles.item_active
+                }`}
+                onClick={() => dispatch(setCondition(condition))}
+              >
+                <div className={styles.item__name}>{condition}</div>
+                <img
+                  src={
+                    selectedCondition.includes(condition)
+                      ? miniIcons.checkboxChecked
+                      : miniIcons.checkboxUnchecked
+                  }
+                  alt=""
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className={styles.section}>
-        <div className={styles.block}>Тип обміну</div>
-        <div className={styles.items}>
-          {exchangeTypes.map((type) => (
-            <div
-              key={type}
-              className={styles.item}
-              onClick={() => handleCheckboxChange('exchangeType', type)}
-            >
-              <MultiSelectCheckboxContainer
-                isChecked={getCheckedStatus('exchangeType', type)}
-                onChange={() => handleCheckboxChange('exchangeType', type)}
-              />
-              <div className={styles.itemName}>{type}</div>
-            </div>
-          ))}
+        <div className={styles.section}>
+          <div className={`${styles.block} ${styles.block_excType}`}>Тип обміну</div>
+          <div className={styles.items}>
+            {exchangeTypes.map((type) => (
+              <div
+                key={type}
+                className={`${styles.item} ${
+                  selectedType.includes(type) && styles.item_active
+                }`}
+                onClick={() => dispatch(setType(type))}
+              >
+                <div className={styles.item__name}>{type}</div>
+                <img
+                  src={
+                    selectedType.includes(type)
+                      ? miniIcons.checkboxChecked
+                      : miniIcons.checkboxUnchecked
+                  }
+                  alt=""
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
