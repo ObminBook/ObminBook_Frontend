@@ -12,6 +12,7 @@ export interface Book {
   description: string;
   publishedYear: number;
   numberOfPages: number;
+  additionalInformation: string;
   language: string;
   bookStatus: string;
   creatingDate: string;
@@ -33,7 +34,7 @@ export interface AddBookResponce extends Book {
   owner: User;
 }
 
-export interface SearchBooksResponce {
+export interface BookPage {
   content: Book[];
   totalElements: number;
   totalPages: number;
@@ -51,4 +52,19 @@ export interface SearchBooksRequest {
   exchangeType: string[];
   titleAndAuthor: string;
   totalElements: number;
+}
+
+export interface SavedBookItem {
+  book: Book;
+  userId: number;
+  userEmail: string;
+}
+
+export interface SavedBookResponce {
+  content: SavedBookItem[];
+  totalElements: number;
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+  hasNext: boolean;
 }

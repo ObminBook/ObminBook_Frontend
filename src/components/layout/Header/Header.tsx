@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import UserMenu from '../../widgets/userMenu/UserMenu';
 import { useSelector } from 'react-redux';
 import { select } from '@/features/authSlice/authSlice';
-import HeaderSkeleton from '@/components/skeletons/HeaderSkeleton';
+import { Navbar } from '@/components/widgets/navbar/Navbar';
+import HeaderUserSkeleton from '@/components/skeletons/HeaderSkeleton';
 
 interface HeaderProps {
   showLoginButton?: boolean;
@@ -14,33 +15,18 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   showLoginButton = false,
-  withSkeleton = true,
+  withSkeleton,
   centerLogo = false,
 }) => {
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
-  const isLoading = useSelector(select.loginStatus) === 'loading';
+  const loginStatus = useSelector(select.loginStatus);
 
-  if (isLoading && withSkeleton) {
-    return <HeaderSkeleton />;
-  }
-
-  // const handleFakeAccess = () => {
-  //   console.log('Fake token generated');
-
-  //   localStorage.setItem(
-  //     'accessToken',
-  //     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYXJiYW5paG8yQGdtYWlsLmNvbSIsImlhdCI6MTc0Nzc2NDE5NywiZXhwIjoxNzQ3NzY1Mzk3fQ.zVXEwzCSbMEqxtJ7s1QSn-uJXN_KIstm3uHCcxUGUys'
-  //   );
-  // };
+  const isAuthenticated = loginStatus === 'authenticated';
+  const isLoading = loginStatus === 'loading';
 
   return (
     <header className={styles.header}>
-      <div
-        className={`${
-          centerLogo ? styles.container__center : styles.container
-        }`}
-      >
+      <div className={`${centerLogo ? styles.container__center : styles.container}`}>
         <div
           className={`${centerLogo ? styles.brand__center : styles.brand}`}
           onClick={() => navigate('/')}
@@ -48,19 +34,19 @@ export const Header: React.FC<HeaderProps> = ({
           <img src={logo} alt="header__logo" />
           <span className={styles.title}>ObminBook</span>
         </div>
-        {isAuthenticated && <UserMenu />}
+        {isAuthenticated && <Navbar />}
 
-        {/* <button onClick={() => handleFakeAccess()}>
-          Set random access token
-        </button> */}
-
-        {showLoginButton && !isAuthenticated && (
+        {isLoading && withSkeleton ? (
+          <HeaderUserSkeleton />
+        ) : isAuthenticated ? (
+          <UserMenu />
+        ) : showLoginButton ? (
           <div className={styles.auth}>
             <div className={styles.authBtn} onClick={() => navigate('/login')}>
               Увійти
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </header>
   );

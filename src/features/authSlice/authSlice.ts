@@ -40,10 +40,7 @@ type RegisterPayload = {
 // Async Thunks
 export const login = createAsyncThunk(
   'auth/login',
-  async (
-    { email, password }: { email: string; password: string },
-    thunkAPI
-  ) => {
+  async ({ email, password }: { email: string; password: string }, thunkAPI) => {
     try {
       const loginResponse = await loginRequest(email, password);
       const token = loginResponse.data;
@@ -67,10 +64,7 @@ export const register = createAsyncThunk<
   }
 >(
   'auth/register',
-  async (
-    { email, password, confirmPassword, firstName, lastName },
-    thunkAPI
-  ) => {
+  async ({ email, password, confirmPassword, firstName, lastName }, thunkAPI) => {
     try {
       await registerRequest({
         email,
@@ -91,21 +85,18 @@ export const register = createAsyncThunk<
   }
 );
 
-export const fetchUser = createAsyncThunk(
-  'auth/fetchUser',
-  async (_, thunkAPI) => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) return thunkAPI.rejectWithValue('No token');
+export const fetchUser = createAsyncThunk('auth/fetchUser', async (_, thunkAPI) => {
+  const token = localStorage.getItem('accessToken');
+  if (!token) return thunkAPI.rejectWithValue('No token');
 
-    try {
-      const response = await fetchUserRequest();
-      return response.data;
-    } catch {
-      localStorage.removeItem('accessToken');
-      return thunkAPI.rejectWithValue('Invalid token');
-    }
+  try {
+    const response = await fetchUserRequest();
+    return response.data;
+  } catch {
+    localStorage.removeItem('accessToken');
+    return thunkAPI.rejectWithValue('Invalid token');
   }
-);
+});
 
 export const verification = createAsyncThunk(
   'auth/verification',
@@ -218,7 +209,15 @@ const authSlice = createSlice({
         state.loginStatus = 'unauthenticated';
         state.error = { field: '', message: 'Token invalid or missing' };
       })
-      .addCase(logout.fulfilled, () => initialState);
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+        state.loginStatus = 'unauthenticated';
+        state.registerStatus = 'idle';
+        state.verificationStatus = 'idle';
+        state.error = null;
+        state.isVerificationRequired = false;
+        state.isCodeResent = false;
+      });
   },
 });
 
@@ -227,17 +226,12 @@ export const select = {
   loginStatus: (state: RootState) => state.auth.loginStatus,
   registerStatus: (state: RootState) => state.auth.registerStatus,
   verificationStatus: (state: RootState) => state.auth.verificationStatus,
-  isVerificationRequired: (state: RootState) =>
-    state.auth.isVerificationRequired,
+  isVerificationRequired: (state: RootState) => state.auth.isVerificationRequired,
   error: (state: RootState) => state.auth.error,
   isCodeResent: (state: RootState) => state.auth.isCodeResent,
 };
 
-export const {
-  setStateError,
-  setDefault,
-  setCodeResent,
-  setVerificationRequired,
-} = authSlice.actions;
+export const { setStateError, setDefault, setCodeResent, setVerificationRequired } =
+  authSlice.actions;
 
 export default authSlice.reducer;

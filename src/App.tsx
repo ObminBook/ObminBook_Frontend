@@ -18,6 +18,9 @@ import PublicRoute from './components/routes/PublicRoute';
 import ProtectedRoute from './components/routes/ProtectedRoute';
 import { Support } from './pages/Support/Support';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
   const dispatch = useAppDispatch();
 
@@ -27,15 +30,25 @@ const App = () => {
 
   return (
     <Router>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
       <Routes>
-        {/* Гостьові маршрути */}
+        {/* Публічні маршрути */}
         <Route path="/" element={<HomePage />} />
-        <Route path="support" element={<Support />} />
+        <Route path="/support" element={<Support />} />
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
+        {/* Загальні маршрути */}
         <Route path="/search" element={<BookSearchPage />} />
         <Route path="/chat" element={<ChatPage />} />
 
@@ -43,12 +56,8 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/obmin" element={<ExchangeProposalPage />} />
           <Route path="/personal" element={<PersonalInfo />} />
-
-          <Route path="/profile" element={<UserProfile />}>
-            <Route path="my" element={<div>Мої книги</div>} />
-            <Route path="saved" element={<div>Збережені книги</div>} />
-            <Route path="requests" element={<div>Всі запити</div>} />
-          </Route>
+          <Route path="/messages" element={<ChatPage />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Route>
       </Routes>
     </Router>

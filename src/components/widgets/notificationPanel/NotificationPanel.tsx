@@ -1,45 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './NotificationPanel.module.scss';
+import { miniIcons } from '@/assets/images/miniIcons';
+import { notificationApi } from '@/api/booksApi';
+import { showErrorToast } from '@/components/customToast/toastUtils';
+import { UserNotification } from '@/types/UserNotification';
 
-const notifications = [
-  {
-    id: 1,
-    name: 'Імʼя Фамілія',
-    time: '2 дні тому',
-    text: 'Надіслано запит на обмін "Назва Книги"',
-    status: 'очікує',
-    message: 'Я хотів би обміняти будь-яку свою книгу на вашу',
-  },
-  // ...інші сповіщення
-];
+const NotificationsPanel: React.FC = () => {
+  const [notifications, setNotifications] = useState<UserNotification[]>([]);
 
-const NotificationsPanel: React.FC = () => (
-  <div className={styles['notifications-panel']}>
-    <div className={styles['notifications-panel__header']}>Сповіщення</div>
-    <div className={styles['notifications-panel__list']}>
-      {notifications.map((n) => (
-        <div key={n.id} className={styles['notifications-panel__item']}>
-          <div className={styles['notifications-panel__info']}>
-            <span className={styles['notifications-panel__name']}>
-              {n.name}
-            </span>
-            <span className={styles['notifications-panel__time']}>
-              {n.time}
-            </span>
+  useEffect(() => {
+    const fetchNotification = async () => {
+      try {
+        const data = await notificationApi.getNotifications();
+        setNotifications(data.content);
+      } catch {
+        showErrorToast('Не вдалося завантажити notifications');
+      }
+    };
+
+    fetchNotification();
+  }, []);
+
+  return (
+    <div className={styles.panel}>
+      <div className={styles.header}>
+        <img className={styles.imgBell} src={miniIcons.bell} alt="imgBell" />
+        <h4 className={styles.title}>Сповіщення</h4>
+      </div>
+      <div className={styles.list}>
+        {notifications.map((n, index) => (
+          <div key={index} className={styles.item}>
+            <p>{n.body}</p>
           </div>
-          <div className={styles['notifications-panel__text']}>{n.text}</div>
-          <div className={styles['notifications-panel__message']}>
-            {n.message}
-          </div>
-          <div className={styles[`notifications-panel__status--${n.status}`]}>
-            {n.status === 'очікує' && <button>Очікує</button>}
-            {n.status === 'прийнято' && <button>Прийнято</button>}
-            {n.status === 'відхилено' && <button>Відхилено</button>}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default NotificationsPanel;

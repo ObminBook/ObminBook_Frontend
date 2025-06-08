@@ -1,7 +1,8 @@
-@use '../../../styles/variables.scss' as *;
+@use '../../../styles/fonts.scss' as *;
 
 .footer {
   display: flex;
+  flex-shrink: 0;
   width: 100%;
   height: 64px;
   padding: 22px 40px;

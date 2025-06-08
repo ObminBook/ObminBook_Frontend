@@ -1,5 +1,5 @@
 @use '../../styles/mixins' as *;
-@use '../../styles/variables.scss' as *;
+@use '../../styles/fonts.scss' as *;
 
 .exchangePage {
   background: $main-background-color;
@@ -43,5 +43,6 @@
     display: flex;
     gap: 24px;
     justify-content: center;
+    align-items: center;
   }
 }

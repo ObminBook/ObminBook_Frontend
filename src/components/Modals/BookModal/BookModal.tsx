@@ -22,6 +22,9 @@ interface Props {
 export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
+  const user = useSelector(select.user);
+  const isUsersBook = user?.id === book.owner.id;
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -39,11 +42,29 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
   return (
     <div className={styles['book-modal']}>
       <div className={styles['book-modal__content']}>
-        <div className={styles['book-modal__cover']}>
+        <div className={styles['book-modal__imgContainer']}>
           <img
+            className={
+              book.coverImage === 'NOT FOUND'
+                ? styles['book-modal__mockedImg']
+                : styles['book-modal__img']
+            }
             src={book.coverImage === 'NOT FOUND' ? coverPlaceholder : book.coverImage}
             alt="Обкладинка тимчасово недоступна"
           />
+          {isUsersBook && (
+            <div className={styles.yourBook}>
+              <div className={styles.yourBook__imgContainer}>
+                <img
+                  className={styles.yourBook__img}
+                  src={miniIcons.yourbook}
+                  alt="yourbook"
+                />
+              </div>
+
+              <div className={styles.yourBook__text}>{`Ваша книжка`}</div>
+            </div>
+          )}
         </div>
 
         <div className={styles['book-modal__info']}>
@@ -88,12 +109,17 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
             </div>
             <div className={styles['book-modal__description']}>
               <div className={styles['book-modal__description-title']}>Опис</div>
-              <TruncatedText
-                text={
-                  'У захопливій подорожі крізь час і простір герой намагається розгадати таємниці минулого, борючись із внутрішніми демонами та зовнішніми ворогами. Це глибока історія про вибір, самопізнання та силу надії, що змінює долі цілих поколінь.Ця книжка — захоплива історія про людину, яка вирушає в подорож, щоб знайти відповіді на питання, що мучили її все життя. Розгадуючи таємниці свого походження, герой проходить крізь випробування, зустрічає несподіваних союзників і ворогів. Події розгортаються на тлі мальовничих краєвидів, де кожен крок відкриває новий пласт правди. Це не просто пригодницький роман — це глибоке дослідження людської душі, сили вибору та тіні минулого, яка впливає на майбутнє. Історія зачіпає теми втрат, прощення та сили мрії, яка може змінити все.'
-                }
-              />
+              {book.description ? (
+                book.description.length < 150 ? (
+                  <p>{book.description}</p>
+                ) : (
+                  <TruncatedText text={book.description} />
+                )
+              ) : (
+                <p>Власник ще не додав опис до цієї книги</p>
+              )}
             </div>
+
             <div className={styles['book-modal__details-title']}>Характеристики</div>
             <div className={styles['book-modal__details']}>
               <div className={styles['book-modal__detail']}>
@@ -102,7 +128,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   src={cardIcons.imgReleaseDate}
                   alt="realeaseImg"
                 />
-                Рік видання: {book.publishedYear || '2025'}
+                Рік видання: {book.publishedYear || '-'}
               </div>
               <div className={styles['book-modal__detail']}>
                 <img
@@ -118,7 +144,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   src={cardIcons.imgPages}
                   alt="realeaseImg"
                 />
-                Сторінок: {book.numberOfPages || '228'}
+                Сторінок: {book.numberOfPages || '-'}
               </div>
               <div className={styles['book-modal__detail']}>
                 <img
@@ -134,20 +160,22 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
               <div className={styles['book-modal__owner-container']}>
                 <img
                   className={styles['book-modal__owner-img']}
-                  src={avatar}
-                  alt="Марія Петренко"
+                  src={book.owner.profilePicture || avatar}
+                  alt="Author"
                 />
                 <div>
                   <div className={styles['book-modal__owner-name-location']}>
                     <div className={styles['book-modal__owner-name']}>
-                      {book.ownerName || 'Ігор Барбан'}
+                      {book.owner.firstName + ' ' + book.owner.lastName || 'Ігор Барбан'}
                     </div>
-                    <p className={styles['book-modal__owner-location']}>Київ, Україна</p>
+                    <p className={styles['book-modal__owner-location']}>
+                      {book.owner.city || 'Київ'}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            {}
+
             {isAuthenticated ? (
               <div className={styles['book-modal__actions']}>
                 <div className={styles['book-modal__save-exchange-box']}>
@@ -159,6 +187,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                       _icon={miniIcons.buttHeartBlue}
                       _type="button"
                       _iconPosition="left"
+                      _disabled={isUsersBook}
                     />
                   </div>
                   <div className={styles['book-modal__exchange']}>
@@ -169,6 +198,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                       _icon={miniIcons.buttObmin}
                       _type="button"
                       _iconPosition="left"
+                      _disabled={isUsersBook}
                     />
                   </div>
                 </div>

@@ -1,21 +1,22 @@
 import React, { useEffect } from 'react';
 import styles from './UserProfile.module.scss';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import NotificationsPanel from '../../components/widgets/notificationPanel/NotificationPanel';
 import { Footer } from '../../components/layout/Footer/Footer';
 import avatar from '../../assets/images/common/avatar.svg';
 import { miniIcons } from '../../assets/images/miniIcons';
 import { Header } from '../../components/layout/Header/Header';
-import AddBookCard from '../../components/base/bookCards/AddBookCard/AddBookCard';
-import { SimpleBookCard } from '../../components/base/bookCards/SimpleBookCard/SimpleBookCard';
 import { useSelector } from 'react-redux';
 import { select as authSelect } from '@/features/authSlice/authSlice';
 import {
   getMyBooks,
+  getSavedBooks,
   select as manageBooksSelect,
-  setMyBooksPageNumber,
 } from '@/features/manageBookSlice/manageBookSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { ListSavedBooks } from '@/components/widgets/listSavedBooks/ListSavedBooks';
+import { ListMyBooks } from '@/components/widgets/listMyBooks/ListMyBooks';
+import classNames from 'classnames';
 
 const TABS = [
   { key: 'my', label: 'Мої книги', img: miniIcons.iconOpenBook },
@@ -28,48 +29,50 @@ const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useSelector(authSelect.user);
   const userBooks = useSelector(manageBooksSelect.myBooks);
-  const pageNumber = useSelector(manageBooksSelect.myBooksPageNumber);
-  const fetchStatus = useSelector(manageBooksSelect.fetchMyStatus);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const savedBooksItems = useSelector(manageBooksSelect.savedBooks);
+
+  const tab = searchParams.get('tab') || 'my';
 
   useEffect(() => {
-    // Завантажуємо першу сторінку книг
+    dispatch(getSavedBooks());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!searchParams.get('tab')) {
+      setSearchParams({ tab: 'my' });
+    }
+  }, [searchParams, setSearchParams]);
+
+  useEffect(() => {
     dispatch(getMyBooks());
   }, [dispatch]);
 
-  // Функція для завантаження наступної сторінки книг
-  const loadMoreBooks = () => {
-    if (fetchStatus !== 'pending') {
-      dispatch(setMyBooksPageNumber(pageNumber + 1));
-      dispatch(getMyBooks());
-    }
+  const handleTabChange = (tabKey: string) => {
+    setSearchParams({ tab: tabKey });
   };
 
   return (
-    <div className={styles['user-profile']}>
+    <div className={styles.wrapper}>
       <Header />
-      <main className={styles['user-profile__main']}>
-        <div className={styles['user-profile__content']}>
-          <div className={styles['user-profile__header']}>
-            <div className={styles['user-profile__info']}>
-              <div className={`${styles['owner']} ${styles['user-profile__owner']}`}>
-                <div className={styles['owner__container']}>
-                  <img
-                    className={styles['owner__img']}
-                    src={avatar}
-                    alt={'Аватар користувача'}
-                  />
-                  <div>
-                    <div className={styles['owner__name-location']}>
-                      <div className={styles['owner__name']}>
+      <div className={styles.page}>
+        <main className={styles.main}>
+          <div className={styles.content}>
+            <div className={styles.header}>
+              <div className={styles.info}>
+                <div className={styles.owner}>
+                  <div className={styles.ownerContainer}>
+                    <img
+                      className={styles.avatar}
+                      src={avatar}
+                      alt="Аватар користувача"
+                    />
+                    <div className={styles.details}>
+                      <div className={styles.name}>
                         {user ? `${user.firstName} ${user.lastName}` : 'Непрацюючий Юзер'}
                       </div>
-                      <p className={styles['owner__location']}>
-                        {user?.city || 'Київ, Україна'}
-                      </p>
-                      <p
-                        className={styles['owner__config']}
-                        onClick={() => navigate('/personal')}
-                      >
+                      <p className={styles.location}>{user?.city || 'Київ, Україна'}</p>
+                      <p className={styles.config} onClick={() => navigate('/personal')}>
                         Налаштування
                       </p>
                     </div>
@@ -78,65 +81,41 @@ const UserProfile: React.FC = () => {
               </div>
             </div>
 
-            <div className={styles['user-profile__notifications']}>
-              <img
-                src={miniIcons.buttMessage}
-                className={styles['user-profile__notifications-img']}
-                alt="Повідомлення"
-              />
-              <span className={styles['user-profile__notifications-text']}>
-                Повідомлення
-              </span>
-            </div>
-          </div>
-          <div className={styles['user-profile__body']}>
-            <div className={styles['user-profile__books']}>
-              <div className={styles['user-profile__tabs']}>
-                {TABS.map((tab) => (
-                  <NavLink
-                    key={tab.key}
-                    to={`/profile/${tab.key}`}
-                    className={({ isActive }) =>
-                      `${styles['user-profile__tab']} ${
-                        isActive ? styles['user-profile__tab--active'] : ''
-                      }`
-                    }
-                  >
-                    <img
-                      className={styles['user-profile__tab-img']}
-                      src={tab.img}
-                      alt={tab.label}
-                    />
-                    {tab.label}
-                    <div className={styles['user-profile__tab-count']}>
-                      {userBooks?.length || '0'}
-                    </div>
-                  </NavLink>
-                ))}
-              </div>
-              <div className={styles['user-profile__book-list']}>
-                <div className={styles['user-profile__user-book-card']}>
-                  <AddBookCard />
+            <div className={styles.body}>
+              <div className={styles.manager}>
+                <div className={styles.tabs}>
+                  {TABS.map((tabItem) => (
+                    <button
+                      key={tabItem.key}
+                      onClick={() => handleTabChange(tabItem.key)}
+                      className={classNames(styles.tab, {
+                        [styles.activeTab]: tab === tabItem.key,
+                      })}
+                    >
+                      <img
+                        className={styles.tabImg}
+                        src={tabItem.img}
+                        alt={tabItem.label}
+                      />
+                      {tabItem.label}
+                      <div className={styles.count}>
+                        {tabItem.key === 'my' ? userBooks?.length || 0 : ''}
+                        {tabItem.key === 'saved' ? savedBooksItems?.length || 0 : ''}
+                      </div>
+                    </button>
+                  ))}
                 </div>
-                {userBooks.map((book) => (
-                  <div className={styles['user-profile__user-book-card']} key={book.id}>
-                    <SimpleBookCard book={book} />
-                  </div>
-                ))}
+
+                {tab === 'my' && <ListMyBooks />}
+                {tab === 'saved' && <ListSavedBooks />}
+                {tab === 'requests' && <p>Тут буде компонент запитів</p>}
               </div>
-              {/* Кнопка для підвантаження ще книг */}
-              <div style={{ textAlign: 'center', margin: '20px 0' }}>
-                {fetchStatus === 'pending' ? (
-                  <span>Завантаження...</span>
-                ) : (
-                  <button onClick={loadMoreBooks}>Завантажити ще</button>
-                )}
-              </div>
+
+              <NotificationsPanel />
             </div>
-            <NotificationsPanel />
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
       <Footer />
     </div>
   );

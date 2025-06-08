@@ -5,11 +5,14 @@ import { Loader } from '../base/Loader/Loader';
 
 const ProtectedRoute = () => {
   const authStatus = useSelector(select.loginStatus);
-  const isAuthenticated = authStatus === 'authenticated';
-  const isAuthLoading = authStatus === 'loading';
 
-  if (isAuthLoading) {
-    // Поки йде перевірка, можна показати спінер або пустий екран
+  // 🔁 Перенаправляємо одразу, якщо користувач неавторизований
+  if (authStatus === 'unauthenticated') {
+    return <Navigate to="/login" replace />;
+  }
+
+  // ⏳ Показуємо лоадер при завантаженні або невизначеному статусі
+  if (authStatus === 'idle' || authStatus === 'loading') {
     return (
       <div
         style={{
@@ -18,19 +21,16 @@ const ProtectedRoute = () => {
           height: '100vh',
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor: 'rgba(0, 0, 0, 0.35)',
+          zIndex: 9999,
         }}
       >
-        <Loader />
+        <Loader size={60} />
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    // Якщо не авторизований — редірект на логін
-    return <Navigate to="/login" replace />;
-  }
-
-  // Якщо авторизований — показуємо сторінку
+  // ✅ Якщо все добре — рендеримо дочірні маршрути
   return <Outlet />;
 };
 

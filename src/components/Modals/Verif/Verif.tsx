@@ -4,15 +4,12 @@ import { Button } from '../../base/button/Button';
 import InputVerif from '../../base/InputVerif/InputVerif';
 import styles from './Verif.module.scss';
 import { useAppDispatch } from '../../../reduxHooks/useAppDispatch';
-import {
-  select,
-  setDefault,
-  verification,
-} from '../../../features/authSlice/authSlice';
+import { select, setDefault, verification } from '../../../features/authSlice/authSlice';
 import { useSelector } from 'react-redux';
 import { Loader } from '../../base/Loader/Loader';
 import ResendCodeButton from '../../base/ResendCodeButton/ResendCodeButton';
 import { useNavigate } from 'react-router-dom';
+import { SuccessModal } from '../SuccessModal/SuccessModal';
 
 interface Props {
   enteredEmail: string;
@@ -52,14 +49,7 @@ export const Verif: React.FC<Props> = ({ enteredEmail, onResend }) => {
     <div className={styles.confirm}>
       <div className={styles.content}>
         {isSuccess ? (
-          <div className={styles.verificationSuccess}>
-            <img
-              src={miniIcons.recentIcon}
-              alt="Успішно"
-              className={styles.successIcon}
-            />
-            <h2>Верифікація пройшла успішно!</h2>
-          </div>
+          <SuccessModal title="Верифікація пройшла успішно!" />
         ) : (
           <>
             <img
@@ -77,11 +67,7 @@ export const Verif: React.FC<Props> = ({ enteredEmail, onResend }) => {
             </div>
             {isVerifError && (
               <div className={styles.errMessage}>
-                <img
-                  className={styles.errIcon}
-                  src={miniIcons.errIcon}
-                  alt="errIcon"
-                />
+                <img className={styles.errIcon} src={miniIcons.errIcon} alt="errIcon" />
                 Код не дійсний. Спробуйте надіслати новий код
               </div>
             )}
@@ -109,11 +95,7 @@ export const Verif: React.FC<Props> = ({ enteredEmail, onResend }) => {
                   dispatch(setDefault());
                 }}
               >
-                <Button
-                  _name="Скасувати"
-                  _buttonVariant="social"
-                  _fontSize="bold"
-                />
+                <Button _name="Скасувати" _buttonVariant="social" _fontSize="bold" />
               </div>
 
               <div

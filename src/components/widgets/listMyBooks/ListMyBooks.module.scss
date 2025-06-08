@@ -1,0 +1,18 @@
+.container {
+  width: 100%;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bookList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.bookCard {
+  width: 248px;
+  height: 394px;
+  position: relative;
+}

@@ -1,11 +1,12 @@
 import { booksApi } from '@/api/booksApi';
 import { RootState } from '@/reduxStore/store';
-import { Book, SearchBooksRequest, SearchBooksResponce } from '@/types/Book';
+import { Book, SearchBooksRequest, BookPage } from '@/types/Book';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 interface BookFilterState {
   books: Book[];
   booksLoadingState: 'idle' | 'pending' | 'succeeded' | 'failed';
+  isFetchingNextPage: boolean;
   titleAndAuthor: string;
   categories: string[];
   condition: string[];
@@ -20,6 +21,7 @@ interface BookFilterState {
 const initialState: BookFilterState = {
   books: [],
   booksLoadingState: 'idle',
+  isFetchingNextPage: false,
   titleAndAuthor: '',
   categories: [],
   condition: [],
@@ -31,7 +33,7 @@ const initialState: BookFilterState = {
   totalElements: 0,
 };
 
-export const searchBooks = createAsyncThunk<SearchBooksResponce, SearchBooksRequest>(
+export const searchBooks = createAsyncThunk<BookPage, SearchBooksRequest>(
   'bookFilter/search',
   async (filterParams, thunkAPI) => {
     try {
@@ -98,13 +100,31 @@ const bookSearchSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(searchBooks.pending, (state) => {
-        state.booksLoadingState = 'pending';
+        if (state.page === 0) {
+          state.booksLoadingState = 'pending';
+        } else {
+          state.isFetchingNextPage = true;
+        }
       })
       .addCase(searchBooks.fulfilled, (state, action) => {
-        state.books.push(...action.payload.content);
+        if (state.page === 0) {
+          // Перше завантаження
+          state.books = action.payload.content;
+          state.booksLoadingState = 'succeeded';
+        } else {
+          // Додаткове завантаження - додаємо до списку
+          state.books.push(...action.payload.content);
+          state.isFetchingNextPage = false;
+        }
         state.hasNext = action.payload.hasNext;
         state.totalElements = action.payload.totalElements;
-        state.booksLoadingState = 'succeeded';
+      })
+      .addCase(searchBooks.rejected, (state) => {
+        if (state.page === 0) {
+          state.booksLoadingState = 'failed';
+        } else {
+          state.isFetchingNextPage = false;
+        }
       });
   },
 });
@@ -121,6 +141,7 @@ export const select = {
   sort: (state: RootState) => state.bookFilters.sort,
   hasNext: (state: RootState) => state.bookFilters.hasNext,
   totalElements: (state: RootState) => state.bookFilters.totalElements,
+  isFetchingNextPage: (state: RootState) => state.bookFilters.isFetchingNextPage,
 };
 
 export const {

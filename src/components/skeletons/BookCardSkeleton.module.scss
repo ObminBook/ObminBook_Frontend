@@ -1,0 +1,7 @@
+// BookCardSkeleton.module.scss
+@use '../base/bookCards/BookCard/BookCardVariables.scss' as *;
+
+.skeleton {
+  width: $cardWidth;
+  height: $cardHeight;
+}

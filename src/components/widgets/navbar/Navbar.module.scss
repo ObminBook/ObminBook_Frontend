@@ -1,0 +1,31 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/fonts.scss' as *;
+
+.navbar {
+}
+
+.content {
+  width: 565px;
+  height: 100%;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+}
+
+.item {
+  padding: 22px 22px 22px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+
+  @include fontSec--gray;
+}
+
+.active {
+  border-bottom: 3px solid $color-blue;
+}

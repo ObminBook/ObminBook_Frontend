@@ -1,40 +1,46 @@
 // ExchangeProposalPage.tsx
 import styles from './ExchangeProposalPage.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import {
-  setAnyCard,
-  removeMyBook,
-} from '../../features/exchangeSlice/exchangeSlice';
+import { useSelector } from 'react-redux';
 
-import { getMockBooksByPage } from '../../books/books';
 import { miniIcons } from '../../assets/images/miniIcons';
 import { Header } from '../../components/layout/Header/Header';
-import { Button } from '../../components/base/button/Button';
 import { ListMiniCards } from '../../components/widgets/listMiniCards/ListMiniCards';
 import { ExchangeBlock } from '../../components/layout/ExchangeBlock/ExchangeBlock';
 import { Footer } from '../../components/layout/Footer/Footer';
+import {
+  getMyBooks,
+  getTargetUser,
+  select as manageSelect,
+} from '@/features/manageBookSlice/manageBookSlice';
+import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { useEffect } from 'react';
+import { select as exchangeSelect } from '@/features/exchangeSlice/exchangeSlice';
 
 export const ExchangeProposalPage = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const myBooks = useSelector(manageSelect.myBooks);
+  const targetUser = useSelector(manageSelect.targetUser);
+  const targetUserId = useSelector(exchangeSelect.anotherUserBook)?.owner.id;
 
-  const myBooks = getMockBooksByPage(1, 4).content;
-  const anotherUserBooks = getMockBooksByPage(2, 4).content;
+  useEffect(() => {
+    if (myBooks.length === 0) {
+      dispatch(getMyBooks());
+    }
 
-  const handleSelectAnyCard = () => {
-    dispatch(removeMyBook());
-    dispatch(setAnyCard({ text: 'Обмін на будь-яку мою книгу' }));
-  };
+    console.log(targetUserId);
+
+    if (targetUserId) {
+      dispatch(getTargetUser(String(targetUserId)));
+    }
+  }, []);
 
   return (
     <div className={styles.exchangePage}>
       <Header />
       <main className={styles.exchangePage__content}>
-        <button
-          className={styles.exchangePage__backButton}
-          onClick={() => navigate(-1)}
-        >
+        <button className={styles.exchangePage__backButton} onClick={() => navigate(-1)}>
           <img
             src={miniIcons.backButton}
             alt="Назад"
@@ -46,27 +52,13 @@ export const ExchangeProposalPage = () => {
         <h1 className={styles.exchangePage__title}>Пропозиція обміну</h1>
 
         <div className={styles.exchangePage__blocks}>
-          <div
-            className={styles.exchangePage__anyButton}
-            onClick={handleSelectAnyCard}
-          >
-            <Button
-              _buttonVariant="blueTransparent"
-              _name="Обмін на будь-яку мою книгу"
-            />
-          </div>
-
-          <ListMiniCards
-            title="Мої книги"
-            books={myBooks}
-            cardsType="myCards"
-          />
+          <ListMiniCards title="Мої книги" books={myBooks} cardsType="myCards" />
 
           <ExchangeBlock />
 
           <ListMiniCards
-            title="Книги користувача Піся Камушкін"
-            books={anotherUserBooks}
+            title={`Книги ${targetUser?.user.firstName} ${targetUser?.user.lastName}`}
+            books={targetUser?.books.content || []}
             cardsType="anotherUserCards"
           />
         </div>

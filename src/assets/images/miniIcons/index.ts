@@ -29,8 +29,20 @@ import radioChecked from './radioChecked.svg';
 import radioUnchecked from './radioUnchecked.svg';
 import checkboxChecked from './checkboxChecked.svg';
 import checkboxUnchecked from './checkboxUnchecked.svg';
+import yourbook from './yourBook.svg';
+import navbarHome from './navbar/navbarHome.svg';
+import navbarSearch from './navbar/navbarSearch.svg';
+import navbarProfile from './navbar/navbarProfile.svg';
+import navbarMessage from './navbar/navbarMessage.svg';
+import bell from './bell.svg';
 
 export const miniIcons = {
+  bell,
+  navbarHome,
+  navbarSearch,
+  navbarProfile,
+  navbarMessage,
+  yourbook,
   checkboxChecked,
   checkboxUnchecked,
   radioChecked,

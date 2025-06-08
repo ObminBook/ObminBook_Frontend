@@ -10,7 +10,12 @@ export const TruncatedText = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
 
+  const isShortText = text.length <= 150;
   const isTruncated = text.length > maxChars;
+
+  if (isShortText) {
+    return <p className={styles.text}>{text}</p>;
+  }
 
   return (
     <p className={`${styles.text} ${expanded ? styles.expanded : ''}`}>
@@ -22,12 +27,12 @@ export const TruncatedText = ({
           </span>
         </>
       ) : (
-        <p>
+        <>
           {text}
           <span onClick={() => setExpanded(false)} className={styles.more}>
             &nbsp;Згорнути
           </span>
-        </p>
+        </>
       )}
     </p>
   );

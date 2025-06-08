@@ -2,11 +2,10 @@ import { miniIcons } from '../../../../assets/images/miniIcons';
 import { cardIcons } from '../../../../assets/images/cardBook/cardDetails';
 import { removeAnyCard } from '../../../../features/exchangeSlice/exchangeSlice';
 import { useAppDispatch } from '../../../../reduxHooks/useAppDispatch';
-import { AnyBook } from '../../../../types/AnyBook';
 import styles from './AnyBookCard.module.scss';
 
 interface AnyBookCardProps {
-  book: AnyBook | null;
+  book: { text: string } | null;
 }
 
 export const AnyBookCard: React.FC<AnyBookCardProps> = ({ book }) => {
@@ -18,20 +17,11 @@ export const AnyBookCard: React.FC<AnyBookCardProps> = ({ book }) => {
   };
 
   return (
-    <div className={styles.card}>
-      <img
-        className={styles.deleteIcon}
-        src={miniIcons.buttRemoveCard}
-        alt="icon"
-        onClick={handleRemoveClick}
-      />
+    <div className={styles.card} onClick={handleRemoveClick}>
+      <img className={styles.deleteIcon} src={miniIcons.buttRemoveCard} alt="icon" />
 
       <div className={styles.imageContainer}>
-        <img
-          className={styles.image}
-          src={cardIcons.anyBookIcon}
-          alt="anyBookImage"
-        />
+        <img className={styles.image} src={cardIcons.anyBookIcon} alt="anyBookImage" />
       </div>
 
       <div className={styles.info}>

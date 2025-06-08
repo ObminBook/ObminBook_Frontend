@@ -1,19 +1,53 @@
 import { miniIcons } from '../../../assets/images/miniIcons';
-import { User } from '../../../types/User';
 import styles from './TargetUserModal.module.scss';
 import avatar from '../../../assets/images/common/avatar.svg';
 import { BookCard } from '../../base/bookCards/BookCard/BookCard';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  clearTargetUser,
+  getTargetUser,
+  select,
+} from '@/features/manageBookSlice/manageBookSlice';
+import { dispatch } from '@/reduxStore/store';
 
 interface Props {
   onClose: () => void;
-  targetUser: User;
+  targetUserId: number;
 }
 
-export const TargetUserModal: React.FC<Props> = ({ onClose, targetUser }) => {
+export const TargetUserModal: React.FC<Props> = ({ onClose, targetUserId }) => {
+  const targetUser = useSelector(select.targetUser);
+
+  useEffect(() => {
+    dispatch(getTargetUser(String(targetUserId)));
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        dispatch(clearTargetUser());
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
   return (
     <div className={styles['targetUser']}>
       <div className={styles['targetUser__content']}>
-        <button className={styles['targetUser__close']} onClick={onClose}>
+        <button
+          className={styles['targetUser__close']}
+          onClick={() => {
+            onClose();
+            clearTargetUser();
+          }}
+        >
           <img
             src={miniIcons.closeIcon}
             alt="close-modal"
@@ -24,18 +58,18 @@ export const TargetUserModal: React.FC<Props> = ({ onClose, targetUser }) => {
           <div className={styles['owner__container']}>
             <img
               className={styles['owner__img']}
-              src={targetUser.avatar || avatar}
+              src={targetUser?.user.profilePicture || avatar}
               alt="Марія Петренко"
             />
             <div>
               <div className={styles['owner__name-location']}>
                 <div className={styles['owner__name']}>
                   {targetUser
-                    ? `${targetUser?.firstName} ${targetUser?.lastName}`
-                    : 'Піся Камушкін'}
+                    ? `${targetUser.user.firstName} ${targetUser.user.lastName}`
+                    : 'Невідоми користувач'}
                 </div>
                 <p className={styles['owner__location']}>
-                  {targetUser.city || 'Київ, Україна'}
+                  {targetUser?.user.city || 'Київ, Україна'}
                 </p>
               </div>
             </div>
@@ -43,30 +77,24 @@ export const TargetUserModal: React.FC<Props> = ({ onClose, targetUser }) => {
         </div>
         <div className={styles['owner__statisticBlock']}>
           <div className={styles['owner__statisticField']}>
-            <h2 className={styles['owner__statisticField-title']}>
-              {targetUser.succesfullExchanges || 0}
-            </h2>
+            <h2 className={styles['owner__statisticField-title']}>{0}</h2>
             <div className={styles['owner__statisticField-info']}>Обмінів</div>
           </div>
           <div className={styles['owner__statisticField']}>
             <h2 className={styles['owner__statisticField-title']}>
-              {targetUser.books.length || 0}
+              {0}{' '}
+              {
+                // ТУТ ТРЕБА ДОДАТИ КІЛЬКІСТЬ УСПІШНИХ ОБМІНІВ ЗАМІСТЬ 0
+              }
             </h2>
             <div className={styles['owner__statisticField-info']}>Книг</div>
           </div>
         </div>
-        {/* {targetUser.about && (
-          <div className={styles['targetUser__about']}>
-            <h5 className={styles['targetUser__aboutTitle']}></h5>
-          </div> // Якщо тут зʼявиться about про юзера
-        )} */}
 
         <div className={styles['targetUser__books']}>
-          <h5 className={styles['targetUser__booksTitle']}>
-            Книги користувача
-          </h5>
+          <h5 className={styles['targetUser__booksTitle']}>Книги користувача</h5>
           <div className={styles['targetUser__booksList']}>
-            {targetUser.books.map((book) => {
+            {targetUser?.books?.content?.map((book) => {
               return <BookCard book={book} key={book.id} />;
             })}
           </div>

@@ -2,33 +2,34 @@
 import styles from './AddBookCard.module.scss';
 import { useHover } from '../../../../hooks/useHover';
 import { cardIcons } from '../../../../assets/images/cardBook/cardDetails';
-import { AddBookForm_Portal } from '../../../modals/AddBookForm/AddBookForm_Portal';
 import { useState } from 'react';
-import { AddCityPortal } from '../../../modals/AddCity/AddCity_Portal';
 import { select } from '@/features/authSlice/authSlice';
 import { useSelector } from 'react-redux';
+import { AddBookForm_Portal } from '@/components/modals/AddBookForm/AddBookForm_Portal';
+import { AddCityPortal } from '@/components/modals/AddCity/AddCity_Portal';
 
-const AddBookCard = () => {
-  const { ref, isHovered } = useHover();
+interface Props {
+  isCard?: boolean;
+}
+
+const AddBookCard: React.FC<Props> = ({ isCard = false }) => {
+  const { hoverRef, isHovered } = useHover();
   const [showAddForm, setShowAddForm] = useState(false);
   const [showCityForm, setShowCityForm] = useState(false);
 
   const user = useSelector(select.user);
-  const mockedBookLength = 1;
 
   const handleCardClick = () => {
-    // if (!user?.city) {
-    //   setShowCityForm(true);
-    //   return;
-    // }
-
-    if (mockedBookLength) {
+    if (!user?.city) {
+      setShowCityForm(true);
+      return;
+    } else {
       setShowAddForm(true);
     }
   };
 
   return (
-    <div className={styles.bookCard} ref={ref} onClick={handleCardClick}>
+    <div className={styles.bookCard} ref={hoverRef} onClick={handleCardClick}>
       {showAddForm && !showCityForm && (
         <AddBookForm_Portal
           onClose={() => {
@@ -38,18 +39,30 @@ const AddBookCard = () => {
       )}
 
       {showCityForm && <AddCityPortal onClose={() => setShowCityForm(false)} />}
-      <div className={styles.face}>
-        <img
-          className={styles.plusImg}
-          src={isHovered ? cardIcons.plusButton : cardIcons.plusButtonBlue}
-        />
-        <p className={styles.desc}>Завантажити книгу</p>
-      </div>
+      {isCard ? (
+        <>
+          <div className={styles.face}>
+            <img
+              className={styles.plusImg}
+              src={isHovered ? cardIcons.plusButton : cardIcons.plusButtonBlue}
+            />
+            <p className={styles.desc}>Завантажити книгу</p>
+          </div>
 
-      <div className={styles.info}>
-        <p className={styles.info_addNew}>Додати нову книгу</p>
-        <p className={styles.info_desc}>Поділіться книгою для обміну</p>
-      </div>
+          <div className={styles.info}>
+            <p className={styles.info_addNew}>Додати нову книгу</p>
+            <p className={styles.info_desc}>Поділіться книгою для обміну</p>
+          </div>
+        </>
+      ) : (
+        <div className={styles.exchange__face}>
+          <img
+            className={styles.exchange__plusImg}
+            src={isHovered ? cardIcons.plusButton : cardIcons.plusButtonBlue}
+          />
+          <p className={styles.exchange__desc}>Завантажити книгу</p>
+        </div>
+      )}
     </div>
   );
 };

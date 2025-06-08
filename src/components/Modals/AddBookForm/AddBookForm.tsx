@@ -11,9 +11,12 @@ import errIcon from '../../../assets/images/input/errIcon.svg';
 
 import { z } from 'zod';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
-import { addBook } from '@/features/addBookSlice/addBookSlice';
+import { addBook, select } from '@/features/addBookSlice/addBookSlice';
 import { AddBookRequest } from '@/types/Book';
 import { getMyBooks } from '@/features/manageBookSlice/manageBookSlice';
+import { showSuccessToast } from '@/components/customToast/toastUtils';
+import { useSelector } from 'react-redux';
+import { Loader } from '@/components/base/Loader/Loader';
 
 const bookFormSchema = z.object({
   title: z.string().min(1, 'Назва обовʼязкова'),
@@ -53,6 +56,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
   });
 
   const [step, setStep] = useState(0);
+  const isLoading = useSelector(select.loading);
   const [preview, setPreview] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
@@ -74,6 +78,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
       dispatch(getMyBooks());
 
       onClose();
+      showSuccessToast(`Книжка "${data.title}" була успішно додана!`);
     } catch (error) {
       console.error('Failed to add book:', error);
     }
@@ -133,6 +138,20 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
     };
   }, [preview]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
   const nextStep = async () => {
     const fields = getStepFields(step);
     const valid = await methods.trigger(fields);
@@ -165,9 +184,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
               <p className={styles.stepNumber}>Крок {step + 1} з 3</p>
               <p className={styles.about}>{stepName[step]}</p>
             </div>
-            <div
-              className={`${styles['bar']} ${styles[`bar--${step + 1}`]}`}
-            ></div>
+            <div className={`${styles['bar']} ${styles[`bar--${step + 1}`]}`}></div>
           </div>
 
           {step === 0 && <Step1 buildErrorMessage={buildErrorMessage} />}
@@ -194,6 +211,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                   _name="Назад"
                   _icon={miniIcons.arrowBackBlack}
                   _iconPosition="left"
+                  _fontSize="bold"
                 />
               </div>
             ) : (
@@ -223,10 +241,11 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
             >
               <Button
                 _buttonVariant="blue"
-                _name={step === 2 ? 'Завантажити' : 'Далі'}
+                _name={step === 2 ? isLoading ? <Loader /> : 'Завантажити' : 'Далі'}
                 _icon={step !== 2 ? miniIcons.arrowRightWhite : null}
                 _iconPosition="right"
                 _type="button"
+                _fontSize="bold"
               />
             </div>
           </div>

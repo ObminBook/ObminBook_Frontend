@@ -41,7 +41,7 @@ const LoginPage = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     watch,
   } = methods;
 
@@ -93,11 +93,7 @@ const LoginPage = () => {
                 />
                 {errors.email && (
                   <div className={styles.errorContainer}>
-                    <img
-                      className={styles.errorImg}
-                      src={errIcon}
-                      alt="error icon"
-                    />
+                    <img className={styles.errorImg} src={errIcon} alt="error icon" />
                     <div className={styles.error}>{errors.email.message}</div>
                   </div>
                 )}
@@ -129,14 +125,8 @@ const LoginPage = () => {
                 />
                 {errors.password && (
                   <div className={styles.errorContainer}>
-                    <img
-                      className={styles.errorImg}
-                      src={errIcon}
-                      alt="error icon"
-                    />
-                    <div className={styles.error}>
-                      {errors.password.message}
-                    </div>
+                    <img className={styles.errorImg} src={errIcon} alt="error icon" />
+                    <div className={styles.error}>{errors.password.message}</div>
                   </div>
                 )}
               </div>

@@ -1,74 +1,85 @@
-@use '../../../styles/variables.scss' as *;
+@use '../../../styles/fonts.scss' as *;
+@use '../../../styles/mixins' as *;
 
-.notifications-panel {
+.panel {
   width: 552px;
   height: 378px;
-  background: $color-white;
   border-radius: 16px;
-  padding: 24px;
   display: flex;
   flex-direction: column;
+}
 
-  &__header {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
+.header {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  &__list {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+.imgBell {
+  width: 20px;
+  height: 20px;
+}
 
-  &__item {
-    background: #f5f7fa;
-    border-radius: 8px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+.title {
+  @include fontH4--semiBold--darkblue;
+}
 
-  &__info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    font-weight: 500;
-  }
+.list {
+  margin-top: 24px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  &__name {
-    color: #2563eb;
-  }
+.item {
+  background: #f5f7fa;
+  min-height: 89px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-  &__time {
-    color: #7b8a99;
-  }
+.info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 500;
+}
 
-  &__text,
-  &__message {
-    font-size: 16px;
-    color: #2d3748;
-  }
+.name {
+  color: #2563eb;
+}
 
-  &__status--очікує {
-    .button {
-      background: $color-white;
-      color: #d48806;
-    }
-  }
-  &__status--прийнято {
-    .button {
-      background: #f6ffed;
-      color: #389e0d;
-    }
-  }
-  &__status--відхилено {
-    .button {
-      background: $color-white;
-      color: #cf1322;
-    }
-  }
+.time {
+  color: #7b8a99;
+}
+
+.text,
+.message {
+  font-size: 16px;
+  color: #2d3748;
+}
+
+.statusAwaiting .button {
+  background: $color-white;
+  color: #d48806;
+}
+
+.statusAccepted .button {
+  background: #f6ffed;
+  color: #389e0d;
+}
+
+.statusRejected .button {
+  background: $color-white;
+  color: #cf1322;
+}
+
+.imgBell {
+  width: 20px;
+  height: 20px;
 }

@@ -13,7 +13,7 @@ import { Button } from '@/components/base/button/Button';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 
 const conditions = ['Як нова', 'Дуже добра', 'Добра', 'Прийнятна'];
-const exchangeTypes = ['Особисто', 'По пошті', 'Будь-який спосіб'];
+const exchangeTypes = ['Особисто', 'Поштою', 'Будь-який'];
 
 const FilterSection: React.FC = () => {
   const selectedCondition = useSelector(select.condition);
@@ -71,7 +71,9 @@ const FilterSection: React.FC = () => {
                 className={`${styles.item} ${
                   selectedType.includes(type) && styles.item_active
                 }`}
-                onClick={() => dispatch(setType(type))}
+                onClick={() => {
+                  dispatch(setType(type));
+                }}
               >
                 <div className={styles.item__name}>{type}</div>
                 <img

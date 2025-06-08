@@ -1,3 +1,5 @@
+import { BookPage } from './Book';
+
 export interface User {
   id: number;
   email: string;
@@ -7,4 +9,9 @@ export interface User {
   creatingDate: string;
   description: string;
   profilePicture: string;
+}
+
+export interface TargetUser {
+  user: User;
+  books: BookPage;
 }

@@ -11,6 +11,7 @@ import { useAppDispatch } from '../../../../../reduxHooks/useAppDispatch';
 import { miniIcons } from '../../../../../assets/images/miniIcons';
 import { cardIcons } from '../../../../../assets/images/cardBook/cardDetails';
 import { Book } from '../../../../../types/Book';
+import { findLabelLanguage } from '@/resources/languages/languages';
 
 interface BookMiniCardProps {
   withDeleteButton?: boolean;
@@ -46,19 +47,9 @@ export const BookMiniCard: React.FC<BookMiniCardProps> = ({
 
   const actualIcon = () => {
     const img = {
-      delete: (
-        <img
-          className={styles.icon}
-          src={miniIcons.buttRemoveCard}
-          alt="icon"
-        />
-      ),
-      plus: (
-        <img className={styles.icon} src={cardIcons.plusObminIcon} alt="icon" />
-      ),
-      checkMark: (
-        <img className={styles.icon} src={cardIcons.checkMarkBlue} alt="icon" />
-      ),
+      delete: <img className={styles.icon} src={miniIcons.buttRemoveCard} alt="icon" />,
+      plus: <img className={styles.icon} src={cardIcons.plusObminIcon} alt="icon" />,
+      checkMark: <img className={styles.icon} src={cardIcons.checkMarkBlue} alt="icon" />,
     };
 
     if (withDeleteButton) {
@@ -69,10 +60,7 @@ export const BookMiniCard: React.FC<BookMiniCardProps> = ({
       return img.checkMark;
     }
 
-    if (
-      cardType === 'anotherUserCards' &&
-      book.id === anotherUserBookSelected?.id
-    ) {
+    if (cardType === 'anotherUserCards' && book.id === anotherUserBookSelected?.id) {
       return img.checkMark;
     }
 
@@ -80,9 +68,7 @@ export const BookMiniCard: React.FC<BookMiniCardProps> = ({
   };
 
   const cardClass = `${styles.card} ${
-    (cardType === 'myCards' &&
-      book.id === myBookSelected?.id &&
-      !withDeleteButton) ||
+    (cardType === 'myCards' && book.id === myBookSelected?.id && !withDeleteButton) ||
     (cardType === 'anotherUserCards' &&
       book.id === anotherUserBookSelected?.id &&
       !withDeleteButton)
@@ -94,14 +80,18 @@ export const BookMiniCard: React.FC<BookMiniCardProps> = ({
     <div className={cardClass} onClick={handleBookSelect}>
       {actualIcon()}
 
-      <img className={styles.image} src={book.coverImage} alt={book.title} />
+      <img
+        className={styles.image}
+        src={book.coverImage === 'NOT FOUND' ? cardIcons.imgPlaceholder : book.coverImage}
+        alt={book.title}
+      />
       <div className={styles.info}>
         <h3 className={styles.title}>{book.title}</h3>
         <p className={styles.text}>{book.author}</p>
         <div className={styles.specification}>
           <div className={styles.textContainer}>
             <img src={cardIcons.imgLanguageBlue} alt="Мова" />
-            <p className={styles.text}>{book.language || 'Укр'}</p>
+            <p className={styles.text}>{findLabelLanguage(book.language) || 'Укр'}</p>
           </div>
           <div className={styles.textContainer}>
             <img src={cardIcons.imgConditionBlue} alt="Стан" />

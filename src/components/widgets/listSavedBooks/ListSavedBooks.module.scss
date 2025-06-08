@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+}
+
+.savedBooksList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.savedBookCard {
+  width: 248px;
+}

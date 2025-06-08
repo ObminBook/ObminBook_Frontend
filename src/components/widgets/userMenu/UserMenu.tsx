@@ -4,14 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import avatarPlaceholder from '../../../assets/images/common/avatar.svg';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { userMenuIcons } from '../../../assets/images/userMenu';
-import { useSelector } from 'react-redux';
-import { logout, select } from '@/features/authSlice/authSlice';
+import { logout } from '@/features/authSlice/authSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 
 export const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false));
-  const user = useSelector(select.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

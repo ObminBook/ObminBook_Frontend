@@ -1,5 +1,5 @@
 @use '../../../styles/mixins' as *;
-@use '../../../styles/variables.scss' as *;
+@use '../../../styles/fonts.scss' as *;
 
 .book-modal {
   box-sizing: border-box;
@@ -28,31 +28,46 @@
     position: relative;
   }
 
-  &__cover {
+  &__imgContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: sticky;
     width: 360px;
     height: 100%;
     top: 0;
     left: 0;
     overflow: hidden;
+    background-color: #f0f5f9;
 
-    img {
-      height: 100%;
-      width: 100%;
-      background-position: center;
-      background-size: cover;
-      object-fit: cover;
-    }
+    border-right: 1px solid #e1e7ef;
+  }
+
+  &__img {
+    height: 70%;
+    object-fit: contain;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 20px 5px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  &__mockedImg {
+    height: 100%;
   }
 
   &__info {
+    height: 100%;
     position: relative;
     max-width: 540px;
     display: flex;
+    flex: 1;
     flex-direction: column;
 
     &-scroll-container {
+      display: flex;
+      flex-direction: column;
       padding: 24px;
+      flex: 1;
+      overflow-y: auto;
     }
   }
 
@@ -181,8 +196,8 @@
   &__actions {
     display: flex;
     flex-direction: column;
-    align-self: flex-end;
-    margin-top: 24px;
+    margin-top: auto;
+    padding-top: 24px;
   }
 
   &__save-exchange-box {
@@ -200,6 +215,7 @@
 
   &__copy {
     margin-top: 16px;
+    justify-self: flex-end;
   }
 
   &__auth-prompt {
@@ -235,5 +251,36 @@
   &__button {
     margin-top: 8px;
     width: 100%;
+  }
+}
+
+.yourBook {
+  width: 90%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  padding: 15px 17px 15px;
+  position: relative;
+  box-shadow: 3px 5px 4px rgba(0, 0, 0, 0.082);
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  position: absolute;
+  bottom: 20px;
+  z-index: 5;
+
+  &__imgContainer {
+    height: 60px;
+    width: 60px;
+  }
+
+  &__img {
+    object-fit: contain;
+  }
+
+  &__text {
+    @include fontH4--darkblue;
   }
 }

@@ -7,19 +7,16 @@ import BookListWithFilters from '../../components/layout/BookListWithFilters/Boo
 
 const BookSearchPage: React.FC = () => {
   return (
-    <>
+    <div className={styles['search-page']}>
       <Header showLoginButton />
-      <div className={styles['search-page']}>
-        <h2 className={styles['search-page__title']}>Пошук книги</h2>
-        <div
-          className={`${styles['search-page__main']} ${styles['book-search']}`}
-        >
-          <FilterSection />
-          <BookListWithFilters />
-        </div>
+      <h2 className={styles['search-page__title']}>Пошук книги</h2>
+      <div className={`${styles['search-page__main']} ${styles['book-search']}`}>
+        <FilterSection />
+        <BookListWithFilters />
       </div>
+
       <Footer />
-    </>
+    </div>
   );
 };
 

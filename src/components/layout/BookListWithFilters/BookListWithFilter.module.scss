@@ -1,4 +1,4 @@
-@use '../../../styles/variables.scss' as *;
+@use '../../../styles/fonts.scss' as *;
 @use '../../../styles/mixins' as *;
 
 .bookList {
@@ -11,7 +11,6 @@
   margin-top: 16px;
   display: grid;
   grid-template-columns: repeat(3, 340px);
-  grid-auto-rows: 659px;
   grid-auto-flow: row;
   gap: 24px;
 }

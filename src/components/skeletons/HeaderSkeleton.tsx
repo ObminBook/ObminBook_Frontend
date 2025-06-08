@@ -1,19 +1,14 @@
 // HeaderSkeleton.tsx
 import React from 'react';
-import styles from './HeaderSkeleton.module.scss';
+import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from 'react-loading-skeleton';
 
-const HeaderSkeleton: React.FC = () => {
+const HeaderUserSkeleton: React.FC = () => {
   return (
-    <header className={styles.headerSkeleton}>
-      <div className={styles.container}>
-        <div className={styles.brand}>
-          <div className={styles.logoSkeleton} />
-          <div className={styles.titleSkeleton} />
-        </div>
-        <div className={styles.authSkeleton} />
-      </div>
-    </header>
+    <div>
+      <Skeleton height={42} width={42} circle />
+    </div>
   );
 };
 
-export default HeaderSkeleton;
+export default HeaderUserSkeleton;

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from '@/api/axiosInstance';
 import { AddBookRequest, AddBookResponce } from '@/types/Book';
-import { getMyBooks } from '../manageBookSlice/manageBookSlice';
+import { RootState } from '@/reduxStore/store';
 
 interface AddBookState {
   loading: boolean;
@@ -58,6 +58,8 @@ const addBookSlice = createSlice({
       });
   },
 });
+
+export const select = { loading: (state: RootState) => state.addBook.loading };
 
 export const { resetAddBookState } = addBookSlice.actions;
 
