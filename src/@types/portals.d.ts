@@ -13,28 +13,22 @@ interface TargetUserPortalProps extends PortalProps {
   targetUserId: number | string;
 }
 
-declare module '@/components/modals/*/AddCity_Portal' {
+declare module '@/components/modals/AddCity/AddCity_Portal' {
   import React from 'react';
   export const AddCityPortal: React.FC<PortalProps>;
 }
 
-declare module '@/components/modals/*/AddBookForm_Portal' {
+declare module '@/components/modals/AddBookForm/AddBookForm_Portal' {
   import React from 'react';
   export const AddBookFormPortal: React.FC<PortalProps>;
 }
 
-declare module '@/components/modals/*/BookModalPortal' {
+declare module '@/components/modals/BookModal/BookModalPortal' {
   import React from 'react';
   export const BookModalPortal: React.FC<BookModalPortalProps>;
 }
 
-declare module '@/components/modals/*/TargetUser_Portal' {
+declare module '@/components/modals/TargetUser/TargetUser_Portal' {
   import React from 'react';
   export const TargetUserPortal: React.FC<TargetUserPortalProps>;
-}
-
-// Загальна декларація для інших порталів, якщо знадобиться
-declare module '@/components/modals/*/*_Portal' {
-  import React from 'react';
-  export const Portal: React.FC;
 }
