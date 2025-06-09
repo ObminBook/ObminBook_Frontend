@@ -4,10 +4,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import * as path from 'path';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tsconfigPaths(), // автоматично підтягує alias з tsconfig.json
-  ],
+  plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

@@ -5,7 +5,5 @@
       "@/*": ["src/*"]
     }
   },
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
-  "include": ["src", "global.d.ts", "styles.d.ts"],
-  "exclude": ["node_modules", "dist"]
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }
