@@ -8,7 +8,7 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // Змінив на node для кращої сумісності
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",

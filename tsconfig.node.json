@@ -7,7 +7,7 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // Також змінено на node
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
