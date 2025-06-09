@@ -30,9 +30,6 @@
 
   @include fontSec--darkblue;
 
-  &::placeholder {
-  }
-
   &:focus {
     outline: none;
     border-color: $color-blue;

@@ -1,22 +1,19 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import styles from './ReportProblemForm.module.scss';
 import { miniIcons } from '@/assets/images/miniIcons';
 import { Button } from '../base/button/Button';
 import { Loader } from '../base/Loader/Loader';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import styles from './ReportProblemForm.module.scss';
 
 const schema = z.object({
   id: z
     .string()
     .min(6, 'ID повинен містити 6 цифр')
     .regex(/^\d{6}$/, 'ID повинен складатися лише з цифр'),
-  problemType: z.enum(
-    ['NOT_SENT', 'BAD_CONDITION', 'RECEIVED_OTHER_BOOK', 'OTHER'],
-    {
-      errorMap: () => ({ message: 'Оберіть тип проблеми' }),
-    }
-  ),
+  problemType: z.enum(['NOT_SENT', 'BAD_CONDITION', 'RECEIVED_OTHER_BOOK', 'OTHER'], {
+    errorMap: () => ({ message: 'Оберіть тип проблеми' }),
+  }),
   problemDescription: z.string().optional(),
 });
 
@@ -39,7 +36,7 @@ export const ReportProblemForm = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log(data);
-    } catch (error) {
+    } catch {
       setError('problemType', {
         message: 'Сталася помилка. Спробуйте ще раз.',
       });
@@ -64,9 +61,7 @@ export const ReportProblemForm = () => {
           maxLength={6}
         />
 
-        {errors.id && (
-          <div className={styles.errorMessage}>{errors.id.message}</div>
-        )}
+        {errors.id && <div className={styles.errorMessage}>{errors.id.message}</div>}
         <p className={styles.idDescription}>
           Його можна знайти на сторінці вашого профілю у “Всі запити”
         </p>
@@ -91,13 +86,10 @@ export const ReportProblemForm = () => {
               value="NOT_SENT"
               {...register('problemType')}
             />
-            <div className={styles.problemTypes__radioValue}>
-              Книга не була надіслана
-            </div>
+            <div className={styles.problemTypes__radioValue}>Книга не була надіслана</div>
           </div>
           <p className={styles.problemTypes__radioDescr}>
-            Користувач погодився на обмін, але не надіслав книгу у визначений
-            термін
+            Користувач погодився на обмін, але не надіслав книгу у визначений термін
           </p>
         </label>
 
@@ -123,8 +115,7 @@ export const ReportProblemForm = () => {
             </div>
           </div>
           <p className={styles.problemTypes__radioDescr}>
-            Отримана книга має пошкодження або дефекти, які не були вказані в
-            описі
+            Отримана книга має пошкодження або дефекти, які не були вказані в описі
           </p>
         </label>
 
@@ -145,9 +136,7 @@ export const ReportProblemForm = () => {
               value="RECEIVED_OTHER_BOOK"
               {...register('problemType')}
             />
-            <div className={styles.problemTypes__radioValue}>
-              Отримана інша книга
-            </div>
+            <div className={styles.problemTypes__radioValue}>Отримана інша книга</div>
           </div>
           <p className={styles.problemTypes__radioDescr}>
             Отримана книга відрізняється від тієї, про яку була домовленість
@@ -179,9 +168,7 @@ export const ReportProblemForm = () => {
         </label>
 
         {errors.problemType && (
-          <div className={styles.errorMessage}>
-            {errors.problemType.message}
-          </div>
+          <div className={styles.errorMessage}>{errors.problemType.message}</div>
         )}
       </div>
 

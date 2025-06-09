@@ -1,5 +1,4 @@
-// api/axiosInstance.ts
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_BASE } from '@/config/api';
 import { refreshAccessToken } from '@/utils/refreshAccessToken';
 
@@ -7,13 +6,16 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
 }
 
-let isRefreshing = false;
-let failedQueue: {
+// Тип для токена оновлення
+type TokenQueueItem = {
   resolve: (token: string) => void;
-  reject: (error: any) => void;
-}[] = [];
+  reject: (error: Error | AxiosError) => void;
+};
 
-const processQueue = (error: any, token: string | null = null) => {
+let isRefreshing = false;
+let failedQueue: TokenQueueItem[] = [];
+
+const processQueue = (error: Error | AxiosError | null, token: string | null = null) => {
   failedQueue.forEach(({ resolve, reject }) => {
     if (error) {
       reject(error);
@@ -32,9 +34,7 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   const noAuthEndpoints = ['/auth/login', '/auth/register'];
 
-  const shouldSkipAuth = noAuthEndpoints.some((url) =>
-    config.url?.includes(url)
-  );
+  const shouldSkipAuth = noAuthEndpoints.some((url) => config.url?.includes(url));
 
   if (shouldSkipAuth) return config;
 
@@ -47,7 +47,7 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
@@ -62,7 +62,7 @@ axiosInstance.interceptors.response.use(
             }
             return axiosInstance(originalRequest);
           })
-          .catch((err) => Promise.reject(err));
+          .catch((err: Error | AxiosError) => Promise.reject(err));
       }
 
       originalRequest._retry = true;
@@ -83,9 +83,14 @@ axiosInstance.interceptors.response.use(
         }
 
         return axiosInstance(originalRequest);
-      } catch (err) {
-        processQueue(err, null);
-        return Promise.reject(err);
+      } catch (err: unknown) {
+        const typedError =
+          err instanceof Error || axios.isAxiosError(err)
+            ? err
+            : new Error('Unknown error during token refresh');
+
+        processQueue(typedError, null);
+        return Promise.reject(typedError);
       } finally {
         isRefreshing = false;
       }

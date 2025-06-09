@@ -3,21 +3,14 @@ import { ICheckboxContainerProps } from '../../../../types/Checkbox';
 import CheckboxView from '../views/CheckboxView';
 
 const SingleCheckboxContainer = ({ name, alt }: ICheckboxContainerProps) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
 
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
-        <CheckboxView
-          alt={alt}
-          checked={field.value}
-          onChange={field.onChange}
-        />
+        <CheckboxView alt={alt} checked={field.value} onChange={field.onChange} />
       )}
     />
   );
