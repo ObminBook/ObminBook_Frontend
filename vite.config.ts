@@ -1,18 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import path from 'path';
 
 export default defineConfig({
   plugins: [
     react(),
-    tsconfigPaths(), // підтримка alias з tsconfig
+    tsconfigPaths(), // автоматично підтягує alias з tsconfig.json
   ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'), // можеш залишити для надійності, але плагін підхопить із tsconfig
-    },
-  },
   server: {
     proxy: {
       '/api': {
