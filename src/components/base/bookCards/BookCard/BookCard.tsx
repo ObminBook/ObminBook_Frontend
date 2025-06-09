@@ -15,7 +15,7 @@ import { select } from '@/features/authSlice/authSlice';
 import { booksApi } from '@/api/booksApi';
 import { showErrorToast, showSuccessToast } from '@/components/customToast/toastUtils';
 import { Loader } from '../../Loader/Loader';
-import { TargetUserPortal } from '@/components/modals/TargerUser/TargetUser_Portal';
+import { TargetUserPortal } from '@/components/modals/TargetUser/TargetUser_Portal';
 
 interface BookCardProps {
   book: Book;

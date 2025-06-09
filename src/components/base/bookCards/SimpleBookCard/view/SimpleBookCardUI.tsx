@@ -6,7 +6,7 @@ import { cardIcons } from '../../../../../assets/images/cardBook/cardDetails';
 import { transformDate } from '@/utils/transformData';
 import { Loader } from '../../../Loader/Loader';
 import { BookModalPortal } from '@/components/modals/BookModal/BookModalPortal';
-import { TargetUserModal } from '@/components/modals/TargerUser/TargetUserModal';
+import { TargetUserModal } from '@/components/modals/TargetUser/TargetUserModal';
 
 interface Props {
   book: Book;
