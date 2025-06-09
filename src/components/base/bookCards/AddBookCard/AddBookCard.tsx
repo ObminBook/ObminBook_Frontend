@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { select } from '@/features/authSlice/authSlice';
 import { useSelector } from 'react-redux';
 import { AddCityPortal } from '@/components/modals/AddCity/AddCity_Portal';
-import { AddBookForm_Portal } from '../../../modals/AddBookForm/AddBookForm_Portal';
+import { AddBookForm_Portal } from '@/components/modals/AddBookForm/AddBookForm_Portal';
 
 interface Props {
   isCard?: boolean;
