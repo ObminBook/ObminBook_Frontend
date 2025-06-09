@@ -54,6 +54,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
           />
           {isUsersBook && (
             <div className={styles.yourBook}>
+              §
               <div className={styles.yourBook__imgContainer}>
                 <img
                   className={styles.yourBook__img}
@@ -61,7 +62,6 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   alt="yourbook"
                 />
               </div>
-
               <div className={styles.yourBook__text}>{`Ваша книжка`}</div>
             </div>
           )}
