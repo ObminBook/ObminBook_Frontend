@@ -1,30 +1,25 @@
 declare module '@/components/modals/*/AddCity_Portal' {
   import React from 'react';
-  const component: React.FC;
-  export default component;
+  export const AddCityPortal: React.FC;
 }
 
 declare module '@/components/modals/*/AddBookForm_Portal' {
   import React from 'react';
-  const component: React.FC;
-  export default component;
+  export const AddBookFormPortal: React.FC;
 }
 
 declare module '@/components/modals/*/BookModalPortal' {
   import React from 'react';
-  const component: React.FC;
-  export default component;
+  export const BookModalPortal: React.FC;
 }
 
 declare module '@/components/modals/*/TargetUser_Portal' {
   import React from 'react';
-  const component: React.FC;
-  export default component;
+  export const TargetUserPortal: React.FC;
 }
 
-// Можна й загальніше (якщо хочеш підтримати всі портали в цій папці)
+// Загальна декларація для будь-яких порталів з іменованим експортом
 declare module '@/components/modals/*/*_Portal' {
   import React from 'react';
-  const component: React.FC;
-  export default component;
+  export const Portal: React.FC;
 }
