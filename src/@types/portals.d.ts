@@ -37,3 +37,13 @@ declare module '@/components/modals/Terms/Terms_Portal' {
   import React from 'react';
   export const Terms_Portal: React.FC<PortalProps>;
 }
+
+declare module '@/components/modals/Verif/Verif_Portal' {
+  import React from 'react';
+  export const Verif_Portal: React.FC<PortalProps>;
+}
+
+declare module '@/components/modals/SuccessModal/SuccessModal' {
+  import React from 'react';
+  export const SuccessModal: React.FC<PortalProps>;
+}
