@@ -19,7 +19,7 @@ import {
 } from '../../features/authSlice/authSlice';
 import { useAppDispatch } from '../../reduxHooks/useAppDispatch';
 import { useSelector } from 'react-redux';
-import { VerifPortal } from '../../components/modals/Verif/Verif_Portal';
+import { VerifPortal } from '@/components/modals/Verif/Verif_Portal';
 import { Loader } from '../../components/base/Loader/Loader';
 
 const schema = z
