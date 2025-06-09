@@ -8,7 +8,6 @@ import { setAnotherUserBook } from '../../../../features/exchangeSlice/exchangeS
 import { Button } from '../../button/Button';
 import { miniIcons } from '../../../../assets/images/miniIcons';
 import { cardIcons } from '../../../../assets/images/cardBook/cardDetails';
-import { TargetUserPortal } from '@/components/modals/TargerUser/TargetUser_Portal';
 import { BookModalPortal } from '@/components/modals/BookModal/BookModalPortal';
 import { findCategoryLabel } from '@/resources/bookCategories/bookCategories';
 import { useSelector } from 'react-redux';
@@ -16,6 +15,7 @@ import { select } from '@/features/authSlice/authSlice';
 import { booksApi } from '@/api/booksApi';
 import { showErrorToast, showSuccessToast } from '@/components/customToast/toastUtils';
 import { Loader } from '../../Loader/Loader';
+import { TargetUserPortal } from '@/components/modals/TargerUser/TargetUser_Portal';
 
 interface BookCardProps {
   book: Book;
