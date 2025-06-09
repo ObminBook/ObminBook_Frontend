@@ -9,6 +9,7 @@ import { Loader } from '@/components/base/Loader/Loader';
 import { SuccessModal } from '../SuccessModal/SuccessModal';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { fetchUser } from '@/features/authSlice/authSlice';
+import { showErrorToast } from '@/components/customToast/toastUtils';
 
 type CityOption = {
   id: number;
@@ -47,6 +48,12 @@ export const AddCity: React.FC<Props> = ({ onClose }) => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      showErrorToast('Сталася помилка при оновленні міста ❌');
+    }
+  }, [error]);
 
   useEffect(() => {
     if (statusMessage) {
