@@ -32,3 +32,8 @@ declare module '@/components/modals/TargetUser/TargetUser_Portal' {
   import React from 'react';
   export const TargetUserPortal: React.FC<TargetUserPortalProps>;
 }
+
+declare module '@/components/modals/Terms/Terms_Portal' {
+  import React from 'react';
+  export const Terms_Portal: React.FC<PortalProps>;
+}

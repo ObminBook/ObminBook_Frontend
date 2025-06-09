@@ -7,10 +7,9 @@ import { Header } from '../../components/layout/Header/Header';
 import SingleCheckboxContainer from '../../components/base/checkbox/containers/SingleCheckboxContainer';
 import errIcon from '../../assets/images/input/errIcon.svg';
 import { Footer } from '../../components/layout/Footer/Footer';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { inputIcons } from '../../assets/images/registerLogin';
-import { Terms_Portal } from '../../components/modals/Terms/Terms_Portal';
+import { Terms_Portal } from '@/components/modals/Terms/Terms_Portal';
 import { miniIcons } from '../../assets/images/miniIcons';
 import {
   register as registerUser,
@@ -27,10 +26,7 @@ const schema = z
   .object({
     firstName: z.string().nonempty('Обовʼязкове поле'),
     lastName: z.string().nonempty('Обовʼязкове поле'),
-    email: z
-      .string()
-      .nonempty('Обовʼязкове поле')
-      .email('Некоректна електронна адреса'),
+    email: z.string().nonempty('Обовʼязкове поле').email('Некоректна електронна адреса'),
     password: z
       .string()
       .nonempty('Обовʼязкове поле')
@@ -60,7 +56,6 @@ const RegisterPage = () => {
   const isLoading = useSelector(select.registerStatus) === 'loading';
   const registerError = useSelector(select.error);
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const methods = useForm<RegisterFormValues>({
@@ -91,12 +86,6 @@ const RegisterPage = () => {
       setError('email', { type: 'manual', message: registerError.message });
     }
   }, [registerError]);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate('/');
-  //   }
-  // }, [user, navigate]);
 
   const onSubmit = async (data: RegisterFormValues) => {
     console.log('Форма сабмітиться');
@@ -161,9 +150,7 @@ const RegisterPage = () => {
                         src={errIcon}
                         alt="error icon"
                       />
-                      <div className={styles.error}>
-                        {errors.firstName.message}
-                      </div>
+                      <div className={styles.error}>{errors.firstName.message}</div>
                     </div>
                   )}
                 </div>
@@ -187,9 +174,7 @@ const RegisterPage = () => {
                         src={errIcon}
                         alt="error icon"
                       />
-                      <div className={styles.error}>
-                        {errors.lastName.message}
-                      </div>
+                      <div className={styles.error}>{errors.lastName.message}</div>
                     </div>
                   )}
                 </div>
@@ -244,27 +229,20 @@ const RegisterPage = () => {
                       src={errIcon}
                       alt="error icon"
                     />
-                    <div className={styles.error}>
-                      {errors.password.message}
-                    </div>
+                    <div className={styles.error}>{errors.password.message}</div>
                   </div>
                 )}
               </div>
 
               {/* Підтвердження паролю */}
               <div className={styles['input-group']}>
-                <label
-                  className={styles['input-label']}
-                  htmlFor="confirmPassword"
-                >
+                <label className={styles['input-label']} htmlFor="confirmPassword">
                   Підтвердження паролю
                 </label>
                 <img
                   onClick={() => setShowConfirmPassword((p) => !p)}
                   className={styles['input-eye']}
-                  src={
-                    showConfirmPassword ? inputIcons.eyeOn : inputIcons.eyeOff
-                  }
+                  src={showConfirmPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
                   alt="eyeIcon"
                 />
                 <input
@@ -281,9 +259,7 @@ const RegisterPage = () => {
                       src={errIcon}
                       alt="error icon"
                     />
-                    <div className={styles.error}>
-                      {errors.confirmPassword.message}
-                    </div>
+                    <div className={styles.error}>{errors.confirmPassword.message}</div>
                   </div>
                 )}
               </div>
@@ -298,19 +274,13 @@ const RegisterPage = () => {
                   <SingleCheckboxContainer name="terms" alt="checkbox" />
                   <span className={styles['input-label']}>
                     Я погоджуюсь з{' '}
-                    <span
-                      className={styles['terms-link']}
-                      onClick={handleTermsClick}
-                    >
+                    <span className={styles['terms-link']} onClick={handleTermsClick}>
                       умовами використання
                     </span>
                   </span>
                 </label>
                 {errors.terms && (
-                  <div
-                    className={styles['error-group']}
-                    style={{ paddingLeft: '24px' }}
-                  >
+                  <div className={styles['error-group']} style={{ paddingLeft: '24px' }}>
                     <img
                       className={styles['error-icon']}
                       src={errIcon}
@@ -321,8 +291,8 @@ const RegisterPage = () => {
                 )}
 
                 <div className={styles.termsText}>
-                  Натискаючи кнопку "Зареєструватися", ви погоджуєтесь з нашими
-                  умовами користування та політикою конфіденційності.
+                  Натискаючи кнопку "Зареєструватися", ви погоджуєтесь з нашими умовами
+                  користування та політикою конфіденційності.
                 </div>
               </div>
 
@@ -355,9 +325,7 @@ const RegisterPage = () => {
         </FormProvider>
       </div>
       <Footer />
-      {showTermalModal && (
-        <Terms_Portal onClose={() => setShowTermalModal(false)} />
-      )}
+      {showTermalModal && <Terms_Portal onClose={() => setShowTermalModal(false)} />}
     </div>
   );
 };
