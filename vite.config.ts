@@ -18,10 +18,11 @@ export default defineConfig({
         target: 'https://obminbook.us-east-1.elasticbeanstalk.com',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''), // <-- тут прибираємо /api
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
+
   build: {
     rollupOptions: {
       external: () => false,

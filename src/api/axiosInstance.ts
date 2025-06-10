@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { refreshAccessToken } from '@/utils/refreshAccessToken';
+import { API_BASE } from '@/config/api';
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
@@ -25,7 +26,7 @@ const processQueue = (error: Error | AxiosError | null, token: string | null = n
 };
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE,
+  baseURL: API_BASE,
   withCredentials: true,
 });
 
