@@ -5,7 +5,7 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = '/api';
 
 // Функція, що прибирає /api на початку шляху, якщо вона там є
 const sanitizeUrl = (url: string | undefined) => {
