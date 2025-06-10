@@ -9,7 +9,7 @@ import errIcon from '../../assets/images/input/errIcon.svg';
 import { Footer } from '../../components/layout/Footer/Footer';
 import { useEffect, useState } from 'react';
 import { inputIcons } from '../../assets/images/registerLogin';
-import { Terms_Portal } from '@/components/modals/Terms/Terms_Portal';
+import { TermsPortal } from '@/components/modals/Terms/TermsPortal';
 import { miniIcons } from '../../assets/images/miniIcons';
 import {
   register as registerUser,
@@ -90,7 +90,8 @@ const RegisterPage = () => {
   const onSubmit = async (data: RegisterFormValues) => {
     console.log('Форма сабмітиться');
 
-    const { terms, ...dataToReg } = data;
+    // eslint-disable-next-line
+    const { terms: _, ...dataToReg } = data;
     try {
       dispatch(registerUser(dataToReg));
     } catch (err) {
@@ -325,7 +326,7 @@ const RegisterPage = () => {
         </FormProvider>
       </div>
       <Footer />
-      {showTermalModal && <Terms_Portal onClose={() => setShowTermalModal(false)} />}
+      {showTermalModal && <TermsPortal onClose={() => setShowTermalModal(false)} />}
     </div>
   );
 };

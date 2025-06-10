@@ -1,11 +1,11 @@
 import ReactDOM from 'react-dom';
 import { TermsModal } from './TermsModal';
 
-interface Props {
+export interface TermsPortalProps {
   onClose: () => void;
 }
 
-export const Terms_Portal: React.FC<Props> = ({ onClose }) => {
+export const TermsPortal: React.FC<TermsPortalProps> = ({ onClose }) => {
   const modalRoot = document.getElementById('modal-root');
   if (!modalRoot) return null;
 

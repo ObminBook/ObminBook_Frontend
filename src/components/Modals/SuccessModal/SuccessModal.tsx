@@ -1,12 +1,15 @@
 import { miniIcons } from '@/assets/images/miniIcons';
 import styles from './SuccessModal.module.scss';
 
-interface Props {
+export interface SuccessModalProps {
   title?: string;
   description?: string;
 }
 
-export const SuccessModal: React.FC<Props> = ({ title = 'Успішно!', description }) => {
+export const SuccessModal: React.FC<SuccessModalProps> = ({
+  title = 'Успішно!',
+  description,
+}) => {
   return (
     <div className={styles.successWrapper}>
       <img src={miniIcons.recentIcon} alt="Успішно" className={styles.successIcon} />

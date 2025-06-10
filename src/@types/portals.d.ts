@@ -33,9 +33,9 @@ declare module '@/components/modals/TargetUser/TargetUser_Portal' {
   export const TargetUserPortal: React.FC<TargetUserPortalProps>;
 }
 
-declare module '@/components/modals/Terms/Terms_Portal' {
+declare module '@/components/modals/Terms/TermsPortal' {
   import React from 'react';
-  export const Terms_Portal: React.FC<PortalProps>;
+  export const TermsPortal: React.FC<TermsPortalProps>;
 }
 
 declare module '@/components/modals/Verif/Verif_Portal' {
@@ -45,5 +45,5 @@ declare module '@/components/modals/Verif/Verif_Portal' {
 
 declare module '@/components/modals/SuccessModal/SuccessModal' {
   import React from 'react';
-  export const SuccessModal: React.FC<PortalProps>;
+  export const SuccessModal: React.FC<SuccessModalProps>;
 }
