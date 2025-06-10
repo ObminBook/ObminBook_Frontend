@@ -3,10 +3,3 @@
   to = "https://obminbook.us-east-1.elasticbeanstalk.com/:splat"
   status = 200
   force = true
-
-[[redirects]]
-  from = "/api/*"
-  to = "https://obminbook.us-east-1.elasticbeanstalk.com/:splat"
-  status = 200
-  force = true
-
