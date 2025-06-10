@@ -7,7 +7,7 @@ import { UserNotificationResponse } from '@/types/UserNotification';
 export const booksApi = {
   fetchMy: async (page: number, size: number) => {
     try {
-      const response = await axiosInstance.get('books/all/me', {
+      const response = await axiosInstance.get('/books/all/me', {
         params: { page, size },
       });
       return response?.data;
@@ -17,7 +17,7 @@ export const booksApi = {
   },
   searchBooks: async (filters: SearchBooksRequest) => {
     try {
-      const response = await axiosInstance.get('books/search', {
+      const response = await axiosInstance.get('/books/search', {
         params: {
           page: filters.page,
           size: filters.size,
@@ -38,7 +38,7 @@ export const booksApi = {
   },
   fetchTargetUser: async (userId: string): Promise<TargetUser | undefined> => {
     try {
-      const response = await axiosInstance.get<TargetUser>(`books/all/${userId}`, {
+      const response = await axiosInstance.get<TargetUser>(`/books/all/${userId}`, {
         params: {
           page: 0,
           size: 20,
@@ -61,7 +61,7 @@ export const booksApi = {
   },
   deleteUserBook: async (bookId: number) => {
     try {
-      const response = await axiosInstance.delete(`books/${bookId}`);
+      const response = await axiosInstance.delete(`/books/${bookId}`);
 
       return response;
     } catch (error) {
@@ -70,7 +70,7 @@ export const booksApi = {
   },
   saveBook: async (bookId: number) => {
     try {
-      const response = await axiosInstance.post(`books/me/saved/${bookId}`);
+      const response = await axiosInstance.post(`/books/me/saved/${bookId}`);
 
       return response.data;
     } catch (error) {

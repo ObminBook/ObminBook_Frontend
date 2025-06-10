@@ -1,12 +1,10 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { API_BASE } from '@/config/api';
 import { refreshAccessToken } from '@/utils/refreshAccessToken';
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
 }
 
-// Тип для токена оновлення
 type TokenQueueItem = {
   resolve: (token: string) => void;
   reject: (error: Error | AxiosError) => void;
@@ -27,7 +25,7 @@ const processQueue = (error: Error | AxiosError | null, token: string | null = n
 };
 
 export const axiosInstance = axios.create({
-  baseURL: API_BASE,
+  baseURL: import.meta.env.VITE_API_BASE,
   withCredentials: true,
 });
 
