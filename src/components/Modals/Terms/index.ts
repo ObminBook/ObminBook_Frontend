@@ -1,0 +1,1 @@
+export { TermsPortal } from './TermsPortal';
