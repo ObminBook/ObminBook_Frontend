@@ -21,7 +21,7 @@ export const UserMenu: React.FC = () => {
     {
       label: 'Профіль',
       icon: <img src={userMenuIcons.iconUserProfile} alt="iconProfile" />,
-      onClick: () => navigate('/profile/my'),
+      onClick: () => navigate('/profile'),
     },
     {
       label: 'Повідомлення',
