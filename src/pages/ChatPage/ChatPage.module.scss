@@ -29,6 +29,9 @@
   }
 
   &__backButton {
+    background: none;
+    border: none;
+    cursor: pointer;
     width: 75px;
     height: 28px;
     display: flex;
@@ -151,6 +154,7 @@
   }
 
   &__content {
+    padding-inline: 12px;
     flex: 1;
   }
 }
@@ -190,4 +194,15 @@
     background: none;
     border: none;
   }
+}
+
+.myMessage {
+  justify-self: flex-end;
+  margin-top: 10px;
+  width: fit-content;
+  padding: 8px 12px;
+  background-color: #b3d9f4;
+  border-radius: 8px;
+
+  @include fontMain--darkblue;
 }

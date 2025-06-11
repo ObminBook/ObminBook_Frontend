@@ -10,10 +10,10 @@ interface ManageBooksState {
   targetUserStatus: 'idle' | 'pending' | 'succeeded' | 'failed';
 
   myBooks: Book[];
+  fetchMyStatus: 'idle' | 'pending' | 'succeeded' | 'failed';
   myBooksPageNumber: number;
   myBooksPageSize: number;
   myBooksTotalElements: number;
-  fetchMyStatus: 'idle' | 'pending' | 'succeeded' | 'failed';
 
   savedBooks: SavedBookItem[];
   fetchSavedStatus: 'idle' | 'pending' | 'succeeded' | 'failed';

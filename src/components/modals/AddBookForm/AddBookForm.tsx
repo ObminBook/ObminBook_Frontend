@@ -12,7 +12,6 @@ import errIcon from '../../../assets/images/input/errIcon.svg';
 import { z } from 'zod';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { addBook, select } from '@/features/addBookSlice/addBookSlice';
-import { AddBookRequest } from '@/types/Book';
 import { getMyBooks } from '@/features/manageBookSlice/manageBookSlice';
 import { showSuccessToast } from '@/components/customToast/toastUtils';
 import { useSelector } from 'react-redux';
@@ -61,20 +60,22 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<BookFormSchema> = async (data) => {
-    const bookPayload: AddBookRequest = {
-      title: data.title,
-      author: data.author,
-      category: data.category,
-      language: data.language,
-      publishedYear: data.year ? Number(data.year) : null,
-      numberOfPages: data.pages ? Number(data.pages) : null,
-      description: data.description || null,
-      condition: data.condition,
-      exchangeType: data.exchangeMethod,
-    };
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('author', data.author);
+    formData.append('category', data.category);
+    formData.append('language', data.language);
+    if (data.year) formData.append('publishedYear', data.year);
+    if (data.pages) formData.append('numberOfPages', data.pages);
+    if (data.description) formData.append('description', data.description);
+    formData.append('condition', data.condition);
+    formData.append('exchangeType', data.exchangeMethod);
+    if (data.cover) {
+      formData.append('cover', data.cover);
+    }
 
     try {
-      await dispatch(addBook(bookPayload)).unwrap();
+      await dispatch(addBook(formData)).unwrap();
       dispatch(getMyBooks());
 
       onClose();

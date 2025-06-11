@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { API_BASE } from '@/config/api';
+import axios from 'axios';
 
 export const refreshAccessToken = async (): Promise<string | null> => {
   try {
     const response = await axios.post<string>(
-      `${API_BASE}auth/refresh`,
+      `${API_BASE}/auth/refresh`,
       {},
       { withCredentials: true } // обов'язково, якщо refreshToken у cookie
     );

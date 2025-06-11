@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { showSuccessToast } from '@/components/customToast/toastUtils';
+import { showErrorToast, showSuccessToast } from '@/components/customToast/toastUtils';
 import { Book } from '@/types/Book';
 import { SimpleBookCardUI } from '../view/SimpleBookCardUI';
-import { deleteMyBook } from '@/features/manageBookSlice/manageBookSlice';
+import { deleteMyBook, getMyBooks } from '@/features/manageBookSlice/manageBookSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 
 interface Props {
@@ -17,12 +17,11 @@ export const MyBookCard: React.FC<Props> = ({ book, onEdit }) => {
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      const result = await dispatch(deleteMyBook(book.id));
-      if (deleteMyBook.fulfilled.match(result)) {
-        showSuccessToast(`"${book.title}" успішно видалена!`);
-      }
-    } catch (error) {
-      console.error('Помилка при видаленні книги:', error);
+      await dispatch(deleteMyBook(book.id));
+      showSuccessToast(`Книжка ${book.title} успішно видалена.`);
+      dispatch(getMyBooks());
+    } catch {
+      showErrorToast('Помилка при видаленні книги');
     } finally {
       setIsLoading(false);
     }

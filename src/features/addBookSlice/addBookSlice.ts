@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from '@/api/axiosInstance';
-import { AddBookRequest, AddBookResponce } from '@/types/Book';
+import { AddBookResponce } from '@/types/Book';
 import { RootState } from '@/reduxStore/store';
 
 interface AddBookState {
@@ -16,7 +16,7 @@ const initialState: AddBookState = {
   success: false,
 };
 
-export const addBook = createAsyncThunk<AddBookResponce, AddBookRequest>(
+export const addBook = createAsyncThunk<AddBookResponce, FormData>(
   'books/addBook',
   async (bookData, thunkAPI) => {
     try {

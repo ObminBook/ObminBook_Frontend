@@ -18,16 +18,17 @@ export interface Book {
   creatingDate: string;
 }
 
-export interface AddBookRequest {
+export interface AddBookFormData {
   title: string;
   author: string;
   category: string;
   language: string;
-  publishedYear: number | null;
-  numberOfPages: number | null;
-  description: string | null;
+  publishedYear?: string;
+  numberOfPages?: string;
+  description?: string;
   condition: string;
   exchangeType: string;
+  cover?: File | null;
 }
 
 export interface AddBookResponce extends Book {
