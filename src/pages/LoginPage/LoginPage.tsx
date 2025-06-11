@@ -11,7 +11,7 @@ import { Footer } from '../../components/layout/Footer/Footer';
 import { login, select } from '../../features/authSlice/authSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Loader } from '@/components/base/Loader/Loader';
 
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -183,9 +183,9 @@ const LoginPage = () => {
               <div style={{ alignSelf: 'center' }}>АБО</div>
               <p className={styles.register}>
                 Немає облікового запису?{' '}
-                <a className={styles.registerLink} href="/register">
+                <Link className={styles.registerLink} to="/register">
                   Зареєструйтесь
-                </a>
+                </Link>
               </p>
             </div>
           </div>
