@@ -40,12 +40,6 @@ export default defineConfig(({ command }) => {
         localsConvention: 'camelCase',
         globalModulePaths: [/global\.module\.scss$/], // Якщо є глобальні SCSS-модулі
       },
-      preprocessorOptions: {
-        scss: {
-          // Додаткові SCSS-змінні, міксини або імпорти
-          additionalData: '@import "./src/styles/_variables.scss";',
-        },
-      },
     },
   };
 });
