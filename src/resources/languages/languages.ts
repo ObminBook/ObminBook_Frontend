@@ -1,5 +1,6 @@
 export const languages = [
   { value: 'uk', label: 'Українська' },
+  { value: 'ru,', label: 'російська' },
   { value: 'en', label: 'Англійська' },
   { value: 'es', label: 'Іспанська' },
   { value: 'fr', label: 'Французька' },
