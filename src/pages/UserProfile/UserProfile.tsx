@@ -64,7 +64,7 @@ const UserProfile: React.FC = () => {
                   <div className={styles.ownerContainer}>
                     <img
                       className={styles.avatar}
-                      src={avatar}
+                      src={user?.profilePicture || avatar}
                       alt="Аватар користувача"
                     />
                     <div className={styles.details}>

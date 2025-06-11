@@ -16,8 +16,6 @@ export const BookModalPortal: React.FC<BookModalPortalProps> = ({
 }) => {
   const modalRoot = document.getElementById('modal-root');
   if (!modalRoot) return null;
-  console.log('модалка їбаше');
-  console.log('any');
 
   return ReactDOM.createPortal(
     <BookModal onClose={onClose} onUserClick={onUserClick} book={book} />,
