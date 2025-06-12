@@ -130,24 +130,21 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
         </div>
 
         <div className={styles.imageContainer}>
-          {book.coverImage ? (
-            <img
-              src={
-                book.coverImage === 'NOT FOUND'
-                  ? cardIcons.imgPlaceholder
-                  : book.coverImage
-              }
-              alt={book.title}
-              className={
-                book.coverImage === 'NOT FOUND' ? styles.mockedImage : styles.image
-              }
-            />
-          ) : (
-            <img
-              src={cardIcons.imgPlaceholder}
-              alt="Зображення відсутнє"
-              className={styles.image}
-            />
+          <img
+            src={
+              book.coverImage === 'NOT FOUND' ? cardIcons.imgPlaceholder : book.coverImage
+            }
+            alt={book.title}
+            className={
+              book.coverImage === 'NOT FOUND' ? styles.mockedImage : styles.image
+            }
+          />
+
+          {book.coverImage === 'NOT FOUND' && (
+            <div className={styles.noCover}>
+              <div className={styles.noCover__title}>Обкладинка у відпустці</div>
+              {/* <div className={styles.noCover__obminBook}>ObminBook</div> */}
+            </div>
           )}
         </div>
         <div className={styles.info}>

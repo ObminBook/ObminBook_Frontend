@@ -9,11 +9,7 @@ interface Props {
   previewImg: string | null;
 }
 
-const Step2: React.FC<Props> = ({
-  onImageSelect,
-  previewImg,
-  buildErrorMessage,
-}) => {
+const Step2: React.FC<Props> = ({ onImageSelect, previewImg, buildErrorMessage }) => {
   const {
     register,
     formState: { errors },
@@ -45,17 +41,14 @@ const Step2: React.FC<Props> = ({
       <p className={styles['step2__conditionTitle']}>
         Стан книги <span className={styles['required']}>*</span>
       </p>
-      {errors.condition &&
-        buildErrorMessage(errors.condition.message as string)}
+      {errors.condition && buildErrorMessage(errors.condition.message as string)}
 
       <div className={styles['step2__options']}>
         {conditionOptions.map((option) => (
           <label
             key={option.title}
             className={`${styles['step2__option']} ${
-              selectedCondition === option.title
-                ? styles['step2__optionSelected']
-                : ''
+              selectedCondition === option.title ? styles['step2__optionSelected'] : ''
             }`}
           >
             <input
@@ -67,9 +60,7 @@ const Step2: React.FC<Props> = ({
               })}
             />
             <p className={styles['step2__optionTitle']}>{option.title}</p>
-            <p className={styles['step2__optionDescription']}>
-              {option.description}
-            </p>
+            <p className={styles['step2__optionDescription']}>{option.description}</p>
           </label>
         ))}
       </div>
@@ -84,12 +75,8 @@ const Step2: React.FC<Props> = ({
             alt="uploadBookIcon"
           />
           <div className={styles['step2__uploadText']}>
-            <p className={styles['step2__uploadTitle']}>
-              Завантажити обкладинку
-            </p>
-            <p className={styles['step2__uploadImgtype']}>
-              JPG, JPEG або PNG, макс. 5MB
-            </p>
+            <p className={styles['step2__uploadTitle']}>Завантажити обкладинку</p>
+            <p className={styles['step2__uploadImgtype']}>JPG, JPEG або PNG, макс. 5MB</p>
           </div>
 
           <input

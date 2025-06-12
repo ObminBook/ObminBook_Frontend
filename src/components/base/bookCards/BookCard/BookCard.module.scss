@@ -51,6 +51,7 @@
 }
 
 .imageContainer {
+  position: relative;
   height: $imgHeight;
   width: $imgWidth;
   background-color: #dbe1e7;
@@ -154,4 +155,35 @@
 .detailImg {
   width: 16px;
   height: 16px;
+}
+
+.noCover {
+  padding: 10px;
+  flex-grow: 1;
+  @include fontH5--darkblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 78%;
+  min-height: 10%;
+  position: absolute;
+  background-color: whitesmoke;
+  border-radius: 16px;
+  border: 1px solid $color-lightGray;
+  left: 50%;
+  bottom: 3%;
+  transform-style: preserve-3d;
+  box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.2);
+
+  perspective: 800px;
+  transform-origin: left center;
+
+  /* Поворот по осі Y вправо і по осі X вперед/вверх */
+  transform: translateX(-38%) rotateY(12deg) translateZ(-30px) skewY(-8deg);
+
+  &__obminBook {
+    @include fontSmall--gray;
+    margin-top: 20px;
+  }
 }
