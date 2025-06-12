@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 import { select } from '@/features/authSlice/authSlice';
 import { findCategoryLabel } from '@/resources/bookCategories/bookCategories';
 import { findLabelLanguage } from '@/resources/languages/languages';
+import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { setAnotherUserBook } from '@/features/exchangeSlice/exchangeSlice';
 
 interface Props {
   onClose: () => void;
@@ -21,9 +23,24 @@ interface Props {
 
 export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
   const user = useSelector(select.user);
   const isUsersBook = user?.id === book.owner.id;
+
+  function handleObminButtonClick(ev: React.MouseEvent, book: Book) {
+    ev.stopPropagation();
+
+    console.log('button clicked');
+
+    if (isUsersBook) {
+      return;
+    }
+
+    navigate('/obmin');
+
+    dispatch(setAnotherUserBook(book));
+  }
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -189,7 +206,12 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                       _disabled={isUsersBook}
                     />
                   </div>
-                  <div className={styles['book-modal__exchange']}>
+                  <div
+                    className={styles['book-modal__exchange']}
+                    onClick={(ev) => {
+                      handleObminButtonClick(ev, book);
+                    }}
+                  >
                     <Button
                       _buttonVariant="blue"
                       _name="Запропонувати обмін"

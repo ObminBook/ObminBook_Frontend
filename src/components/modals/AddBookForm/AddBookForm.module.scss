@@ -314,6 +314,9 @@
   }
 
   &__preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid #e1e7ef;
     border-radius: 8px;
     background-color: $main-background-color;
@@ -340,10 +343,8 @@
   &__image {
     height: 100%;
     width: 100%;
+    object-fit: contain;
     border-radius: 8px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
   }
 
   &__chooseImg {
