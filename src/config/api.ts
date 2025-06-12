@@ -1,1 +1,1 @@
-export const API_BASE = 'http://obminbook.us-east-1.elasticbeanstalk.com';
+export const API_BASE = import.meta.env.VITE_API_BASE;

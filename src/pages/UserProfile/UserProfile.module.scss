@@ -9,12 +9,12 @@
 
 .page {
   flex-grow: 1;
+  background-color: $background1;
 }
 
 .main {
   display: flex;
   padding: 32px 40px 0;
-  background: #f7fafc;
 }
 
 .info {
