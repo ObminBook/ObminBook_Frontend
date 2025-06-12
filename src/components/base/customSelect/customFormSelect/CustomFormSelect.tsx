@@ -11,9 +11,7 @@ const customSelectStyles: StylesConfig<OptionType, false> = {
     ...base,
     display: 'flex',
     alignItems: 'center',
-    border: `1px solid ${
-      state.selectProps.menuIsOpen ? '$color-blue' : '#e1e7ef'
-    }`,
+    border: `1px solid ${state.selectProps.menuIsOpen ? '$color-blue' : '#e1e7ef'}`,
     borderRadius: '8px',
     minWidth: '192px',
     width: '100%',
@@ -24,6 +22,9 @@ const customSelectStyles: StylesConfig<OptionType, false> = {
     lineHeight: 1.4,
     color: '$color-darkblue',
     boxShadow: 'none',
+    '&:hover': {
+      border: '1px solid #3e9ee3',
+    },
   }),
   menu: (base) => ({
     ...base,
@@ -48,7 +49,7 @@ const customSelectStyles: StylesConfig<OptionType, false> = {
     alignItems: 'center',
     borderRadius: '8px',
     backgroundColor: state.isSelected
-      ? '$color-blue'
+      ? '#3e9ee3'
       : state.isFocused
       ? '#e9ecef'
       : '#f7fafc',
@@ -107,8 +108,7 @@ export const CustomFormSelect = ({
     control,
   });
 
-  const selectedOption =
-    options.find((option) => option.value === value) || null;
+  const selectedOption = options.find((option) => option.value === value) || null;
 
   return (
     <div>

@@ -24,6 +24,9 @@ const customSortStyles: StylesConfig<Option, false> = {
     color: '#1c2c45',
     boxShadow: 'none',
     padding: '2px',
+    '&:hover': {
+      border: '1px solid #3e9ee3',
+    },
   }),
   menu: (base) => ({
     ...base,

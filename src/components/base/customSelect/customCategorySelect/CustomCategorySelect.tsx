@@ -15,7 +15,7 @@ const customSelectStyles: StylesConfig<Option, true> = {
     ...base,
     display: 'flex',
     flexWrap: 'wrap',
-    border: state.isFocused ? '1px solid #3e9ee3 ' : '1px solid #E1E7EF',
+    border: state.isFocused ? '1px solid #3e9ee3' : '1px solid #E1E7EF',
     borderRadius: '8px',
     minWidth: '192px',
     width: '100%',
@@ -26,6 +26,10 @@ const customSelectStyles: StylesConfig<Option, true> = {
     color: '#1c2c45',
     boxShadow: 'none',
     padding: '2px',
+
+    '&:hover': {
+      border: '1px solid #3e9ee3',
+    },
   }),
   menu: (base) => ({
     ...base,
