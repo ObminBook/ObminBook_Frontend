@@ -59,7 +59,7 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
     dispatch(setAnotherUserBook(book));
   }
 
-  async function handleSaveButtonClick(bookId: number) {
+  async function handleSaveButtonClick(bookId: string) {
     setIsSaveLoading(true);
 
     try {

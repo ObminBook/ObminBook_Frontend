@@ -47,7 +47,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
     dispatch(setAnotherUserBook(book));
   }
 
-  async function handleSaveButtonClick(bookId: number) {
+  async function handleSaveButtonClick(bookId: string) {
     setIsSaveLoading(true);
 
     try {

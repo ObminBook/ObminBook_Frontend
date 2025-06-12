@@ -3,6 +3,7 @@ import { axiosInstance } from './axiosInstance';
 import qs from 'qs';
 import { TargetUser } from '@/types/User';
 import { UserNotificationResponse } from '@/types/UserNotification';
+import { ExchangePageResponse } from '@/types/Exchange';
 
 export const booksApi = {
   fetchMy: async (page: number, size: number) => {
@@ -59,7 +60,7 @@ export const booksApi = {
       console.error('Помилка при оновленні міста:', error);
     }
   },
-  deleteUserBook: async (bookId: number) => {
+  deleteUserBook: async (bookId: string) => {
     try {
       const response = await axiosInstance.delete(`/books/${bookId}`);
 
@@ -68,7 +69,7 @@ export const booksApi = {
       console.error('Помилка при видаленні книжки', error);
     }
   },
-  saveBook: async (bookId: number) => {
+  saveBook: async (bookId: string) => {
     try {
       const response = await axiosInstance.post(`/books/me/saved/${bookId}`);
 
@@ -97,7 +98,7 @@ export const booksApi = {
       throw error;
     }
   },
-  removeFromSaved: async (bookId: number) => {
+  removeFromSaved: async (bookId: string) => {
     try {
       const response = await axiosInstance.delete(`/books/me/saved/${bookId}`);
       return response;
@@ -110,8 +111,8 @@ export const booksApi = {
 
 export const exchangeApi = {
   offerExchange: async (
-    initiatorBookId: number | null,
-    recipientBookId: number,
+    initiatorBookId: string | null,
+    recipientBookId: string,
     isAnyBookOffered: boolean
   ) => {
     const response = await axiosInstance.post('/exchange', {
@@ -121,6 +122,24 @@ export const exchangeApi = {
     });
 
     return response.data;
+  },
+  getMyExchanges: async (
+    page: number = 0,
+    size: number = 20
+  ): Promise<ExchangePageResponse> => {
+    const response = await axiosInstance.get('/exchange', {
+      params: {
+        page,
+        size,
+      },
+    });
+
+    return response.data;
+  },
+  cancelRequest: async (bookId: string) => {
+    const response = await axiosInstance.patch(`/exchange/cancel/${bookId}`);
+
+    return response;
   },
 };
 

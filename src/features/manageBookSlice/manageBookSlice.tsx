@@ -57,7 +57,7 @@ export const getMyBooks = createAsyncThunk<
 });
 
 export const deleteMyBook = createAsyncThunk<
-  { bookId: number },
+  { bookId: string },
   number,
   { state: RootState; rejectValue: string }
 >('manageBooks/deleteMyBook', async (bookId, thunkApi) => {
@@ -106,7 +106,7 @@ export const getSavedBooks = createAsyncThunk<
 });
 
 export const removeFromSavedBooks = createAsyncThunk<
-  { bookId: number },
+  { bookId: string },
   number,
   { rejectValue: string }
 >('manageBooks/removeFromSavedBooks', async (bookId, thunkApi) => {

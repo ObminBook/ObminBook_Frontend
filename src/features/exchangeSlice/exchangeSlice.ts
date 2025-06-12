@@ -3,9 +3,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Book } from '../../types/Book';
 import { RootState } from '../../reduxStore/store';
 import { logout } from '../authSlice/authSlice';
-import { ExchangeRequest } from '@/types/Exchange';
+import { ExchangeRequest, ExchangeResponse } from '@/types/Exchange';
 import { exchangeApi } from '@/api/booksApi';
 import { toast } from 'react-toastify';
+import { showErrorToast } from '@/components/customToast/toastUtils';
 
 interface ExchangeState {
   myBook: Book | null;
@@ -14,6 +15,8 @@ interface ExchangeState {
   isAny: boolean;
 
   offerExchangeStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+
+  listOfMyExchanges: ExchangeResponse[];
 }
 
 const initialState: ExchangeState = {
@@ -22,6 +25,7 @@ const initialState: ExchangeState = {
   anotherUserBook: null,
   isAny: false,
 
+  listOfMyExchanges: [],
   offerExchangeStatus: 'idle',
 };
 
@@ -32,16 +36,30 @@ export const startExchangeAsync = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const response = await exchangeApi.offerExchange(
+      const data = await exchangeApi.offerExchange(
         initiatorBookId,
         recipientBookId,
         isAnyBookOffered
       );
 
       toast.success('Запит на обмін успішно надісланий');
-      return response;
+      return data;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getMyExchangesAsync = createAsyncThunk<ExchangeResponse[]>(
+  'exchange/getMyExchanges',
+  async (_, thunkAPI) => {
+    try {
+      const data = await exchangeApi.getMyExchanges();
+
+      return data.content;
+    } catch {
+      showErrorToast('Не вдалося завантажити список обмінів');
+      return thunkAPI.rejectWithValue('Не вдалося завантажити список обмінів');
     }
   }
 );
@@ -75,6 +93,9 @@ const exchangeSlice = createSlice({
       state.anyCard = null;
       state.isAny = false;
     },
+    setListOfMyExchanges(state, action: PayloadAction<ExchangeResponse[]>) {
+      state.listOfMyExchanges = action.payload;
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -92,7 +113,15 @@ const exchangeSlice = createSlice({
       })
       .addCase(startExchangeAsync.rejected, (state) => {
         state.offerExchangeStatus = 'failed';
-      }),
+      })
+
+      // GetMyExchanges
+      .addCase(
+        getMyExchangesAsync.fulfilled,
+        (state, action: PayloadAction<ExchangeResponse[]>) => {
+          state.listOfMyExchanges = action.payload;
+        }
+      ),
 });
 
 export const {
@@ -102,6 +131,7 @@ export const {
   removeAnotherUserBook,
   setAnyCard,
   removeAnyCard,
+  setListOfMyExchanges,
 } = exchangeSlice.actions;
 
 export const select = {
@@ -110,6 +140,7 @@ export const select = {
   anotherUserBook: (state: RootState) => state.exchange.anotherUserBook,
   isAny: (state: RootState) => state.exchange.isAny,
   offerExchangeStatus: (state: RootState) => state.exchange.offerExchangeStatus,
+  listOfMyExchanges: (state: RootState) => state.exchange.listOfMyExchanges,
 };
 
 export default exchangeSlice.reducer;
