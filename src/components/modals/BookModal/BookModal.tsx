@@ -2,7 +2,7 @@ import styles from './BookModal.module.scss';
 import avatar from '../../../assets/images/common/avatar.svg';
 import { useNavigate } from 'react-router-dom';
 import coverPlaceholder from '../../../assets/images/cardBook/cardDetails/paliturka.png';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { cardIcons } from '../../../assets/images/cardBook/cardDetails';
 import { TruncatedText } from '../../base/truncatedText/TruncatedText';
 import { Button } from '../../base/button/Button';
@@ -14,6 +14,9 @@ import { findCategoryLabel } from '@/resources/bookCategories/bookCategories';
 import { findLabelLanguage } from '@/resources/languages/languages';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { setAnotherUserBook } from '@/features/exchangeSlice/exchangeSlice';
+import { showErrorToast, showSuccessToast } from '@/components/customToast/toastUtils';
+import { booksApi } from '@/api/booksApi';
+import { Loader } from '@/components/base/Loader/Loader';
 
 interface Props {
   onClose: () => void;
@@ -24,6 +27,8 @@ interface Props {
 export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
+
   const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
   const user = useSelector(select.user);
   const isUsersBook = user?.id === book.owner.id;
@@ -40,6 +45,21 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
     navigate('/obmin');
 
     dispatch(setAnotherUserBook(book));
+  }
+
+  async function handleSaveButtonClick(bookId: number) {
+    setIsSaveLoading(true);
+
+    try {
+      const data = await booksApi.saveBook(bookId);
+      if (data) {
+        showSuccessToast('Книжка успішно збережена');
+      }
+    } catch {
+      showErrorToast('Не вдалося зберегти книжку');
+    } finally {
+      setIsSaveLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -195,12 +215,15 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
             {isAuthenticated ? (
               <div className={styles['book-modal__actions']}>
                 <div className={styles['book-modal__save-exchange-box']}>
-                  <div className={styles['book-modal__save']}>
+                  <div
+                    className={styles['book-modal__save']}
+                    onClick={() => handleSaveButtonClick(book.id)}
+                  >
                     <Button
-                      _buttonVariant="blueTransparent"
-                      _name="Зберегти"
+                      _buttonVariant={isSaveLoading ? 'blue' : 'blueTransparent'}
+                      _name={isSaveLoading ? <Loader /> : 'Зберегти'}
                       _fontSize="bold"
-                      _icon={miniIcons.buttHeartBlue}
+                      _icon={isSaveLoading ? null : miniIcons.buttHeartBlue}
                       _type="button"
                       _iconPosition="left"
                       _disabled={isUsersBook}

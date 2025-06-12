@@ -27,7 +27,7 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
   const { hoverRef, isHovered } = useHover();
   const user = useSelector(select.user);
   const isUserBook = book.owner.id === user?.id;
-  const [isSaveLoadind, setIsSaveLoading] = useState(false);
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -103,10 +103,10 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
             }}
           >
             <Button
-              _name={isSaveLoadind ? <Loader /> : 'Зберегти'}
+              _name={isSaveLoading ? <Loader /> : 'Зберегти'}
               _buttonVariant="transparent"
               _fontSize="bold"
-              _icon={!isSaveLoadind ? miniIcons.buttHeart : null}
+              _icon={!isSaveLoading ? miniIcons.buttHeart : null}
               _iconPosition="left"
               _type="button"
               _disabled={isUserBook ? true : false}
@@ -143,7 +143,6 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
           {book.coverImage === 'NOT FOUND' && (
             <div className={styles.noCover}>
               <div className={styles.noCover__title}>Обкладинка у відпустці</div>
-              {/* <div className={styles.noCover__obminBook}>ObminBook</div> */}
             </div>
           )}
         </div>
