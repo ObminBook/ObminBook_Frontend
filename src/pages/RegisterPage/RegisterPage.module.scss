@@ -42,11 +42,12 @@
   align-items: center;
   width: 100%;
   text-align: center;
-  @include fontH2--bold;
+  @include fontH2;
+  color: $color-darkblue;
 }
 
 .subtitle {
-  width: 344px;
+  width: 100%;
   margin-top: 4px;
   @include fontSec--reg--gray;
   text-align: center;
@@ -55,12 +56,17 @@
 .control {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  flex-grow: 1;
   width: 100%;
+}
+
+.regButton {
+  margin-top: 10px;
 }
 
 .input-group {
   position: relative;
-  height: 81px;
 }
 
 .input-eye,
@@ -144,14 +150,10 @@
   text-decoration: none;
 }
 
-.regButton {
-  margin-top: 16px;
-}
-
 .social {
-  margin-top: 16px;
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
   flex-grow: 1;
   width: 100%;
 }
@@ -181,7 +183,6 @@
 }
 
 .divider {
-  margin-top: 16px;
   position: relative;
   height: 20px;
   display: flex;
@@ -210,7 +211,6 @@
 }
 
 .socialRow {
-  margin-top: 16px;
   display: flex;
   justify-content: center;
 
@@ -236,5 +236,25 @@
     text-decoration: none;
     color: $color-blue;
     font-weight: 500;
+  }
+}
+
+.hasAccount {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  gap: 4px;
+
+  &__text {
+    @include fontSec--reg--gray;
+  }
+
+  &__linkToLogin {
+    @include fontSec--blue;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-blue--hover;
+    }
   }
 }

@@ -21,6 +21,7 @@ import { useAppDispatch } from '../../reduxHooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { VerifPortal } from '@/components/modals/Verif/Verif_Portal';
 import { Loader } from '../../components/base/Loader/Loader';
+import { Link } from 'react-router-dom';
 
 const schema = z
   .object({
@@ -300,6 +301,7 @@ const RegisterPage = () => {
               <div className={styles.regButton}>
                 <Button
                   _buttonVariant="blue"
+                  _fontSize="bold"
                   _name={isLoading ? <Loader /> : 'Створити обліковий запис'}
                   _type="submit"
                 ></Button>
@@ -320,6 +322,13 @@ const RegisterPage = () => {
                     _type="button"
                   />
                 </div>
+              </div>
+
+              <div className={styles.hasAccount}>
+                <div className={styles.hasAccount__text}>Вже маєте обліковий запис?</div>
+                <Link to="/login" className={styles.hasAccount__linkToLogin}>
+                  Увійти
+                </Link>
               </div>
             </div>
           </form>

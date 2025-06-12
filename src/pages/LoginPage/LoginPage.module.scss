@@ -202,8 +202,9 @@
     margin-top: 16px;
     font-size: 14px;
 
-    &-link {
+    &__link {
       color: $color-blue;
+      text-decoration: none;
       font-weight: 500;
     }
   }

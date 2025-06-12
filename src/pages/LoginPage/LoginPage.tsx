@@ -183,7 +183,7 @@ const LoginPage = () => {
               <div style={{ alignSelf: 'center' }}>АБО</div>
               <p className={styles.register}>
                 Немає облікового запису?{' '}
-                <Link className={styles.registerLink} to="/register">
+                <Link className={styles.register__link} to="/register">
                   Зареєструйтесь
                 </Link>
               </p>
