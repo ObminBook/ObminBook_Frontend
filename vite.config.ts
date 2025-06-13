@@ -17,9 +17,9 @@ export default defineConfig(({ command }) => {
       server: {
         proxy: {
           '/api': {
-            target: 'https://obminbook.us-east-1.elasticbeanstalk.com',
+            target: 'http://obminbook.us-east-1.elasticbeanstalk.com',
             changeOrigin: true,
-            secure: true,
+            secure: false,
             rewrite: (path) => path.replace(/^\/api/, ''),
           },
         },
@@ -32,8 +32,7 @@ export default defineConfig(({ command }) => {
         external: () => false,
       },
     },
-    // Копіюємо _redirects файл в білд
-    publicDir: 'public',
+
     css: {
       modules: {
         scopeBehaviour: 'local',
