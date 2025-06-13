@@ -1,7 +1,7 @@
 import { SearchBooksRequest, BookPage, SavedBookResponce } from '@/types/Book';
 import { axiosInstance } from './axiosInstance';
 import qs from 'qs';
-import { TargetUser } from '@/types/User';
+import { TargetUser, User } from '@/types/User';
 import { UserNotificationResponse } from '@/types/UserNotification';
 import { ExchangePageResponse } from '@/types/Exchange';
 
@@ -162,5 +162,13 @@ export const notificationApi = {
       console.error('Помилка при завантаженні нотіфікейшнів', error);
       throw error;
     }
+  },
+};
+
+export const chatApi = {
+  getChatUsers: async (): Promise<User[]> => {
+    const response = await axiosInstance.get('/user/exchange-partners');
+
+    return response.data;
   },
 };

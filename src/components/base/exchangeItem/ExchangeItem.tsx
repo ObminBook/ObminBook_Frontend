@@ -4,19 +4,20 @@ import { BookOfferCard } from '../bookCards/BookOfferCard/BookOfferCard';
 import { miniIcons } from '@/assets/images/miniIcons';
 import { Button } from '../button/Button';
 import { AnyBookCard } from '../bookCards/AnyBookCard/AnyBookCard';
+import { useNavigate } from 'react-router-dom';
+import { dispatch } from '@/reduxStore/store';
+import { setSelectedUser } from '@/features/chatSlice/chatSlice';
 
 interface ExchangeItemProps {
   exchange: ExchangeResponse;
   isUserInitiator?: boolean;
 }
 
-export const ExchangeItem: React.FC<ExchangeItemProps> = ({
-  exchange,
-  // isUserInitiator = false,
-}) => {
+export const ExchangeItem: React.FC<ExchangeItemProps> = ({ exchange }) => {
   const initiatorBook = exchange.initiatorBook;
   const recipientBook = exchange.recipientBook;
   const isAnyBookOffered = exchange.isAnyBookOffered;
+  const navigate = useNavigate();
 
   return (
     <div className={styles.exchange__pairContainer}>
@@ -43,7 +44,14 @@ export const ExchangeItem: React.FC<ExchangeItemProps> = ({
             _type="button"
           />
         </div>
-        <div style={{ width: '200px' }}>
+        <div
+          style={{ width: '200px' }}
+          onClick={(ev) => {
+            ev.preventDefault();
+            navigate('/messages');
+            dispatch(setSelectedUser(exchange.recipient));
+          }}
+        >
           <Button
             _buttonVariant="blueTransparent"
             _name="Відкрити чат"
