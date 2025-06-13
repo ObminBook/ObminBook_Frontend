@@ -4,9 +4,3 @@
   to = "https://obminbook.us-east-1.elasticbeanstalk.com/:splat"
   status = 200
   force = true
-
-# SPA fallback тільки для неіснуючих файлів (без force)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
