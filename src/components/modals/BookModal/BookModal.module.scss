@@ -259,10 +259,10 @@
   height: 75px;
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 50px;
   background-color: rgb(255, 255, 255);
   display: flex;
-  padding: 15px 17px 15px;
+  padding-inline: 20px;
   position: relative;
   box-shadow: 3px 5px 4px rgba(0, 0, 0, 0.082);
   border: 1px solid #e1e7ef;
@@ -271,13 +271,9 @@
   bottom: 20px;
   z-index: 5;
 
-  &__imgContainer {
-    height: 60px;
-    width: 60px;
-  }
-
   &__img {
-    object-fit: contain;
+    width: 50px;
+    height: 50px;
   }
 
   &__text {

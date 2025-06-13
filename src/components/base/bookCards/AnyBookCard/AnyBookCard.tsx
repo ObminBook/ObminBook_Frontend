@@ -5,12 +5,19 @@ import { useAppDispatch } from '../../../../reduxHooks/useAppDispatch';
 import styles from './AnyBookCard.module.scss';
 
 interface AnyBookCardProps {
-  book: { text: string } | null;
+  book?: { text: string } | null;
+  hasLogic?: boolean;
 }
 
-export const AnyBookCard: React.FC<AnyBookCardProps> = ({ book }) => {
+export const AnyBookCard: React.FC<AnyBookCardProps> = ({
+  book = { text: 'Обмін на будь-яку вашу' },
+  hasLogic = true,
+}) => {
   const dispatch = useAppDispatch();
   const handleRemoveClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    if (!hasLogic) {
+      return;
+    }
     e.stopPropagation();
 
     dispatch(removeAnyCard());
@@ -18,7 +25,9 @@ export const AnyBookCard: React.FC<AnyBookCardProps> = ({ book }) => {
 
   return (
     <div className={styles.card} onClick={handleRemoveClick}>
-      <img className={styles.deleteIcon} src={miniIcons.buttRemoveCard} alt="icon" />
+      {hasLogic && (
+        <img className={styles.deleteIcon} src={miniIcons.buttRemoveCard} alt="icon" />
+      )}
 
       <div className={styles.imageContainer}>
         <img className={styles.image} src={cardIcons.anyBookIcon} alt="anyBookImage" />
