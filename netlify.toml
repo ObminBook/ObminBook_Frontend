@@ -1,10 +1,10 @@
+# API проксі
 [[redirects]]
   from = "/api/*"
   to = "https://obminbook.us-east-1.elasticbeanstalk.com/:splat"
   status = 200
-  force = true
 
-# SPA fallback - всі неіснуючі шляхи перенаправляємо на index.html
+# SPA fallback тільки для неіснуючих файлів (без force)
 [[redirects]]
   from = "/*"
   to = "/index.html"
