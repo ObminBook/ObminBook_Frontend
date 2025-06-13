@@ -1,5 +1,11 @@
 [[redirects]]
   from = "/api/*"
-  to = "http://obminbook.us-east-1.elasticbeanstalk.com/:splat"
+  to = "https://obminbook.us-east-1.elasticbeanstalk.com/:splat"
   status = 200
   force = true
+
+# SPA fallback - всі неіснуючі шляхи перенаправляємо на index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

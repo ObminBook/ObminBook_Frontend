@@ -32,13 +32,13 @@ export default defineConfig(({ command }) => {
         external: () => false,
       },
     },
-    // Налаштування для CSS/SCSS-модулів
+
     css: {
       modules: {
         scopeBehaviour: 'local',
         generateScopedName: '[name]__[local]__[hash:base64:5]',
         localsConvention: 'camelCase',
-        globalModulePaths: [/global\.module\.scss$/], // Якщо є глобальні SCSS-модулі
+        globalModulePaths: [/global\.module\.scss$/],
       },
     },
   };
