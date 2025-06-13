@@ -1,6 +1,12 @@
-# API проксі
+# Проксі для API
 [[redirects]]
   from = "/api/*"
   to = "https://obminbook.us-east-1.elasticbeanstalk.com/:splat"
   status = 200
   force = true
+
+# SPA fallback для всіх інших маршрутів
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
