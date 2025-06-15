@@ -70,14 +70,9 @@ export const booksApi = {
     }
   },
   saveBook: async (bookId: string) => {
-    try {
-      const response = await axiosInstance.post(`/books/me/saved/${bookId}`);
+    const response = await axiosInstance.post(`/books/me/saved/${bookId}`);
 
-      return response.data;
-    } catch (error) {
-      console.error('Помилка при збереженні книжки', error);
-      throw error;
-    }
+    return response.data;
   },
   getSavedBooks: async (
     page: number = 0,

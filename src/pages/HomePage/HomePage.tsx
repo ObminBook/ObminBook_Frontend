@@ -18,20 +18,16 @@ const HomePage: React.FC = () => {
             Безкоштовно обмінюйтесь книгами по всьому світу
           </h1>
           <p className={styles.description}>
-            В нас можна обміняти свої прочитані книжки на інші або знайти те, що
-            вас цікавить. <br /> Просто знайдіть потрібний екземпляр і
-            зв'яжіться з його власником. <br /> Це безкоштовно. Міняйтесь з ким
-            завгодно, де б ви не були.
+            В нас можна обміняти свої прочитані книжки на інші або знайти те, що вас
+            цікавить. <br /> Просто знайдіть потрібний екземпляр і зв'яжіться з його
+            власником. <br /> Це безкоштовно. Міняйтесь з ким завгодно, де б ви не були.
           </p>
         </section>
         <section className={styles.actions}>
           <button className={styles.button} onClick={() => navigate('/search')}>
             Знайти книгу
           </button>
-          <button
-            className={styles.button}
-            onClick={() => navigate('/profile')}
-          >
+          <button className={styles.button} onClick={() => navigate('/profile')}>
             Додати книгу
           </button>
         </section>
@@ -41,8 +37,8 @@ const HomePage: React.FC = () => {
             <div className={styles.cardInfo}>
               <h4 className={styles.cardTitle}>Знаходьте книги</h4>
               <p className={styles.cardDescription}>
-                Шукайте книги за жанром, автором або станом, щоб знайти саме те,
-                що вам потрібно.
+                Шукайте книги за жанром, автором або станом, щоб знайти саме те, що вам
+                потрібно.
               </p>
             </div>
           </div>
@@ -60,8 +56,8 @@ const HomePage: React.FC = () => {
             <div className={styles.cardInfo}>
               <h4 className={styles.cardTitle}>Економте кошти</h4>
               <p className={styles.cardDescription}>
-                Обмінюйтесь книгами замість того, щоб купувати нові. Економте
-                гроші та розширюйте свою бібліотеку.
+                Обмінюйтесь книгами замість того, щоб купувати нові. Економте гроші та
+                розширюйте свою бібліотеку.
               </p>
             </div>
           </div>

@@ -25,10 +25,11 @@ interface BookCardProps {
 export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref) => {
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
+  const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
   const { hoverRef, isHovered } = useHover();
   const user = useSelector(select.user);
   const isUserBook = book.owner.id === user?.id;
-  const [isSaveLoading, setIsSaveLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -69,7 +70,11 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
         showSuccessToast('Книжка успішно збережена');
       }
     } catch {
-      showErrorToast('Не вдалося зберегти книжку');
+      if (!isAuthenticated) {
+        showErrorToast('Щоб зберегти книжку, спочатку залогіньтесь');
+      } else {
+        showErrorToast('Не вдалося зберегти книжку');
+      }
     } finally {
       setIsSaveLoading(false);
     }

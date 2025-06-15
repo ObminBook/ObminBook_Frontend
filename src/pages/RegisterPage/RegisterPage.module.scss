@@ -2,7 +2,6 @@
 @use '../../styles/mixins' as *;
 
 .register {
-  height: 100vh;
   margin: 0;
   padding: 0;
   display: flex;
@@ -11,6 +10,7 @@
 }
 
 .content {
+  padding-block: 50px;
   flex-grow: 1;
   display: flex;
   justify-content: center;

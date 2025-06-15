@@ -7,12 +7,6 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 
 const API_BASE = '/api';
 
-// Функція, що прибирає /api на початку шляху, якщо вона там є
-// const sanitizeUrl = (url: string | undefined) => {
-//   if (!url) return url;
-//   return url.startsWith('/api') ? url.replace(/^\/api/, '') : url;
-// };
-
 type TokenQueueItem = {
   resolve: (token: string) => void;
   reject: (error: Error | AxiosError) => void;
@@ -35,10 +29,6 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  // Якщо шлях починається з /api — видаляємо, щоб не було дублювань
-  // config.url = sanitizeUrl(config.url);
-
-  // Пропускаємо авторизацію на певних ендпоінтах
   const noAuthEndpoints = ['/auth/login', '/auth/register'];
 
   if (noAuthEndpoints.some((endpoint) => config.url?.startsWith(endpoint))) {
