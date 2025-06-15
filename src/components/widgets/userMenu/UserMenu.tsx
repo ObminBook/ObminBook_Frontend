@@ -19,26 +19,31 @@ export const UserMenu: React.FC = () => {
 
   const menuItems = [
     {
+      id: 1,
       label: 'Профіль',
       icon: <img src={userMenuIcons.iconUserProfile} alt="iconProfile" />,
       onClick: () => navigate('/profile'),
     },
     {
+      id: 2,
       label: 'Повідомлення',
       icon: <img src={userMenuIcons.iconSendMessage} alt="iconMessage" />,
       onClick: () => navigate('/messages'),
     },
     {
+      id: 3,
       label: 'Підтримка',
       icon: <img src={userMenuIcons.iconSupport} alt="iconSupport" />,
       onClick: () => navigate('/support'),
     },
     {
+      id: 4,
       label: 'Налаштування',
       icon: <img src={userMenuIcons.iconConfiguration} alt="iconConfig" />,
       onClick: () => navigate('/personal'),
     },
     {
+      id: 5,
       label: 'Вийти з акаунту',
       icon: <img src={userMenuIcons.iconLogout} alt="iconLogout" />,
       onClick: handleLogout,
@@ -62,9 +67,9 @@ export const UserMenu: React.FC = () => {
       {isOpen && (
         <div className={styles['user-menu__dropdown']}>
           <ul className={styles['user-menu__list']}>
-            {menuItems.map(({ label, icon, onClick, danger }) => (
+            {menuItems.map(({ label, icon, onClick, danger, id }) => (
               <li
-                key={label}
+                key={id}
                 className={`${styles['user-menu__item']} ${
                   danger ? styles['user-menu__item--danger'] : ''
                 }`}

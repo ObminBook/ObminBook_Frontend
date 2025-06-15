@@ -5,9 +5,11 @@ import {
   fetchUserRequest,
   registerRequest,
   verificationRequest,
+  userLogout,
 } from '../../api/authApi';
 import { RootState } from '@/reduxStore/store';
 import axios, { AxiosError } from 'axios';
+import { showErrorToast } from '@/components/customToast/toastUtils';
 
 interface AuthError {
   field?: string;
@@ -17,6 +19,7 @@ interface AuthError {
 interface AuthState {
   user: User | null;
   loginStatus: 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
+  logoutStatus: 'idle' | 'loading';
   registerStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   verificationStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: AuthError | null;
@@ -29,6 +32,7 @@ const initialState: AuthState = {
   loginStatus: 'idle',
   registerStatus: 'idle',
   verificationStatus: 'idle',
+  logoutStatus: 'idle',
   error: null,
   isVerificationRequired: false,
   isCodeResent: false,
@@ -137,8 +141,18 @@ export const checkAuth = createAsyncThunk<User, void, { rejectValue: AuthError }
   }
 );
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  localStorage.removeItem('accessToken');
+export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+  try {
+    await userLogout();
+
+    localStorage.removeItem('accessToken');
+
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    return true;
+  } catch {
+    return thunkAPI.rejectWithValue('Щось пішло не так');
+  }
 });
 
 const authSlice = createSlice({
@@ -234,6 +248,14 @@ const authSlice = createSlice({
         state.error = null;
         state.isVerificationRequired = false;
         state.isCodeResent = false;
+        state.logoutStatus = 'idle';
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.logoutStatus = 'idle';
+        showErrorToast(action.payload as string);
+      })
+      .addCase(logout.pending, (state) => {
+        state.logoutStatus = 'loading';
       });
   },
 });
@@ -241,6 +263,7 @@ const authSlice = createSlice({
 export const select = {
   user: (state: RootState) => state.auth.user,
   loginStatus: (state: RootState) => state.auth.loginStatus,
+  logoutStatus: (state: RootState) => state.auth.logoutStatus,
   registerStatus: (state: RootState) => state.auth.registerStatus,
   verificationStatus: (state: RootState) => state.auth.verificationStatus,
   isVerificationRequired: (state: RootState) => state.auth.isVerificationRequired,

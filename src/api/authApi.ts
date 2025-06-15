@@ -17,3 +17,11 @@ export const registerRequest = (payload: {
 
 export const verificationRequest = (email: string, code: string) =>
   axiosInstance.post('/auth/verification', { email, code });
+
+export const userLogout = () => {
+  const response = axiosInstance.post('/auth/logout');
+
+  console.log(response);
+
+  return response;
+};
