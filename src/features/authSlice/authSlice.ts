@@ -1,4 +1,3 @@
-// features/authSlice/authSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../types/User';
 import {
@@ -8,13 +7,19 @@ import {
   verificationRequest,
 } from '../../api/authApi';
 import { RootState } from '@/reduxStore/store';
+import axios, { AxiosError } from 'axios';
+
+interface AuthError {
+  field?: string;
+  message: string;
+}
 
 interface AuthState {
   user: User | null;
   loginStatus: 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
   registerStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   verificationStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: { field: string; message: string } | null;
+  error: AuthError | null;
   isVerificationRequired: boolean;
   isCodeResent: boolean;
 }
@@ -38,95 +43,99 @@ type RegisterPayload = {
 };
 
 // Async Thunks
-export const login = createAsyncThunk(
-  'auth/login',
-  async ({ email, password }: { email: string; password: string }, thunkAPI) => {
-    try {
-      const loginResponse = await loginRequest(email, password);
-      const token = loginResponse.data;
-      if (token) {
-        localStorage.setItem('accessToken', token);
-      }
-      const userResponse = await fetchUserRequest();
-      return userResponse.data;
-    } catch (err) {
-      console.error('Login error:', err);
-      return thunkAPI.rejectWithValue('Login failed');
+export const login = createAsyncThunk<
+  User,
+  { email: string; password: string },
+  { rejectValue: AuthError }
+>('auth/login', async ({ email, password }, thunkAPI) => {
+  try {
+    const loginResponse = await loginRequest(email, password);
+    const token = loginResponse.data;
+    if (token) {
+      localStorage.setItem('accessToken', token);
     }
+    const userResponse = await fetchUserRequest();
+    return userResponse.data;
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 401) {
+      return thunkAPI.rejectWithValue({
+        field: 'login',
+        message: 'Введений неправильний email чи пароль',
+      });
+    }
+    return thunkAPI.rejectWithValue({ message: 'Login failed' });
   }
-);
+});
 
 export const register = createAsyncThunk<
   void,
   RegisterPayload,
-  {
-    rejectValue: { field?: string; message: string };
-  }
->(
-  'auth/register',
-  async ({ email, password, confirmPassword, firstName, lastName }, thunkAPI) => {
-    try {
-      await registerRequest({
-        email,
-        password,
-        confirmPassword,
-        firstName,
-        lastName,
+  { rejectValue: AuthError }
+>('auth/register', async (payload, thunkAPI) => {
+  try {
+    await registerRequest(payload);
+  } catch (err) {
+    const error = err as AxiosError<{ message?: string }>;
+    if (error.response?.status === 409) {
+      return thunkAPI.rejectWithValue({
+        field: 'email',
+        message: 'Користувач з такою поштою вже існує',
       });
-    } catch (err: any) {
-      if (err.response?.status === 409) {
-        return thunkAPI.rejectWithValue({
-          field: 'email',
-          message: 'Користувач із такою поштою вже існує',
-        });
-      }
-      return thunkAPI.rejectWithValue({ message: 'Щось пішло не так' });
     }
-  }
-);
-
-export const fetchUser = createAsyncThunk('auth/fetchUser', async (_, thunkAPI) => {
-  const token = localStorage.getItem('accessToken');
-  if (!token) return thunkAPI.rejectWithValue('No token');
-
-  try {
-    const response = await fetchUserRequest();
-    return response.data;
-  } catch {
-    localStorage.removeItem('accessToken');
-    return thunkAPI.rejectWithValue('Invalid token');
+    return thunkAPI.rejectWithValue({ message: 'Щось пішло не так' });
   }
 });
 
-export const verification = createAsyncThunk(
-  'auth/verification',
-  async ({ email, code }: { email: string; code: string }, thunkAPI) => {
+export const fetchUser = createAsyncThunk<User, void, { rejectValue: AuthError }>(
+  'auth/fetchUser',
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return thunkAPI.rejectWithValue({ message: 'No token' });
+
     try {
-      await verificationRequest(email, code);
-    } catch (err: any) {
-      if (err.response) {
-        const errorData = err.response.data;
-        return thunkAPI.rejectWithValue(errorData);
-      }
-      return thunkAPI.rejectWithValue('Щось пішло не так');
+      const response = await fetchUserRequest();
+      return response.data;
+    } catch {
+      localStorage.removeItem('accessToken');
+      return thunkAPI.rejectWithValue({ message: 'Invalid token' });
     }
   }
 );
 
-export const checkAuth = createAsyncThunk('auth/me', async (_, thunkAPI) => {
-  const token = localStorage.getItem('accessToken');
-  if (!token) return thunkAPI.rejectWithValue('No token found');
-
+export const verification = createAsyncThunk<
+  void,
+  { email: string; code: string },
+  { rejectValue: AuthError }
+>('auth/verification', async ({ email, code }, thunkAPI) => {
   try {
-    const response = await fetchUserRequest();
-    return response.data;
-  } catch (err: any) {
-    if (err.response?.status === 401) {
-      localStorage.removeItem('accessToken');
+    await verificationRequest(email, code);
+  } catch (err) {
+    const error = err as AxiosError<{ message?: string }>;
+    if (error.response?.data?.message) {
+      return thunkAPI.rejectWithValue({ message: error.response.data.message });
     }
-    return thunkAPI.rejectWithValue('Invalid token');
+    return thunkAPI.rejectWithValue({ message: 'Щось пішло не так' });
   }
 });
+
+export const checkAuth = createAsyncThunk<User, void, { rejectValue: AuthError }>(
+  'auth/me',
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return thunkAPI.rejectWithValue({ message: 'No token found' });
+
+    try {
+      const response = await fetchUserRequest();
+      return response.data;
+    } catch (err) {
+      const error = err as AxiosError;
+      if (error.response?.status === 401) {
+        localStorage.removeItem('accessToken');
+      }
+      return thunkAPI.rejectWithValue({ message: 'Token invalid or missing' });
+    }
+  }
+);
 
 export const logout = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('accessToken');
@@ -136,10 +145,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setStateError(
-      state,
-      action: PayloadAction<{ field: string; message: string } | null>
-    ) {
+    setStateError(state, action: PayloadAction<AuthError | null>) {
       state.error = action.payload;
     },
     setVerificationRequired(state, action: PayloadAction<boolean>) {
@@ -158,18 +164,21 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // LOGIN
       .addCase(login.pending, (state) => {
         state.loginStatus = 'loading';
         state.error = null;
       })
-      .addCase(login.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
         state.loginStatus = 'authenticated';
       })
       .addCase(login.rejected, (state, action) => {
         state.loginStatus = 'unauthenticated';
-        state.error = action.payload as any;
+        state.error = action.payload ?? { message: 'Невідома помилка' };
       })
+
+      // REGISTER
       .addCase(register.pending, (state) => {
         state.registerStatus = 'loading';
         state.error = null;
@@ -180,8 +189,10 @@ const authSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.registerStatus = 'failed';
-        state.error = action.payload;
+        state.error = action.payload ?? { message: 'Невідома помилка' };
       })
+
+      // VERIFICATION
       .addCase(verification.pending, (state) => {
         state.verificationStatus = 'loading';
         state.error = null;
@@ -191,24 +202,30 @@ const authSlice = createSlice({
       })
       .addCase(verification.rejected, (state, action) => {
         state.verificationStatus = 'failed';
-        state.error = action.payload as any;
+        state.error = action.payload ?? { message: 'Невідома помилка' };
       })
-      .addCase(fetchUser.fulfilled, (state, action: PayloadAction<User>) => {
+
+      // FETCH USER
+      .addCase(fetchUser.fulfilled, (state, action) => {
         state.user = action.payload;
       })
+
+      // CHECK AUTH
       .addCase(checkAuth.pending, (state) => {
         state.loginStatus = 'loading';
         state.error = null;
       })
-      .addCase(checkAuth.fulfilled, (state, action: PayloadAction<User>) => {
+      .addCase(checkAuth.fulfilled, (state, action) => {
         state.user = action.payload;
         state.loginStatus = 'authenticated';
       })
-      .addCase(checkAuth.rejected, (state) => {
+      .addCase(checkAuth.rejected, (state, action) => {
         state.user = null;
         state.loginStatus = 'unauthenticated';
-        state.error = { field: '', message: 'Token invalid or missing' };
+        state.error = action.payload ?? { message: 'Token invalid or missing' };
       })
+
+      // LOGOUT
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.loginStatus = 'unauthenticated';

@@ -2,7 +2,7 @@ import styles from './BookModal.module.scss';
 import avatar from '../../../assets/images/common/avatar.svg';
 import { useNavigate } from 'react-router-dom';
 import coverPlaceholder from '../../../assets/images/cardBook/cardDetails/paliturka.png';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cardIcons } from '../../../assets/images/cardBook/cardDetails';
 import { TruncatedText } from '../../base/truncatedText/TruncatedText';
 import { Button } from '../../base/button/Button';
@@ -32,6 +32,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
   const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
   const user = useSelector(select.user);
   const isUsersBook = user?.id === book.owner.id;
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   function handleObminButtonClick(ev: React.MouseEvent, book: Book) {
     ev.stopPropagation();
@@ -69,16 +70,24 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
       }
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
     document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [onClose]);
 
   return (
     <div className={styles['book-modal']}>
-      <div className={styles['book-modal__content']}>
+      <div className={styles['book-modal__content']} ref={modalRef}>
         <div className={styles['book-modal__imgContainer']}>
           <img
             className={

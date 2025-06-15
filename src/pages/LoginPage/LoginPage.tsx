@@ -28,6 +28,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
   const isLoading = useSelector(select.loginStatus) === 'loading';
+  const loginError = useSelector(select.error);
 
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -41,8 +42,9 @@ const LoginPage = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    setError,
     watch,
+    formState: { errors },
   } = methods;
 
   const onSubmit = async (values: FormValues) => {
@@ -58,6 +60,12 @@ const LoginPage = () => {
   };
 
   const rememberMeValue = watch('rememberMe');
+
+  useEffect(() => {
+    if (loginError?.field === 'login') {
+      setError('password', { type: 'manual', message: loginError.message });
+    }
+  }, [loginError]);
 
   useEffect(() => {
     if (isAuthenticated) {

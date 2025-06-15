@@ -6,6 +6,8 @@ import { select as manageBooksSelect } from '@/features/manageBookSlice/manageBo
 export const ListSavedBooks: React.FC = () => {
   const savedBooksItems = useSelector(manageBooksSelect.savedBooks);
 
+  console.log(savedBooksItems);
+
   return (
     <div className={styles.container}>
       <div className={styles.savedBooksList}>

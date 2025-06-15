@@ -7,7 +7,7 @@ import { Header } from '../../components/layout/Header/Header';
 import SingleCheckboxContainer from '../../components/base/checkbox/containers/SingleCheckboxContainer';
 import errIcon from '../../assets/images/input/errIcon.svg';
 import { Footer } from '../../components/layout/Footer/Footer';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { inputIcons } from '../../assets/images/registerLogin';
 import { TermsPortal } from '@/components/modals/Terms';
 import { miniIcons } from '../../assets/images/miniIcons';
