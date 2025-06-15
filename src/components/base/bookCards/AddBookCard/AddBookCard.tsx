@@ -37,8 +37,14 @@ const AddBookCard: React.FC<Props> = ({ isCard = false }) => {
           }}
         />
       )}
-
-      {showCityForm && <AddCityPortal onClose={() => setShowCityForm(false)} />}
+      {showCityForm && (
+        <AddCityPortal
+          onClose={() => {
+            setShowCityForm(false);
+            setShowAddForm(true);
+          }}
+        />
+      )}
       {isCard ? (
         <>
           <div className={styles.face}>

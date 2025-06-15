@@ -61,6 +61,8 @@ export const login = createAsyncThunk<
     const userResponse = await fetchUserRequest();
     return userResponse.data;
   } catch (err) {
+    console.log(err);
+
     if (axios.isAxiosError(err) && err.response?.status === 401) {
       return thunkAPI.rejectWithValue({
         field: 'login',

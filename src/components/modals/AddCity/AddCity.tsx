@@ -39,7 +39,7 @@ export const AddCity: React.FC<Props> = ({ onClose }) => {
     try {
       if (selectedCity) {
         await booksApi.setUserCity(selectedCity.nameUa);
-        setStatusMessage('Місто успішно оновлено ✅');
+        setStatusMessage('Місто успішно оновлено');
       }
     } catch {
       setStatusMessage('Помилка при оновленні міста ❌');
@@ -72,7 +72,7 @@ export const AddCity: React.FC<Props> = ({ onClose }) => {
     <div className={styles.addCity}>
       <div className={styles.content}>
         {statusMessage ? (
-          <SuccessModal title="Місто успішно додане" />
+          <SuccessModal title={statusMessage} />
         ) : (
           <>
             <img

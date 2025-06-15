@@ -23,14 +23,14 @@ const processQueue = (error: Error | AxiosError | null, token: string | null = n
   failedQueue = [];
 };
 
+const noAuthEndpoints = ['/auth/login', '/auth/register'];
+
 export const axiosInstance = axios.create({
   baseURL: API_BASE,
   withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const noAuthEndpoints = ['/auth/login', '/auth/register'];
-
   if (noAuthEndpoints.some((endpoint) => config.url?.startsWith(endpoint))) {
     return config;
   }
@@ -48,7 +48,12 @@ axiosInstance.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Ось ключова перевірка, щоб не рефрешити токен для noAuthEndpoints
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !noAuthEndpoints.some((endpoint) => originalRequest.url?.startsWith(endpoint))
+    ) {
       if (isRefreshing) {
         return new Promise<string>((resolve, reject) => {
           failedQueue.push({ resolve, reject });
