@@ -7,7 +7,7 @@ import { Header } from '../../components/layout/Header/Header';
 import SingleCheckboxContainer from '../../components/base/checkbox/containers/SingleCheckboxContainer';
 import errIcon from '../../assets/images/input/errIcon.svg';
 import { Footer } from '../../components/layout/Footer/Footer';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { inputIcons } from '../../assets/images/registerLogin';
 import { TermsPortal } from '@/components/modals/Terms';
 import { miniIcons } from '../../assets/images/miniIcons';
@@ -138,13 +138,15 @@ const RegisterPage = () => {
                   <label className={styles['input-label']} htmlFor="firstName">
                     Ім’я
                   </label>
-                  <input
-                    id="firstName"
-                    type="text"
-                    placeholder="Ваше ім’я"
-                    className={`${styles.input} ${styles['input-name']}`}
-                    {...register('firstName')}
-                  />
+                  <div className={styles.inputContainer}>
+                    <input
+                      id="firstName"
+                      type="text"
+                      placeholder="Ваше ім’я"
+                      className={`${styles.input} ${styles['input-name']}`}
+                      {...register('firstName')}
+                    />
+                  </div>
                   {errors.firstName && (
                     <div className={styles['error-group']}>
                       <img
@@ -162,13 +164,16 @@ const RegisterPage = () => {
                   <label className={styles['input-label']} htmlFor="lastName">
                     Прізвище
                   </label>
-                  <input
-                    id="lastName"
-                    type="text"
-                    placeholder="Ваше прізвище"
-                    className={`${styles.input} ${styles['input-name']}`}
-                    {...register('lastName')}
-                  />
+                  <div className={styles.inputContainer}>
+                    <input
+                      id="lastName"
+                      type="text"
+                      placeholder="Ваше прізвище"
+                      className={`${styles.input} ${styles['input-name']}`}
+                      {...register('lastName')}
+                    />
+                  </div>
+
                   {errors.lastName && (
                     <div className={styles['error-group']}>
                       <img
@@ -187,13 +192,16 @@ const RegisterPage = () => {
                 <label className={styles['input-label']} htmlFor="email">
                   Email
                 </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Введіть вашу пошту"
-                  className={styles.input}
-                  {...register('email')}
-                />
+                <div className={styles.inputContainer}>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Введіть вашу пошту"
+                    className={styles.input}
+                    {...register('email')}
+                  />
+                </div>
+
                 {errors.email && (
                   <div className={styles['error-group']}>
                     <img
@@ -211,19 +219,22 @@ const RegisterPage = () => {
                 <label className={styles['input-label']} htmlFor="password">
                   Пароль
                 </label>
-                <img
-                  onClick={() => setShowPassword((p) => !p)}
-                  className={styles['input-eye']}
-                  src={showPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
-                  alt="eyeIcon"
-                />
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Введіть пароль"
-                  className={styles.input}
-                  {...register('password')}
-                />
+                <div className={styles.inputContainer}>
+                  <img
+                    onClick={() => setShowPassword((p) => !p)}
+                    className={styles['input-eye']}
+                    src={showPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
+                    alt="eyeIcon"
+                  />
+                  <input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Введіть пароль"
+                    className={styles.input}
+                    {...register('password')}
+                  />
+                </div>
+
                 {errors.password && (
                   <div className={styles['error-group']}>
                     <img
@@ -241,19 +252,22 @@ const RegisterPage = () => {
                 <label className={styles['input-label']} htmlFor="confirmPassword">
                   Підтвердження паролю
                 </label>
-                <img
-                  onClick={() => setShowConfirmPassword((p) => !p)}
-                  className={styles['input-eye']}
-                  src={showConfirmPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
-                  alt="eyeIcon"
-                />
-                <input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="Підтвердіть пароль"
-                  className={styles.input}
-                  {...register('confirmPassword')}
-                />
+                <div className={styles.inputContainer}>
+                  <img
+                    onClick={() => setShowConfirmPassword((p) => !p)}
+                    className={styles['input-eye']}
+                    src={showConfirmPassword ? inputIcons.eyeOn : inputIcons.eyeOff}
+                    alt="eyeIcon"
+                  />
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="Підтвердіть пароль"
+                    className={styles.input}
+                    {...register('confirmPassword')}
+                  />
+                </div>
+
                 {errors.confirmPassword && (
                   <div className={styles['error-group']}>
                     <img
