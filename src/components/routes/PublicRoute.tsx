@@ -6,11 +6,9 @@ const PublicRoute = () => {
   const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
 
   if (isAuthenticated) {
-    // Якщо юзер залогінений — редірект на profile
-    return <Navigate to="/profile" replace />;
+    return <Navigate to="/search" replace />;
   }
 
-  // Якщо не залогінений — показуємо сторінку (логін, реєстрація і т.п.)
   return <Outlet />;
 };
 

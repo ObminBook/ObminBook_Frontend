@@ -1,3 +1,4 @@
+// BookCard.tsx - оптимізована версія
 import React, { forwardRef, useState } from 'react';
 import styles from './BookCard.module.scss';
 import { useHover } from '../../../../hooks/useHover';
@@ -54,9 +55,9 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
       return;
     }
 
-    navigate('/obmin');
-
     dispatch(setAnotherUserBook(book));
+
+    navigate('/obmin');
   }
 
   async function handleSaveButtonClick(bookId: string) {

@@ -20,6 +20,7 @@ export const TargetUserModal: React.FC<Props> = ({ onClose, targetUserId }) => {
   const targetUser = useSelector(select.targetUser);
 
   useEffect(() => {
+    dispatch(clearTargetUser());
     dispatch(getTargetUser(String(targetUserId)));
   }, []);
 

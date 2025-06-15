@@ -1,8 +1,14 @@
+// manageBooksSlice.ts - виправлена версія
 import { booksApi } from '@/api/booksApi';
 import { showSuccessToast } from '@/components/customToast/toastUtils';
 import { RootState } from '@/reduxStore/store';
 import { Book, BookPage, SavedBookItem } from '@/types/Book';
 import { TargetUser } from '@/types/User';
+import {
+  getTargetUserFromLocalStorage,
+  saveTargetUserToLocalStorage,
+  removeTargetUserFromLocalStorage,
+} from '@/utils/localStorage';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ManageBooksState {
@@ -22,7 +28,7 @@ interface ManageBooksState {
 }
 
 const initialState: ManageBooksState = {
-  targetUser: null,
+  targetUser: getTargetUserFromLocalStorage(), // Завантажуємо з localStorage при ініціалізації
   targetUserStatus: 'idle',
 
   savedBooks: [],
@@ -76,13 +82,13 @@ export const getTargetUser = createAsyncThunk(
   'manageBooks/getTargetUserBooks',
   async (userId: string, thunkApi) => {
     try {
-      const response = await booksApi.fetchTargetUser(userId);
-      if (!response) {
+      const data = await booksApi.fetchTargetUser(userId);
+      if (!data) {
         return thunkApi.rejectWithValue('No data returned');
       }
-      console.log(response);
+      console.log('Loaded target user:', data);
 
-      return response;
+      return data;
     } catch (error) {
       return thunkApi.rejectWithValue(String(error));
     }
@@ -139,9 +145,27 @@ const manageBooksSlice = createSlice({
       state.myBooksPageNumber = 0;
       state.myBooksTotalElements = 0;
     },
+    setTargetUser: (state, action: PayloadAction<TargetUser | null>) => {
+      state.targetUser = action.payload;
+      // Зберігаємо в localStorage при встановленні
+      if (action.payload) {
+        saveTargetUserToLocalStorage(action.payload);
+        console.log('Target user збережено в localStorage');
+      }
+    },
+    // ВИПРАВЛЕНО: очищуємо тільки Redux state, НЕ localStorage
     clearTargetUser(state) {
       state.targetUser = null;
       state.targetUserStatus = 'idle';
+      // НЕ очищуємо localStorage тут - це робиться тільки при виході з застосунку або коли користувач явно цього хоче
+      console.log('Target user очищено з Redux state (localStorage залишається)');
+    },
+    // ДОДАНО: окрема функція для повного очищення включно з localStorage
+    clearTargetUserCompletely(state) {
+      state.targetUser = null;
+      state.targetUserStatus = 'idle';
+      removeTargetUserFromLocalStorage();
+      console.log('Target user повністю очищено (включно з localStorage)');
     },
   },
   extraReducers: (builder) => {
@@ -199,6 +223,13 @@ const manageBooksSlice = createSlice({
       .addCase(getTargetUser.fulfilled, (state, action) => {
         state.targetUser = action.payload;
         state.targetUserStatus = 'succeeded';
+        // Автоматично зберігаємо в localStorage при успішному завантаженні
+        saveTargetUserToLocalStorage(action.payload);
+        console.log('Target user завантажено і збережено в localStorage');
+      })
+      .addCase(getTargetUser.rejected, (state, action) => {
+        state.targetUserStatus = 'failed';
+        state.error = action.payload as string;
       })
 
       // DeleteMyBook
@@ -218,8 +249,14 @@ const manageBooksSlice = createSlice({
   },
 });
 
-export const { setMyBooksPageNumber, setMyBooksPageSize, resetMyBooks, clearTargetUser } =
-  manageBooksSlice.actions;
+export const {
+  setMyBooksPageNumber,
+  setMyBooksPageSize,
+  resetMyBooks,
+  clearTargetUser,
+  clearTargetUserCompletely, // ДОДАНО: для повного очищення
+  setTargetUser,
+} = manageBooksSlice.actions;
 
 export const select = {
   myBooks: (state: RootState) => state.manageBooks.myBooks,

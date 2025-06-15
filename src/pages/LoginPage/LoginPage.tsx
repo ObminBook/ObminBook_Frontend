@@ -11,7 +11,7 @@ import { Footer } from '../../components/layout/Footer/Footer';
 import { login, select } from '../../features/authSlice/authSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Loader } from '@/components/base/Loader/Loader';
 
 const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -25,8 +25,6 @@ type FormValues = {
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const isAuthenticated = useSelector(select.loginStatus) === 'authenticated';
   const isLoading = useSelector(select.loginStatus) === 'loading';
   const loginError = useSelector(select.error);
 
@@ -66,12 +64,6 @@ const LoginPage = () => {
       setError('password', { type: 'manual', message: loginError.message });
     }
   }, [loginError]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/search');
-    }
-  }, [isAuthenticated, navigate]);
 
   return (
     <div className={styles.loginPage}>
