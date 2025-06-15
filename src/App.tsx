@@ -20,6 +20,7 @@ import { Support } from './pages/Support/Support';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LogoutOverlay } from './pages/LogoutOverlay/LogoutOverlay';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -39,6 +40,7 @@ const App = () => {
         pauseOnHover
         draggable
       />
+      <LogoutOverlay />
       <Routes>
         {/* Публічні маршрути */}
         <Route path="/" element={<HomePage />} />

@@ -147,7 +147,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 
     localStorage.removeItem('accessToken');
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     return true;
   } catch {

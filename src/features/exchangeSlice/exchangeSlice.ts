@@ -7,6 +7,7 @@ import { ExchangeRequest, ExchangeResponse } from '@/types/Exchange';
 import { exchangeApi } from '@/api/booksApi';
 import { toast } from 'react-toastify';
 import { showErrorToast } from '@/components/customToast/toastUtils';
+import axios from 'axios';
 
 interface ExchangeState {
   myBook: Book | null;
@@ -45,7 +46,11 @@ export const startExchangeAsync = createAsyncThunk(
       toast.success('Запит на обмін успішно надісланий');
       return data;
     } catch (error) {
-      thunkAPI.rejectWithValue(error);
+      if (axios.isAxiosError(error) && error.response?.status === 409) {
+        return thunkAPI.rejectWithValue('Ви вже відправили запит на обмін цих книжок');
+      }
+
+      thunkAPI.rejectWithValue('Щось пішло не так');
     }
   }
 );
@@ -111,8 +116,9 @@ const exchangeSlice = createSlice({
       .addCase(startExchangeAsync.pending, (state) => {
         state.offerExchangeStatus = 'loading';
       })
-      .addCase(startExchangeAsync.rejected, (state) => {
+      .addCase(startExchangeAsync.rejected, (state, action) => {
         state.offerExchangeStatus = 'failed';
+        showErrorToast(action.payload as string);
       })
 
       // GetMyExchanges
