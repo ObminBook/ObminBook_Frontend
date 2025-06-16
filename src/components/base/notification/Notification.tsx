@@ -19,7 +19,7 @@ const statusLabel: Record<string, string> = {
 
 export const Notification: React.FC<NotificationProps> = ({ notification }) => {
   const user = useSelector(select.user);
-  const isUserInitiator = notification.exchange?.initiator.id === user?.id;
+  const isUserInitiator = notification.exchangeDto?.initiator.id === user?.id;
 
   return (
     <div className={styles.container}>
@@ -33,12 +33,13 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
         <div className={styles.header}>{notification.header}</div>
         <div className={styles.date}>{getDaysAgo(notification.createDate)}</div>
         <div className={styles.body}>{notification.body}</div>
-        <div className={styles.status}>
-          {notification.exchange && statusLabel[notification.exchange?.exchangeStatus]}
-        </div>
-        {/* <div className={styles.status}> {notification.status}</div> */}
+        {notification.exchangeDto && (
+          <div className={styles.status}>
+            {statusLabel[notification.exchangeDto?.exchangeStatus]}
+          </div>
+        )}
 
-        {notification.exchange && (
+        {notification.exchangeDto && (
           <div className={styles.exchangeBlock}>
             {isUserInitiator ? (
               <div className={styles.buttonsContainer}>

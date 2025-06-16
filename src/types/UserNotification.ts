@@ -13,7 +13,7 @@ export interface UserNotification {
   id: number;
   header: string;
   body: string;
-  exchange?: ExchangeResponse;
+  exchangeDto?: ExchangeResponse;
   createDate: string;
   opponentId: number;
   opponentProfilePicture: string;

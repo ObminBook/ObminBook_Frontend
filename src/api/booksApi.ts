@@ -141,13 +141,15 @@ export const exchangeApi = {
 export const notificationApi = {
   getNotifications: async (
     page: number = 0,
-    size: number = 10
+    size: number = 10,
+    sort: string = 'id,desc'
   ): Promise<UserNotificationResponse> => {
     try {
       const response = await axiosInstance.get('/notification', {
         params: {
           page,
           size,
+          sort,
         },
         paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'comma' }),
       });
