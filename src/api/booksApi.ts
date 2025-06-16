@@ -122,7 +122,7 @@ export const exchangeApi = {
     page: number = 0,
     size: number = 20
   ): Promise<ExchangePageResponse> => {
-    const response = await axiosInstance.get('/exchange', {
+    const response = await axiosInstance.get('/exchange/initiated', {
       params: {
         page,
         size,

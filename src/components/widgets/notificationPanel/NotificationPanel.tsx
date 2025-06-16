@@ -4,6 +4,7 @@ import { miniIcons } from '@/assets/images/miniIcons';
 import { notificationApi } from '@/api/booksApi';
 import { showErrorToast } from '@/components/customToast/toastUtils';
 import { UserNotification } from '@/types/UserNotification';
+import { Notification } from '@/components/base/notification/Notification';
 
 const NotificationsPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<UserNotification[]>([]);
@@ -28,10 +29,8 @@ const NotificationsPanel: React.FC = () => {
         <h4 className={styles.title}>Сповіщення</h4>
       </div>
       <div className={styles.list}>
-        {notifications.map((n, index) => (
-          <div key={index} className={styles.item}>
-            <p>{n.body}</p>
-          </div>
+        {notifications.map((n) => (
+          <Notification notification={n} />
         ))}
       </div>
     </div>

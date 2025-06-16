@@ -22,7 +22,7 @@ const customStyles: StylesConfig<SelectOption, false, GroupBase<SelectOption>> =
     '&:hover': {
       border: '1px solid #007BFF', // заміни на значення $color-blue, якщо хочеш
     },
-    borderColor: state.isFocused ? '#007BFF' : '#E1E7EF',
+    borderColor: state.isFocused ? '#007BFF' : '$color-border',
     color: '#003366', // $color-darkblue
     fontWeight: 500,
     fontSize: '14px',

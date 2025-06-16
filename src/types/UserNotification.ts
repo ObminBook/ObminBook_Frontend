@@ -1,3 +1,5 @@
+import { ExchangeResponse } from './Exchange';
+
 export interface UserNotificationResponse {
   content: UserNotification[];
   totalElements: number;
@@ -8,8 +10,12 @@ export interface UserNotificationResponse {
 }
 
 export interface UserNotification {
+  id: number;
   header: string;
   body: string;
-  status: string;
+  exchange?: ExchangeResponse;
+  createDate: string;
+  opponentId: number;
+  opponentProfilePicture: string;
   new: boolean;
 }

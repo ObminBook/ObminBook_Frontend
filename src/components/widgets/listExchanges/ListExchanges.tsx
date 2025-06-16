@@ -3,7 +3,6 @@ import { ExchangeItem } from '@/components/base/exchangeItem/ExchangeItem';
 import { useSelector } from 'react-redux';
 import { select as exchangeSelect } from '@/features/exchangeSlice/exchangeSlice';
 import { select as userSelect } from '@/features/authSlice/authSlice';
-import { AnyBookCard } from '@/components/base/bookCards/AnyBookCard/AnyBookCard';
 
 export const ListExchanges = () => {
   const listOfMyExchanges = useSelector(exchangeSelect.listOfMyExchanges);

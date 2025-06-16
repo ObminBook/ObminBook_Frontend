@@ -11,7 +11,7 @@ const customSelectStyles: StylesConfig<OptionType, false> = {
     ...base,
     display: 'flex',
     alignItems: 'center',
-    border: `1px solid ${state.selectProps.menuIsOpen ? '$color-blue' : '#e1e7ef'}`,
+    border: `1px solid ${state.selectProps.menuIsOpen ? '$color-blue' : '$color-border'}`,
     borderRadius: '8px',
     minWidth: '192px',
     width: '100%',

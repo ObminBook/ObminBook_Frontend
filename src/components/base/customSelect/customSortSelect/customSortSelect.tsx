@@ -13,7 +13,7 @@ const customSortStyles: StylesConfig<Option, false> = {
     ...base,
     display: 'flex',
     flexWrap: 'wrap',
-    border: state.isFocused ? '1px solid #3e9ee3 ' : '1px solid #E1E7EF',
+    border: state.isFocused ? '1px solid #3e9ee3 ' : '1px solid $color-border',
     borderRadius: '8px',
     minWidth: '192px',
     width: '100%',

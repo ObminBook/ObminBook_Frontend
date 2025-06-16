@@ -45,7 +45,7 @@ export const ChatPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(getExchangePartnersAsync());
-  }, [listOfUsers]);
+  }, []);
 
   useEffect(() => {
     const authenticate = async () => {
