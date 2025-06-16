@@ -75,7 +75,7 @@ const UserProfile: React.FC = () => {
                       <div className={styles.name}>
                         {user ? `${user.firstName} ${user.lastName}` : 'Непрацюючий Юзер'}
                       </div>
-                      <p className={styles.location}>{user?.city || 'Київ, Україна'}</p>
+                      <p className={styles.location}>{user?.city || 'Україна'}</p>
                       <p className={styles.config} onClick={() => navigate('/personal')}>
                         Налаштування
                       </p>
