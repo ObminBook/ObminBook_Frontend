@@ -1,0 +1,60 @@
+@use '../../../styles/fonts' as *;
+@use '../../../styles/mixins' as *;
+
+.container {
+  position: relative;
+  padding: 12px;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  background-color: $color-white;
+
+  display: flex;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  @include fontSec--darkblue;
+}
+
+.date {
+  @include fontSmall--gray;
+}
+
+.body {
+  margin-top: 8px;
+
+  @include fontSec--darkblue;
+}
+
+.status {
+  position: absolute;
+  top: 12.5px;
+  right: 12px;
+}
+
+.exchangeBlock {
+  margin-top: 12px;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.leftButton {
+  width: 137px;
+}
+
+.rightButton {
+  width: 137px;
+}
