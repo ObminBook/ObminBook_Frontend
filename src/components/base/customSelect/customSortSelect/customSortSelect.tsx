@@ -83,7 +83,7 @@ type Props = {
 const options: Option[] = [
   { value: 'title,asc', label: 'За назвою А-Я' },
   { value: 'title,desc', label: 'За назвою Я-А' },
-  { value: 'id,asc', label: 'Нові оголошення' },
+  { value: 'id,desc', label: 'Нові оголошення' },
 ];
 
 export const CustomSortSelect = ({ placeholder }: Props) => {
