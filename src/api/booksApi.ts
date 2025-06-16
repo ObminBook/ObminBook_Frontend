@@ -22,7 +22,7 @@ export const booksApi = {
         params: {
           page: filters.page,
           size: filters.size,
-          // ...(filters.sort && { sort: filters.sort }),
+          ...(filters.sort && { sort: filters.sort }),
           ...(filters.categories?.length && { categories: filters.categories }),
           ...(filters.condition?.length && { condition: filters.condition }),
           ...(filters.exchangeType?.length && { exchangeType: filters.exchangeType }),

@@ -81,9 +81,9 @@ type Props = {
 };
 
 const options: Option[] = [
-  { value: 'asc', label: 'За назвою А-Я' },
-  { value: 'desc', label: 'За назвою Я-А' },
-  { value: 'new', label: 'Нові оголошення' },
+  { value: 'title,asc', label: 'За назвою А-Я' },
+  { value: 'title,desc', label: 'За назвою Я-А' },
+  { value: 'id,asc', label: 'Нові оголошення' },
 ];
 
 export const CustomSortSelect = ({ placeholder }: Props) => {
@@ -102,7 +102,7 @@ export const CustomSortSelect = ({ placeholder }: Props) => {
     <div>
       <Select
         options={options}
-        isMulti={false} // можна й зовсім прибрати
+        isMulti={false}
         onChange={handleSelectChange}
         styles={customSortStyles}
         placeholder={placeholder}
