@@ -25,12 +25,27 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
     <div className={styles.container}>
       <img
         className={styles.avatar}
-        src={notification.opponentProfilePicture || avatar}
+        src={
+          isUserInitiator
+            ? miniIcons.infoIcon
+            : notification.opponentProfilePicture || avatar
+        }
         alt="userAvatar"
       />
 
       <div className={styles.infoBlock}>
-        <div className={styles.header}>{notification.header}</div>
+        <div className={styles.header}>
+          {isUserInitiator ? (
+            <>
+              Запит на обмін з <span className={styles.name}>{notification.header}</span>
+            </>
+          ) : (
+            <>
+              <span className={styles.name}>{notification.header}</span> пропонує обмін
+            </>
+          )}
+        </div>
+
         <div className={styles.date}>{getDaysAgo(notification.createDate)}</div>
         <div className={styles.body}>{notification.body}</div>
         {notification.exchangeDto && (
@@ -76,7 +91,7 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
                 <div className={styles.rightButton}>
                   <Button
-                    _name="Прийняти"
+                    _name="Переглянути обмін"
                     _buttonVariant="blue"
                     _fontSize="bold"
                     _type="button"
