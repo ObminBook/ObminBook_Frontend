@@ -1,38 +1,55 @@
 import styles from './ListExchanges.module.scss';
-import { ExchangeItem } from '@/components/base/exchangeItem/ExchangeItem';
-import { useSelector } from 'react-redux';
-import { select as exchangeSelect } from '@/features/exchangeSlice/exchangeSlice';
-import { select as userSelect } from '@/features/authSlice/authSlice';
+import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { RecievedListExchanges } from './RecievedListExchanges';
+import { SentListExchanges } from './SentListExchanges';
 
 export const ListExchanges = () => {
-  const listOfMyExchanges = useSelector(exchangeSelect.listOfMyExchanges);
-  const pendingExchanges = listOfMyExchanges.filter(
-    (exchange) => exchange.exchangeStatus === 'PENDING'
-  );
-  const goodExchanges = pendingExchanges.filter((exchange) => {
-    return (
-      (exchange.initiatorBook === null && exchange.isAnyBookOffered === true) ||
-      (exchange.initiatorBook !== null && exchange.isAnyBookOffered === false)
-    );
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  console.log(goodExchanges);
+  useEffect(() => {
+    if (!searchParams.get('exchangeTab')) {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set('exchangeTab', 'recieved');
+      setSearchParams(newParams);
+    }
+  }, [searchParams, setSearchParams]);
 
-  const user = useSelector(userSelect.user);
+  const exchangeTabs = [
+    { key: 'recieved', label: 'Отримані' },
+    { key: 'sent', label: 'Надіслані' },
+  ];
+
+  const currentExchangeTab = searchParams.get('exchangeTab') || 'recieved';
+
+  const handleTabChange = (tabKey: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('exchangeTab', tabKey);
+    setSearchParams(newParams);
+  };
 
   return (
     <div className={styles.container}>
-      {goodExchanges.map((exchange) => {
-        const isUserInitiator = user?.id === exchange.initiator.id;
-
-        return (
-          <ExchangeItem
-            exchange={exchange}
-            isUserInitiator={isUserInitiator}
-            key={exchange.id}
-          />
-        );
-      })}
+      <div className={styles.optionButtons}>
+        {exchangeTabs.map((tab) => {
+          return (
+            <div
+              key={tab.key}
+              onClick={() => handleTabChange(tab.key)}
+              className={`${styles.optionButton} ${
+                currentExchangeTab === tab.key ? styles.optionButton_selected : null
+              }`}
+            >
+              {tab.label}
+            </div>
+          );
+        })}
+      </div>
+      {currentExchangeTab === 'recieved' ? (
+        <RecievedListExchanges />
+      ) : (
+        <SentListExchanges />
+      )}
     </div>
   );
 };

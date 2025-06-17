@@ -16,8 +16,8 @@ interface ExchangeState {
   isAny: boolean;
 
   offerExchangeStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
-
-  listOfMyExchanges: ExchangeResponse[];
+  myExchanges: ExchangeResponse[];
+  recievedExchanges: ExchangeResponse[];
 }
 
 const initialState: ExchangeState = {
@@ -26,7 +26,8 @@ const initialState: ExchangeState = {
   anotherUserBook: null,
   isAny: false,
 
-  listOfMyExchanges: [],
+  myExchanges: [],
+  recievedExchanges: [],
   offerExchangeStatus: 'idle',
 };
 
@@ -69,6 +70,20 @@ export const getMyExchangesAsync = createAsyncThunk<ExchangeResponse[]>(
   }
 );
 
+export const getRecievedExchangesAsync = createAsyncThunk<ExchangeResponse[]>(
+  'exchange/getRecievedExchanges',
+  async (_, thunkAPI) => {
+    try {
+      const data = await exchangeApi.getRecievedExchanges();
+
+      return data.content;
+    } catch {
+      showErrorToast('Не вдалося завантажити список отриманих обмінів');
+      return thunkAPI.rejectWithValue('Не вдалося завантажити список отриманих обмінів');
+    }
+  }
+);
+
 const exchangeSlice = createSlice({
   name: 'exchange',
   initialState,
@@ -98,8 +113,8 @@ const exchangeSlice = createSlice({
       state.anyCard = null;
       state.isAny = false;
     },
-    setListOfMyExchanges(state, action: PayloadAction<ExchangeResponse[]>) {
-      state.listOfMyExchanges = action.payload;
+    setAllExchanges(state, action: PayloadAction<ExchangeResponse[]>) {
+      state.myExchanges = action.payload;
     },
   },
   extraReducers: (builder) =>
@@ -125,7 +140,15 @@ const exchangeSlice = createSlice({
       .addCase(
         getMyExchangesAsync.fulfilled,
         (state, action: PayloadAction<ExchangeResponse[]>) => {
-          state.listOfMyExchanges = action.payload;
+          state.myExchanges = action.payload;
+        }
+      )
+
+      // GetRecievedExchanges
+      .addCase(
+        getRecievedExchangesAsync.fulfilled,
+        (state, action: PayloadAction<ExchangeResponse[]>) => {
+          state.recievedExchanges = action.payload;
         }
       ),
 });
@@ -137,7 +160,7 @@ export const {
   removeAnotherUserBook,
   setAnyCard,
   removeAnyCard,
-  setListOfMyExchanges,
+  setAllExchanges,
 } = exchangeSlice.actions;
 
 export const select = {
@@ -146,7 +169,8 @@ export const select = {
   anotherUserBook: (state: RootState) => state.exchange.anotherUserBook,
   isAny: (state: RootState) => state.exchange.isAny,
   offerExchangeStatus: (state: RootState) => state.exchange.offerExchangeStatus,
-  listOfMyExchanges: (state: RootState) => state.exchange.listOfMyExchanges,
+  myExchanges: (state: RootState) => state.exchange.myExchanges,
+  recievedExchanges: (state: RootState) => state.exchange.recievedExchanges,
 };
 
 export default exchangeSlice.reducer;

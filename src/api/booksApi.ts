@@ -118,15 +118,16 @@ export const exchangeApi = {
 
     return response.data;
   },
-  getMyExchanges: async (
-    page: number = 0,
-    size: number = 20
-  ): Promise<ExchangePageResponse> => {
+  getMyExchanges: async (): Promise<ExchangePageResponse> => {
     const response = await axiosInstance.get('/exchange/initiated', {
-      params: {
-        page,
-        size,
-      },
+      params: {},
+    });
+
+    return response.data;
+  },
+  getRecievedExchanges: async (): Promise<ExchangePageResponse> => {
+    const response = await axiosInstance.get('/exchange/received', {
+      params: {},
     });
 
     return response.data;

@@ -18,10 +18,7 @@ import { ListSavedBooks } from '@/components/widgets/listSavedBooks/ListSavedBoo
 import { ListMyBooks } from '@/components/widgets/listMyBooks/ListMyBooks';
 import classNames from 'classnames';
 import { ListExchanges } from '@/components/widgets/listExchanges/ListExchanges';
-import {
-  select as exchangeSelect,
-  getMyExchangesAsync,
-} from '@/features/exchangeSlice/exchangeSlice';
+import { getMyExchangesAsync } from '@/features/exchangeSlice/exchangeSlice';
 
 const TABS = [
   { key: 'my', label: 'Мої книги', img: miniIcons.iconOpenBook },
@@ -36,7 +33,6 @@ const UserProfile: React.FC = () => {
   const userBooks = useSelector(manageBooksSelect.myBooks);
   const [searchParams, setSearchParams] = useSearchParams();
   const savedBooksItems = useSelector(manageBooksSelect.savedBooks);
-  const listOfMyExchanges = useSelector(exchangeSelect.listOfMyExchanges);
 
   const tab = searchParams.get('tab') || 'my';
 
@@ -105,7 +101,7 @@ const UserProfile: React.FC = () => {
                       <div className={styles.count}>
                         {tabItem.key === 'my' ? userBooks?.length || 0 : ''}
                         {tabItem.key === 'saved' ? savedBooksItems?.length || 0 : ''}
-                        {tabItem.key === 'requests' ? listOfMyExchanges?.length || 0 : ''}
+                        {tabItem.key === 'requests' ? 0 : ''}
                       </div>
                     </button>
                   ))}
