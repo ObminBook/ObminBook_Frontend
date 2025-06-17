@@ -2,23 +2,23 @@
 @use '../../styles/fonts' as *;
 
 .chat {
-  height: 100vh;
   background: $main-background-color;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 
   &__content {
+    height: 100vh;
     display: flex;
     flex-grow: 1;
-    height: 100%;
   }
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   width: 328px;
-  height: 100%;
   background-color: $color-white;
   border-right: 1px solid $color-border;
 
@@ -106,6 +106,18 @@
   }
 }
 
+.headerContainer {
+  display: flex;
+
+  gap: 12px;
+}
+
+.headerImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -113,12 +125,15 @@
 
   &__header {
     width: 100%;
-    padding: 12px;
     display: flex;
-    justify-content: space-between;
+    gap: 12px;
+    background: transparent;
+    padding: 8px 12px;
     align-items: center;
     background-color: $color-white;
     border-bottom: 1px solid $color-border;
+
+    @include fontMain--darkblue;
   }
 
   &__selectedUser {
@@ -155,12 +170,16 @@
   }
 
   &__content {
-    padding-inline: 12px;
+    padding: 25px 12px;
     flex: 1;
+    overflow-y: auto;
   }
 }
 
 .chatFooter {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
   background-color: $color-white;
   width: 100%;
   display: flex;
@@ -198,12 +217,33 @@
 }
 
 .myMessage {
+  max-width: 500px;
+
   justify-self: flex-end;
-  margin-top: 10px;
+  margin-top: 5px;
   width: fit-content;
   padding: 8px 12px;
   background-color: #b3d9f4;
   border-radius: 8px;
 
   @include fontMain--darkblue;
+  font-weight: 400;
+}
+
+.anotherUserMessage {
+  @include fontMain--darkblue;
+  font-weight: 400;
+
+  margin-top: 5px;
+  padding: 8px 12px;
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  max-width: 500px;
+  width: fit-content;
+
+  border-radius: 8px;
+}
+
+.time {
+  @include fontSmall--gray;
 }

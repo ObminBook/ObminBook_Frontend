@@ -10,6 +10,7 @@ import {
   serverTimestamp,
   setDoc,
   where,
+  limit,
 } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './ChatPage.module.scss';
@@ -27,8 +28,20 @@ import {
   setSelectedUser,
 } from '@/features/chatSlice/chatSlice';
 import { Message } from '@/types/Chat';
+import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
+import { User } from '@/types/User';
+import { getMessageDate } from './getMessageDate';
 
 const getRoomId = (uid1: string, uid2: string) => [uid1, uid2].sort().join('_');
+
+interface LastMessage {
+  text: string;
+  createdAt: any;
+  user: string;
+}
+interface LastMessages {
+  [userId: string]: LastMessage | null;
+}
 
 export const ChatPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -37,16 +50,67 @@ export const ChatPage: React.FC = () => {
   const [currentUserId, setCurrentUserId] = useState<string>('');
   const [roomId, setRoomId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+
+  const chatRef = useRef<HTMLDivElement>(null);
+
+  // last messages for sidebar with fallback to localStorage
+  const [lastMessages, setLastMessages] = useState<LastMessages>(() => {
+    try {
+      const saved = localStorage.getItem('lastMessages');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  // track loading state of last messages per user
+  const [loadingMessages, setLoadingMessages] = useState<Set<string>>(new Set());
+
   const selectedUser = useSelector((state: RootState) => state.chat.selectedUser);
   const listOfUsers = useSelector((state: RootState) => state.chat.listOfUsers);
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const navigate = useNavigate();
 
+  const handleUserClick = (user: User) => {
+    localStorage.removeItem('selectedUser');
+
+    localStorage.setItem('selectedUser', JSON.stringify(user));
+
+    dispatch(setSelectedUser(user));
+  };
+
+  useEffect(() => {
+    const savedUserStr = localStorage.getItem('selectedUser');
+    if (savedUserStr) {
+      try {
+        const savedUser = JSON.parse(savedUserStr);
+        if (savedUser && savedUser.id) {
+          dispatch(setSelectedUser(savedUser));
+        }
+      } catch (e) {
+        console.error('Failed to parse selectedUser from localStorage', e);
+      }
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (selectedUser) {
+      const savedUserStr = localStorage.getItem('selectedUser');
+      if (!savedUserStr || JSON.parse(savedUserStr).id !== selectedUser.id) {
+        localStorage.setItem('selectedUser', JSON.stringify(selectedUser));
+      }
+    } else {
+      localStorage.removeItem('selectedUser');
+    }
+  }, [selectedUser]);
+
+  // Fetch user list (partners) on mount
   useEffect(() => {
     dispatch(getExchangePartnersAsync());
-  }, []);
+  }, [dispatch]);
 
+  // Firebase auth and setting current user
   useEffect(() => {
     const authenticate = async () => {
       try {
@@ -63,13 +127,79 @@ export const ChatPage: React.FC = () => {
     authenticate();
   }, [navigate]);
 
+  // Listen for last messages per user to update sidebar in real-time
   useEffect(() => {
-    if (!currentUserId || !selectedUser) return;
-    const setupRoom = async () => {
-      const rid = getRoomId(currentUserId, String(selectedUser.id));
+    if (!currentUserId || listOfUsers.length === 0 || isLoading) return;
+
+    const userIds = listOfUsers.map((u) => String(u.id));
+    setLoadingMessages(new Set(userIds));
+    const unsubscribers: (() => void)[] = [];
+
+    listOfUsers.forEach((user) => {
+      const uid = String(user.id);
+      const rid = getRoomId(currentUserId, uid);
+      const q = query(
+        collection(db, 'messages'),
+        where('roomId', '==', rid),
+        orderBy('createdAt', 'desc'),
+        limit(1)
+      );
+
+      const unsubscribe = onSnapshot(
+        q,
+        (snapshot) => {
+          setLoadingMessages((prev) => {
+            const next = new Set(prev);
+            next.delete(uid);
+            return next;
+          });
+
+          const doc = snapshot.docs[0];
+          const newLastMessage: LastMessage | null = doc
+            ? (doc.data() as LastMessage)
+            : null;
+
+          setLastMessages((prev) => {
+            const prevMsg = prev[uid];
+            const isDifferent =
+              (!prevMsg && newLastMessage) ||
+              (prevMsg &&
+                newLastMessage &&
+                (prevMsg.text !== newLastMessage.text ||
+                  prevMsg.user !== newLastMessage.user));
+
+            if (!isDifferent) return prev;
+
+            const updated = { ...prev, [uid]: newLastMessage };
+            localStorage.setItem('lastMessages', JSON.stringify(updated));
+            return updated;
+          });
+        },
+        (err) => {
+          console.error(err);
+          setLoadingMessages((prev) => {
+            const next = new Set(prev);
+            next.delete(uid);
+            return next;
+          });
+        }
+      );
+
+      unsubscribers.push(unsubscribe);
+    });
+
+    return () => unsubscribers.forEach((u) => u());
+  }, [currentUserId, listOfUsers, isLoading]);
+
+  // Setup or create chat room on user selection
+  useEffect(() => {
+    if (!currentUserId || !selectedUser?.id) return;
+
+    const rid = getRoomId(currentUserId, String(selectedUser.id));
+    const setup = async () => {
       const roomRef = doc(db, 'rooms', rid);
-      const roomSnap = await getDoc(roomRef);
-      if (!roomSnap.exists()) {
+      const snap = await getDoc(roomRef);
+      if (!snap.exists()) {
         await setDoc(roomRef, {
           users: [currentUserId, selectedUser.id],
           createdAt: serverTimestamp(),
@@ -77,160 +207,184 @@ export const ChatPage: React.FC = () => {
       }
       setRoomId(rid);
     };
-    setupRoom();
+    setup();
   }, [currentUserId, selectedUser]);
 
+  // Listen to messages in the selected room in real-time
   useEffect(() => {
     if (!roomId) {
       setMessages([]);
       return;
     }
-    const messagesRef = collection(db, 'messages');
     const q = query(
-      messagesRef,
+      collection(db, 'messages'),
       where('roomId', '==', roomId),
       orderBy('createdAt', 'asc')
     );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs: Message[] = snapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          text: data.text,
-          user: data.user,
-          roomId: data.roomId,
-        };
-      });
-      setMessages(msgs);
+    const unsub = onSnapshot(q, (snap) => {
+      setMessages(
+        snap.docs.map((d) => {
+          const data = d.data();
+          return {
+            id: d.id,
+            text: data.text,
+            user: data.user,
+            roomId: data.roomId,
+            createdAt: data.createdAt ? data.createdAt.toDate() : null,
+          };
+        })
+      );
     });
-    return () => unsubscribe();
+    return () => unsub();
   }, [roomId]);
 
+  // Send message handler
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !roomId || !currentUserId) return;
-    const messagesRef = collection(db, 'messages');
     try {
-      await addDoc(messagesRef, {
-        text: newMessage,
+      await addDoc(collection(db, 'messages'), {
+        text: newMessage.trim(),
         createdAt: serverTimestamp(),
         user: currentUserId,
         roomId,
       });
       setNewMessage('');
-      // eslint-disable-next-line
-    } catch (error: any) {
-      if (error.code === 'permission-denied') {
+    } catch (e: any) {
+      if (e.code === 'permission-denied') {
         alert('Немає прав для відправки повідомлення. Перевірте правила Firestore.');
+      } else {
+        console.error(e);
       }
     }
   };
 
+  // Enter key sends message
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handler = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        if (newMessage.trim() && roomId && currentUserId) {
-          handleSendMessage();
-        }
+        handleSendMessage();
       }
     };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
   }, [newMessage, roomId, currentUserId]);
 
-  if (isLoading) {
-    return <div className={styles['chat__loading']}>Завантаження чату...</div>;
-  }
+  // Utility for truncating long messages
+  const truncate = (text: string, max = 50) =>
+    text.length > max ? `${text.slice(0, max)}...` : text;
+
+  // Get last message text for sidebar display
+  const getLastMessageText = (userId: string | number) => {
+    const id = String(userId);
+    if (isLoading || loadingMessages.has(id)) return 'Завантаження...';
+
+    const msg = lastMessages[id];
+    if (!msg) return 'Почніть розмову';
+
+    // Якщо останнє повідомлення - від співрозмовника (не currentUser)
+    // і текст відрізняється від того, що ми показуємо (мабуть, нове)
+    if (msg.user !== currentUserId) {
+      return 'Нове повідомлення';
+    }
+
+    return (msg.user === currentUserId ? 'Ви: ' : '') + truncate(msg.text);
+  };
 
   return (
-    <div className={styles['chat']}>
+    <div className={styles.chat}>
       <Header />
-      <div className={styles['chat__content']}>
-        <div className={`${styles['chat__sidebar']} ${styles['sidebar']}`}>
-          <div className={styles['sidebar__findUserContainer']}>
-            <button
-              className={styles['sidebar__backButton']}
-              onClick={() => navigate(-1)}
-            >
-              <img
-                src={miniIcons.arrowBackBlack}
-                alt="Назад"
-                className={styles['sidebar__backButton-img']}
-              />
+      <div className={styles.chat__content}>
+        <div className={`${styles.chat__sidebar} ${styles.sidebar}`}>
+          <div className={styles.sidebar__findUserContainer}>
+            <button className={styles.sidebar__backButton} onClick={() => navigate(-1)}>
+              <img src={miniIcons.arrowBackBlack} alt="Назад" />
               Назад
             </button>
-            <div className={styles['sidebar__searchUserInput']}>
+            <div className={styles.sidebar__searchUserInput}>
               <SearchQueryContainer placeholder="Пошук користувача" />
             </div>
           </div>
-          <div className={styles['sidebar__usersList']}>
-            {listOfUsers.map((user) => (
-              <div
-                key={user.id}
-                className={`${styles['usersList__user']} ${
-                  selectedUser?.id === user.id ? styles['usersList__user--selected'] : ''
-                }`}
-                onClick={() => dispatch(setSelectedUser(user))}
-              >
-                <img
-                  src={user.profilePicture || avatar}
-                  alt={`${user.firstName} ${user.lastName}`}
-                  className={styles['usersList__userImg']}
-                />
-                <div className={styles['usersList__userInfo']}>
-                  <div className={styles['usersList__userName']}>
-                    {user.firstName} {user.lastName}
-                  </div>
-                  <div className={styles['usersList__userMessage']}>
-                    {user.description}
+          {isLoading ? (
+            <ChatListSkeleton />
+          ) : (
+            <div className={styles.sidebar__usersList}>
+              {listOfUsers.map((u) => (
+                <div
+                  key={u.id}
+                  className={`${styles.usersList__user} ${
+                    selectedUser?.id === u.id ? styles['usersList__user--selected'] : ''
+                  }`}
+                  onClick={() => handleUserClick(u)}
+                >
+                  <img
+                    src={u.profilePicture || avatar}
+                    alt={`${u.firstName} ${u.lastName}`}
+                    className={styles.usersList__userImg}
+                  />
+                  <div className={styles.usersList__userInfo}>
+                    <div className={styles.usersList__userName}>
+                      {u.firstName} {u.lastName}
+                    </div>
+                    <div className={styles.usersList__userMessage}>
+                      {getLastMessageText(u.id)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className={`${styles['chat__main']} ${styles['main']}`}>
-          {selectedUser && (
-            <div className={styles['main__header']}>
-              {selectedUser.firstName} {selectedUser.lastName}
+              ))}
             </div>
           )}
-          <div className={styles['main__content']}>
-            {messages.map((message) => (
+        </div>
+        <div className={`${styles.chat__main} ${styles.main}`}>
+          {selectedUser && (
+            <div className={styles.headerContainer}>
+              <div className={styles.main__header}>
+                <img
+                  className={styles.headerImg}
+                  src={selectedUser.profilePicture || avatar}
+                  alt="userpicture"
+                />
+                {selectedUser.firstName} {selectedUser.lastName}
+              </div>
+            </div>
+          )}
+          <div ref={chatRef} className={styles.main__content}>
+            {messages.map((m) => (
               <div
+                key={m.id}
                 className={
-                  message.user === currentUserId
-                    ? styles.myMessage
-                    : styles.anotherUserMessage
+                  m.user === currentUserId ? styles.myMessage : styles.anotherUserMessage
                 }
-                key={message.id}
               >
-                {message.text}
+                {m.text}
+                {m.createdAt && (
+                  <div className={styles.time}>
+                    {getMessageDate(m.createdAt).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </div>
+                )}
               </div>
             ))}
           </div>
           {selectedUser && (
-            <div className={`${styles['main__chatFooter']} ${styles['chatFooter']}`}>
+            <div className={`${styles.main__chatFooter} ${styles.chatFooter}`}>
               <input
-                className={styles['chatFooter__input']}
+                className={styles.chatFooter__input}
                 placeholder="Повідомлення.."
-                type="text"
                 value={newMessage}
-                onChange={(ev) => setNewMessage(ev.target.value)}
+                onChange={(e) => setNewMessage(e.target.value)}
               />
               <button
                 ref={buttonRef}
-                className={styles['chatFooter__sendButton']}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSendMessage();
-                }}
+                className={styles.chatFooter__sendButton}
+                onClick={handleSendMessage}
                 disabled={!newMessage.trim()}
               >
                 <img
-                  className={styles['chatFooter__sendButton-img']}
                   src={newMessage ? miniIcons.sendMessage : miniIcons.sendMessageDisabled}
-                  alt=""
+                  alt="Відправити"
                 />
               </button>
             </div>
