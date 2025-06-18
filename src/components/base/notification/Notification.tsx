@@ -9,6 +9,7 @@ import { select } from '@/features/authSlice/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { setSelectedUser } from '@/features/chatSlice/chatSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { User } from '@/types/User';
 
 interface NotificationProps {
   notification: UserNotification;
@@ -26,6 +27,15 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
   const isUserInitiator = notification.exchangeDto?.initiator.id === user?.id;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const handleOpenChat = (ev: React.MouseEvent<HTMLDivElement>, chatUser: User) => {
+    ev.preventDefault();
+    navigate('/messages');
+
+    localStorage.removeItem('selectedUser');
+
+    dispatch(setSelectedUser(chatUser));
+  };
 
   return (
     <div className={styles.container}>
@@ -95,14 +105,18 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
                   />
                 </div>
 
-                <div className={styles.rightButton}>
+                <div
+                  onClick={(ev) => {
+                    handleOpenChat(ev, exchange.recipient);
+                  }}
+                >
                   <Button
-                    _name="Відкрити чат"
-                    _buttonVariant="social"
-                    _fontSize="bold"
-                    _type="button"
                     _icon={miniIcons.buttMessage}
                     _iconPosition="left"
+                    _buttonVariant="social"
+                    _name="Відкрити чат"
+                    _fontSize="bold"
+                    _type="button"
                   />
                 </div>
               </div>
@@ -117,13 +131,7 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
                   />
                 </div>
 
-                <div
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    navigate('/messages');
-                    dispatch(setSelectedUser(exchange.recipient));
-                  }}
-                >
+                <div onClick={(ev) => handleOpenChat(ev, exchange.initiator)}>
                   <Button
                     _icon={miniIcons.buttMessage}
                     _iconPosition="left"
