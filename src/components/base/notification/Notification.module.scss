@@ -31,15 +31,43 @@
 }
 
 .body {
+  background-color: $main-background-color;
+  border-radius: 8px;
+  border: 1px solid $color-border;
+  padding: 12px;
   margin-top: 8px;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   @include fontSec--darkblue;
 }
 
 .status {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 12.5px;
   right: 12px;
+}
+
+.statusCircle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+
+  &_PENDING {
+    background-color: #ffc107;
+  }
+
+  &_COMPLETED {
+    background-color: #4caf50;
+  }
+
+  &_DECLINED {
+    background-color: #e53935;
+  }
 }
 
 .exchangeBlock {
@@ -53,4 +81,22 @@
 
 .name {
   font-weight: 800;
+}
+
+.bookNameContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 700;
+  max-width: 300px;
+}
+
+.bookName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arrowDown {
+  padding-left: 4px;
 }

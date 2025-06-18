@@ -6,6 +6,9 @@ import avatar from '../../../assets/images/common/avatar.svg';
 import { getDaysAgo } from '@/utils/getDaysAgo';
 import { useSelector } from 'react-redux';
 import { select } from '@/features/authSlice/authSlice';
+import { useNavigate } from 'react-router-dom';
+import { setSelectedUser } from '@/features/chatSlice/chatSlice';
+import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 
 interface NotificationProps {
   notification: UserNotification;
@@ -19,7 +22,10 @@ const statusLabel: Record<string, string> = {
 
 export const Notification: React.FC<NotificationProps> = ({ notification }) => {
   const user = useSelector(select.user);
+  const exchange = notification?.exchangeDto;
   const isUserInitiator = notification.exchangeDto?.initiator.id === user?.id;
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.container}>
@@ -47,14 +53,36 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
         </div>
 
         <div className={styles.date}>{getDaysAgo(notification.createDate)}</div>
-        <div className={styles.body}>{notification.body}</div>
+        {exchange ? (
+          <div className={styles.body}>
+            <div className={styles.bookNameContainer}>
+              <img src={miniIcons.iconOpenBook} alt="" />
+              <div className={styles.bookName}>
+                {exchange.isAnyBookOffered
+                  ? 'Будь-яка ваша книжка'
+                  : `${exchange.initiatorBook?.title}`}
+              </div>
+            </div>
+            <div className={styles.arrowDown}>↓</div>
+            <div className={styles.bookNameContainer}>
+              <img src={miniIcons.iconOpenBook} alt="iconbook" />{' '}
+              <div className={styles.bookName}>{`${exchange.recipientBook?.title}`}</div>
+            </div>
+          </div>
+        ) : null}
+
         {notification.exchangeDto && (
           <div className={styles.status}>
+            <div
+              className={`${styles['statusCircle']} ${
+                styles[`statusCircle_${exchange?.exchangeStatus}`]
+              }`}
+            ></div>
             {statusLabel[notification.exchangeDto?.exchangeStatus]}
           </div>
         )}
 
-        {notification.exchangeDto && (
+        {exchange && (
           <div className={styles.exchangeBlock}>
             {isUserInitiator ? (
               <div className={styles.buttonsContainer}>
@@ -80,19 +108,27 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
               </div>
             ) : (
               <div className={styles.buttonsContainer}>
-                <div className={styles.leftButton}>
+                <div className={styles.rightButton}>
                   <Button
-                    _name="Відхилити"
-                    _buttonVariant="social"
+                    _name="Переглянути"
+                    _buttonVariant="blue"
                     _fontSize="bold"
                     _type="button"
                   />
                 </div>
 
-                <div className={styles.rightButton}>
+                <div
+                  onClick={(ev) => {
+                    ev.preventDefault();
+                    navigate('/messages');
+                    dispatch(setSelectedUser(exchange.recipient));
+                  }}
+                >
                   <Button
-                    _name="Переглянути обмін"
-                    _buttonVariant="blue"
+                    _icon={miniIcons.buttMessage}
+                    _iconPosition="left"
+                    _buttonVariant="social"
+                    _name="Відкрити чат"
                     _fontSize="bold"
                     _type="button"
                   />

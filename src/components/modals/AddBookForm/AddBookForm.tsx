@@ -18,8 +18,14 @@ import { useSelector } from 'react-redux';
 import { Loader } from '@/components/base/Loader/Loader';
 
 const bookFormSchema = z.object({
-  title: z.string().min(1, 'Назва обовʼязкова'),
-  author: z.string().min(1, 'Імʼя автора обовʼязкове'),
+  title: z
+    .string()
+    .min(1, 'Назва обовʼязкова')
+    .max(70, 'Назва не повинна перевищувати 70 символів'),
+  author: z
+    .string()
+    .min(1, 'Імʼя автора обовʼязкове')
+    .max(70, 'Імʼя автора не повинне перевищувати 70 символів'),
   category: z.string().min(1, 'Оберіть категорію'),
   language: z.string().min(1, 'Оберіть мову'),
   year: z.string().optional(),
