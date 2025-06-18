@@ -197,6 +197,11 @@
     border-radius: 6px;
     @include fontSec--darkblue;
 
+    resize: none; // заборона користувачу вручну змінювати розмір
+    overflow-y: hidden; // приховує скролл
+    min-height: 40px; // мінімальна висота
+    max-height: 120px; // максима
+
     &::placeholder {
       @include fontSec--lightgray;
     }

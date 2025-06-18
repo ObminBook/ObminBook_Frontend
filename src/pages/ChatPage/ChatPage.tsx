@@ -80,6 +80,21 @@ export const ChatPage: React.FC = () => {
     dispatch(setSelectedUser(user));
   };
 
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = 'auto'; // скидаємо висоту
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'; // встановлюємо висоту по контенту
+    }
+  }, [newMessage]);
+
   useEffect(() => {
     const savedUserStr = localStorage.getItem('selectedUser');
     if (savedUserStr) {
@@ -370,12 +385,15 @@ export const ChatPage: React.FC = () => {
           </div>
           {selectedUser && (
             <div className={`${styles.main__chatFooter} ${styles.chatFooter}`}>
-              <input
+              <textarea
+                ref={textAreaRef}
                 className={styles.chatFooter__input}
                 placeholder="Повідомлення.."
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
+                rows={1}
               />
+
               <button
                 ref={buttonRef}
                 className={styles.chatFooter__sendButton}
