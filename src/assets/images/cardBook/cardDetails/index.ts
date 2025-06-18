@@ -2,7 +2,7 @@ import imgCategory from './category.svg';
 import imgCondition from './condition.svg';
 import imgCity from './city.svg';
 import imgExchange from './exchange.svg';
-import imgPlaceholder from './paliturka.png';
+import imgPlaceholder from './paliturka.webp';
 import imgPages from './condition.svg';
 import imgLanguage from './language.svg';
 import imgReleaseDate from './realeseDate.svg';

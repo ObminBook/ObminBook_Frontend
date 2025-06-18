@@ -1,7 +1,7 @@
 import styles from './BookModal.module.scss';
 import avatar from '../../../assets/images/common/avatar.svg';
 import { useNavigate } from 'react-router-dom';
-import coverPlaceholder from '../../../assets/images/cardBook/cardDetails/paliturka.png';
+import coverPlaceholder from '../../../assets/images/cardBook/cardDetails/paliturka.webp';
 import { useEffect, useRef, useState } from 'react';
 import { cardIcons } from '../../../assets/images/cardBook/cardDetails';
 import { TruncatedText } from '../../base/truncatedText/TruncatedText';
@@ -98,16 +98,6 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
             src={book.coverImage === 'NOT FOUND' ? coverPlaceholder : book.coverImage}
             alt="Обкладинка тимчасово недоступна"
           />
-          {isUsersBook && (
-            <div className={styles.yourBook}>
-              <img
-                className={styles.yourBook__img}
-                src={miniIcons.yourbook}
-                alt="yourbook"
-              />
-              <div className={styles.yourBook__text}>{`Ваша книга`}</div>
-            </div>
-          )}
         </div>
 
         <div className={styles['book-modal__info']}>
