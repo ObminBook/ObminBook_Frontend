@@ -1,9 +1,73 @@
 @use '../../../styles/fonts' as *;
 @use '../../../styles/mixins' as *;
 
+.notificationsPanel {
+  position: absolute;
+  top: 202px;
+  right: 0;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+
+  padding: 24px;
+  border: 1px solid $color-border;
+  border-radius: 20px 0 0 20px;
+  background-color: $color-white;
+  width: 100%;
+  max-width: 530px;
+  height: fit-content;
+  display: flex;
+  overflow: visible;
+
+  &.visible {
+    transform: translateX(0);
+  }
+}
+
+.toggleButton {
+  position: fixed;
+  top: 80px;
+  right: 530px; // ширина панелі
+  z-index: 1010;
+  width: 32px;
+  height: 200px;
+  border-radius: 16px 0 0 16px;
+  border: 1px solid $color-border;
+  border-right: none;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: #f8f9fa;
+    box-shadow: -2px 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.arrowIcon {
+  transition: transform 0.3s ease;
+  color: $color-blue;
+
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+.list {
+  margin-top: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .panel {
-  width: 552px;
-  height: 378px;
+  width: 100%;
+  height: 490px;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -24,63 +88,4 @@
 
 .title {
   @include fontH4--semiBold--darkblue;
-}
-
-.list {
-  margin-top: 24px;
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.item {
-  background: #f5f7fa;
-  min-height: 89px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.name {
-  color: #2563eb;
-}
-
-.time {
-  color: #7b8a99;
-}
-
-.text,
-.message {
-  font-size: 16px;
-  color: #2d3748;
-}
-
-.statusAwaiting .button {
-  background: $color-white;
-  color: #d48806;
-}
-
-.statusAccepted .button {
-  background: #f6ffed;
-  color: #389e0d;
-}
-
-.statusRejected .button {
-  background: $color-white;
-  color: #cf1322;
-}
-
-.imgBell {
-  width: 20px;
-  height: 20px;
 }

@@ -1,24 +1,27 @@
 import React, { useEffect } from 'react';
 import styles from './UserProfile.module.scss';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import NotificationsPanel from '../../components/widgets/notificationPanel/NotificationPanel';
-import { Footer } from '../../components/layout/Footer/Footer';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+
 import avatar from '../../assets/images/common/avatar.svg';
 import { miniIcons } from '../../assets/images/miniIcons';
-import { Header } from '../../components/layout/Header/Header';
-import { useSelector } from 'react-redux';
+
+import { Header } from '@/components/layout/Header/Header';
+import { Footer } from '@/components/layout/Footer/Footer';
+import { ListSavedBooks } from '@/components/widgets/listSavedBooks/ListSavedBooks';
+import { ListMyBooks } from '@/components/widgets/listMyBooks/ListMyBooks';
+import { ListExchanges } from '@/components/widgets/listExchanges/ListExchanges';
+
+import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { select as authSelect } from '@/features/authSlice/authSlice';
 import {
   getMyBooks,
   getSavedBooks,
   select as manageBooksSelect,
 } from '@/features/manageBookSlice/manageBookSlice';
-import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
-import { ListSavedBooks } from '@/components/widgets/listSavedBooks/ListSavedBooks';
-import { ListMyBooks } from '@/components/widgets/listMyBooks/ListMyBooks';
-import classNames from 'classnames';
-import { ListExchanges } from '@/components/widgets/listExchanges/ListExchanges';
 import { getMyExchangesAsync } from '@/features/exchangeSlice/exchangeSlice';
+import NotificationsPanel from '@/components/widgets/notificationPanel/NotificationPanel';
 
 const TABS = [
   { key: 'my', label: 'Мої книги', img: miniIcons.iconOpenBook },
@@ -29,17 +32,17 @@ const TABS = [
 const UserProfile: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const user = useSelector(authSelect.user);
   const userBooks = useSelector(manageBooksSelect.myBooks);
+  const savedBooks = useSelector(manageBooksSelect.savedBooks);
+
   const [searchParams, setSearchParams] = useSearchParams();
-  const savedBooksItems = useSelector(manageBooksSelect.savedBooks);
 
   const tab = searchParams.get('tab') || 'my';
 
   useEffect(() => {
-    if (!searchParams.get('tab')) {
-      setSearchParams({ tab: 'my' });
-    }
+    if (!searchParams.get('tab')) setSearchParams({ tab: 'my' });
   }, [searchParams, setSearchParams]);
 
   useEffect(() => {
@@ -48,8 +51,21 @@ const UserProfile: React.FC = () => {
     dispatch(getMyExchangesAsync());
   }, [dispatch]);
 
-  const handleTabChange = (tabKey: string) => {
-    setSearchParams({ tab: tabKey });
+  const handleTabChange = (key: string) => {
+    setSearchParams({ tab: key });
+  };
+
+  const getCount = (key: string) => {
+    switch (key) {
+      case 'my':
+        return userBooks?.length ?? 0;
+      case 'saved':
+        return savedBooks?.length ?? 0;
+      case 'requests':
+        return 0; // TODO: додати коли буде логіка
+      default:
+        return 0;
+    }
   };
 
   return (
@@ -58,6 +74,7 @@ const UserProfile: React.FC = () => {
       <div className={styles.page}>
         <main className={styles.main}>
           <div className={styles.content}>
+            {/* Header */}
             <div className={styles.header}>
               <div className={styles.info}>
                 <div className={styles.owner}>
@@ -81,28 +98,22 @@ const UserProfile: React.FC = () => {
               </div>
             </div>
 
+            {/* Body */}
             <div className={styles.body}>
+              {/* Left side (Tabs & Content) */}
               <div className={styles.manager}>
                 <div className={styles.tabs}>
-                  {TABS.map((tabItem) => (
+                  {TABS.map(({ key, label, img }) => (
                     <button
-                      key={tabItem.key}
-                      onClick={() => handleTabChange(tabItem.key)}
+                      key={key}
+                      onClick={() => handleTabChange(key)}
                       className={classNames(styles.tab, {
-                        [styles.activeTab]: tab === tabItem.key,
+                        [styles.activeTab]: tab === key,
                       })}
                     >
-                      <img
-                        className={styles.tabImg}
-                        src={tabItem.img}
-                        alt={tabItem.label}
-                      />
-                      {tabItem.label}
-                      <div className={styles.count}>
-                        {tabItem.key === 'my' ? userBooks?.length || 0 : ''}
-                        {tabItem.key === 'saved' ? savedBooksItems?.length || 0 : ''}
-                        {tabItem.key === 'requests' ? 0 : ''}
-                      </div>
+                      <img className={styles.tabImg} src={img} alt={label} />
+                      {label}
+                      <div className={styles.count}>{getCount(key)}</div>
                     </button>
                   ))}
                 </div>

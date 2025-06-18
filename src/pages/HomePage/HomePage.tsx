@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
       <Header showLoginButton={true} />
       <div className={styles.main}>
         <section className={styles.intro}>
-          <h1 className={styles.title}>Безкоштовно обмінюйтесь книгами</h1>
+          <h1 className={styles.title}>Обмінюйтесь книгами безкоштовно</h1>
           <p className={styles.description}>
             В нас можна обміняти свої прочитані книжки на інші або знайти те, що вас
             цікавить. <br /> Просто знайдіть потрібний екземпляр і зв'яжіться з його

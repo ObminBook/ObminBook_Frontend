@@ -8,6 +8,7 @@
 }
 
 .page {
+  display: flex;
   flex-grow: 1;
   background-color: $background1;
 }
@@ -40,7 +41,7 @@
 .body {
   margin-top: 32px;
   display: flex;
-  gap: 32px;
+  gap: 50px;
 }
 
 .manager {
