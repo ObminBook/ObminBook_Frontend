@@ -6,18 +6,23 @@ import { showErrorToast } from '@/components/customToast/toastUtils';
 import { UserNotification } from '@/types/UserNotification';
 import { Notification } from '@/components/base/notification/Notification';
 import classNames from 'classnames';
+import { NotificationSkeleton } from '@/components/skeletons/NotificationSkeleton';
 
 const NotificationsPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<UserNotification[]>([]);
   const [isVisible, setIsVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchNotifications = async () => {
+      setIsLoading(true);
       try {
         const data = await notificationApi.getNotifications();
         setNotifications(data.content);
       } catch {
         showErrorToast('Не вдалося завантажити сповіщення');
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchNotifications();
@@ -60,9 +65,11 @@ const NotificationsPanel: React.FC = () => {
         </div>
 
         <div className={styles.list}>
-          {notifications.map((n) => (
-            <Notification key={n.id} notification={n} />
-          ))}
+          {isLoading
+            ? [1, 2, 3].map((el) => <NotificationSkeleton />)
+            : notifications.map((n) => {
+                return <Notification key={n.id} notification={n} />;
+              })}
         </div>
       </div>
     </div>
