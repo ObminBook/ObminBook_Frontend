@@ -1,4 +1,3 @@
-import { ExchangeItem } from '@/components/base/exchangeItem/ExchangeItem';
 import {
   getRecievedExchangesAsync,
   select,
@@ -7,6 +6,7 @@ import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './RecievedListExchanges.module.scss';
+import { RecipientExchangeItem } from '@/components/base/exchangeItem/containers/RecipientExchangeItem';
 
 export const RecievedListExchanges = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +18,7 @@ export const RecievedListExchanges = () => {
   return (
     <div className={styles.container}>
       {recievedExchanges.map((el) => {
-        return <ExchangeItem isUserInitiator={false} exchange={el} key={el.id} />;
+        return <RecipientExchangeItem exchange={el} />;
       })}
     </div>
   );

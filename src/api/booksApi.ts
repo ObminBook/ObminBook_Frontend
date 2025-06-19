@@ -3,7 +3,7 @@ import { axiosInstance } from './axiosInstance';
 import qs from 'qs';
 import { TargetUser, User } from '@/types/User';
 import { UserNotificationResponse } from '@/types/UserNotification';
-import { ExchangePageResponse } from '@/types/Exchange';
+import { ExchangePageResponse, ExchangeResponse } from '@/types/Exchange';
 
 export const booksApi = {
   fetchMy: async (page: number, size: number) => {
@@ -132,10 +132,15 @@ export const exchangeApi = {
 
     return response.data;
   },
-  cancelRequest: async (bookId: string) => {
+  cancelRequest: async (bookId: number): Promise<ExchangeResponse> => {
     const response = await axiosInstance.patch(`/exchange/cancel/${bookId}`);
 
-    return response;
+    return response.data;
+  },
+  getCountOfAllExchanges: async () => {
+    const response = await axiosInstance.get(`/exchange/count`);
+
+    return response.data;
   },
 };
 

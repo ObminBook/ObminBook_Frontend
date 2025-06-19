@@ -14,13 +14,14 @@ interface ExchangeState {
   anotherUserBook: Book | null;
   anyCard: { text: string } | null;
   isAny: boolean;
-
+  countAllExchanges: number;
   offerExchangeStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   myExchanges: ExchangeResponse[];
   recievedExchanges: ExchangeResponse[];
 }
 
 const initialState: ExchangeState = {
+  countAllExchanges: 0,
   myBook: null,
   anyCard: null,
   anotherUserBook: null,
@@ -30,6 +31,19 @@ const initialState: ExchangeState = {
   recievedExchanges: [],
   offerExchangeStatus: 'idle',
 };
+
+export const getCountAllExchangesAsync = createAsyncThunk(
+  'exchanges/getCountAll',
+  async (_, thunkAPI) => {
+    try {
+      const data = await exchangeApi.getCountOfAllExchanges();
+
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const startExchangeAsync = createAsyncThunk(
   'exchange/startExchange',
@@ -150,7 +164,12 @@ const exchangeSlice = createSlice({
         (state, action: PayloadAction<ExchangeResponse[]>) => {
           state.recievedExchanges = action.payload;
         }
-      ),
+      )
+
+      // GetAllExchanges
+      .addCase(getCountAllExchangesAsync.fulfilled, (state, action) => {
+        state.countAllExchanges = action.payload;
+      }),
 });
 
 export const {
@@ -171,6 +190,7 @@ export const select = {
   offerExchangeStatus: (state: RootState) => state.exchange.offerExchangeStatus,
   myExchanges: (state: RootState) => state.exchange.myExchanges,
   recievedExchanges: (state: RootState) => state.exchange.recievedExchanges,
+  countAllExchanges: (state: RootState) => state.exchange.countAllExchanges,
 };
 
 export default exchangeSlice.reducer;

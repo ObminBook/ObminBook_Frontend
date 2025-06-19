@@ -94,55 +94,57 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
         {exchange && (
           <div className={styles.exchangeBlock}>
-            {isUserInitiator ? (
-              <div className={styles.buttonsContainer}>
-                <div className={styles.leftButton}>
-                  <Button
-                    _name="Скасувати запит"
-                    _buttonVariant="social"
-                    _fontSize="bold"
-                    _type="button"
-                  />
-                </div>
+            {exchange.exchangeStatus === 'PENDING' ? (
+              isUserInitiator ? (
+                <div className={styles.buttonsContainer}>
+                  <div className={styles.leftButton}>
+                    <Button
+                      _name="Скасувати запит"
+                      _buttonVariant="social"
+                      _fontSize="bold"
+                      _type="button"
+                    />
+                  </div>
 
-                <div
-                  onClick={(ev) => {
-                    handleOpenChat(ev, exchange.recipient);
-                  }}
-                >
-                  <Button
-                    _icon={miniIcons.buttMessage}
-                    _iconPosition="left"
-                    _buttonVariant="social"
-                    _name="Відкрити чат"
-                    _fontSize="bold"
-                    _type="button"
-                  />
+                  <div
+                    onClick={(ev) => {
+                      handleOpenChat(ev, exchange.recipient);
+                    }}
+                  >
+                    <Button
+                      _icon={miniIcons.buttMessage}
+                      _iconPosition="left"
+                      _buttonVariant="social"
+                      _name="Відкрити чат"
+                      _fontSize="bold"
+                      _type="button"
+                    />
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className={styles.buttonsContainer}>
-                <div className={styles.rightButton}>
-                  <Button
-                    _name="Переглянути"
-                    _buttonVariant="blue"
-                    _fontSize="bold"
-                    _type="button"
-                  />
-                </div>
+              ) : (
+                <div className={styles.buttonsContainer}>
+                  <div className={styles.rightButton}>
+                    <Button
+                      _name="Переглянути"
+                      _buttonVariant="blue"
+                      _fontSize="bold"
+                      _type="button"
+                    />
+                  </div>
 
-                <div onClick={(ev) => handleOpenChat(ev, exchange.initiator)}>
-                  <Button
-                    _icon={miniIcons.buttMessage}
-                    _iconPosition="left"
-                    _buttonVariant="social"
-                    _name="Відкрити чат"
-                    _fontSize="bold"
-                    _type="button"
-                  />
+                  <div onClick={(ev) => handleOpenChat(ev, exchange.initiator)}>
+                    <Button
+                      _icon={miniIcons.buttMessage}
+                      _iconPosition="left"
+                      _buttonVariant="social"
+                      _name="Відкрити чат"
+                      _fontSize="bold"
+                      _type="button"
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )
+            ) : null}
           </div>
         )}
       </div>

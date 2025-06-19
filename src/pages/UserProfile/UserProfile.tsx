@@ -20,8 +20,11 @@ import {
   getSavedBooks,
   select as manageBooksSelect,
 } from '@/features/manageBookSlice/manageBookSlice';
-import { getMyExchangesAsync } from '@/features/exchangeSlice/exchangeSlice';
 import NotificationsPanel from '@/components/widgets/notificationPanel/NotificationPanel';
+import {
+  getCountAllExchangesAsync,
+  select as exchangeSelect,
+} from '@/features/exchangeSlice/exchangeSlice';
 
 const TABS = [
   { key: 'my', label: 'Мої книги', img: miniIcons.iconOpenBook },
@@ -36,9 +39,9 @@ const UserProfile: React.FC = () => {
   const user = useSelector(authSelect.user);
   const userBooks = useSelector(manageBooksSelect.myBooks);
   const savedBooks = useSelector(manageBooksSelect.savedBooks);
+  const countOfAllExchanges = useSelector(exchangeSelect.countAllExchanges);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
   const tab = searchParams.get('tab') || 'my';
 
   useEffect(() => {
@@ -48,7 +51,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     dispatch(getMyBooks());
     dispatch(getSavedBooks());
-    dispatch(getMyExchangesAsync());
+    dispatch(getCountAllExchangesAsync());
   }, [dispatch]);
 
   const handleTabChange = (key: string) => {
@@ -62,7 +65,7 @@ const UserProfile: React.FC = () => {
       case 'saved':
         return savedBooks?.length ?? 0;
       case 'requests':
-        return 0; // TODO: додати коли буде логіка
+        return countOfAllExchanges || 0;
       default:
         return 0;
     }
