@@ -68,6 +68,26 @@ export const ConfirmExchangeModal: React.FC<Props> = ({ exchange, onClose }) => 
     }
   }
 
+  function handleBackdropClick(ev: React.MouseEvent<HTMLDivElement>) {
+    if (ev.target === ev.currentTarget) {
+      onClose();
+    }
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
   useEffect(() => {
     if (exchange.isAnyBookOffered === false) {
       return;
@@ -90,14 +110,14 @@ export const ConfirmExchangeModal: React.FC<Props> = ({ exchange, onClose }) => 
   }, []);
 
   return (
-    <div className={styles.container}>
-      <img
-        className={styles.closeIcon}
-        src={miniIcons.closeIcon}
-        alt="close"
-        onClick={onClose}
-      />
+    <div className={styles.container} onClick={handleBackdropClick}>
       <div className={styles.content}>
+        <img
+          className={styles.closeIcon}
+          src={miniIcons.closeIcon}
+          alt="close"
+          onClick={onClose}
+        />
         <h1 className={styles.confirmTitle}>{initiatorName}</h1>
         <h2 className={styles.confirmSubTitle}>
           {isAnyBookOffered ? 'Пропонує обмін на одну з його книг' : 'Пропонує обмін'}

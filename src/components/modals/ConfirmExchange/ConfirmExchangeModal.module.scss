@@ -16,6 +16,7 @@
 }
 
 .content {
+  position: relative;
   max-width: 550px;
   display: flex;
   flex-direction: column;
@@ -69,13 +70,13 @@
   border: 2px dashed $color-border;
   border-radius: 12px;
   background-color: $color-white;
-  // box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 
   width: 500px;
   height: 160px;
 }
 
 .closeIcon {
+  cursor: pointer;
   position: absolute;
   top: 24px;
   right: 24px;
