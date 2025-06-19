@@ -4,6 +4,8 @@ import { ReactNode } from 'react';
 import { miniIcons } from '@/assets/images/miniIcons';
 import { AnyBookCard } from '../../bookCards/AnyBookCard/AnyBookCard';
 import { BookOfferCard } from '../../bookCards/BookOfferCard/BookOfferCard';
+import { useSelector } from 'react-redux';
+import { select } from '@/features/authSlice/authSlice';
 
 interface ExchangeItemUIProps {
   exchange: ExchangeResponse;
@@ -14,7 +16,9 @@ export const ExchangeItemUI: React.FC<ExchangeItemUIProps> = ({
   exchange,
   actionSection,
 }) => {
+  const user = useSelector(select.user);
   const initiatorBook = exchange.initiatorBook;
+  const isUserInitiator = user?.id === exchange.initiator.id;
   const recipientBook = exchange.recipientBook;
   const isAnyBookOffered = exchange.isAnyBookOffered;
 
@@ -23,7 +27,14 @@ export const ExchangeItemUI: React.FC<ExchangeItemUIProps> = ({
       <div className={styles.exchange__pair}>
         <div className={styles.itemContainer}>
           {isAnyBookOffered ? (
-            <AnyBookCard book={{ text: 'Будь-яка з книжок юзера' }} hasLogic={false} />
+            <AnyBookCard
+              book={{
+                text: isUserInitiator
+                  ? 'Будь-яка з ваших книжок'
+                  : 'Будь-яка з книжок юзера',
+              }}
+              hasLogic={false}
+            />
           ) : (
             <BookOfferCard book={initiatorBook} />
           )}

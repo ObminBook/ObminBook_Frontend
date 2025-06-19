@@ -55,6 +55,10 @@
 
 .title {
   @include fontSec--darkblue;
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .specification {
