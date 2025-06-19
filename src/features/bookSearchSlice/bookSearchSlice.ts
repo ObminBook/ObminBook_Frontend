@@ -13,7 +13,7 @@ interface BookFilterState {
   exchangeType: string[];
   page: number;
   size: number;
-  sort: 'asc' | 'desc';
+  sort: 'title,asc' | 'title,desc' | 'id,desc';
   hasNext: boolean;
   totalElements: number;
 }
@@ -27,8 +27,8 @@ const initialState: BookFilterState = {
   condition: [],
   exchangeType: [],
   page: 0,
-  size: 6,
-  sort: 'asc',
+  size: 9,
+  sort: 'id,desc',
   hasNext: false,
   totalElements: 0,
 };

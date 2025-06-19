@@ -1,5 +1,5 @@
 // BookCard.tsx - оптимізована версія
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './BookCard.module.scss';
 import { useHover } from '../../../../hooks/useHover';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ interface BookCardProps {
   book: Book;
 }
 
-export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref) => {
+export const BookCard: React.FC<BookCardProps> = ({ book }) => {
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isSaveLoading, setIsSaveLoading] = useState(false);
@@ -81,7 +81,7 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
   }
 
   return (
-    <div className={styles.cardContainer} ref={ref}>
+    <div className={styles.cardContainer}>
       <div className={styles.card} ref={hoverRef} onClick={handleCardClick}>
         {isBookModalOpen && (
           <BookModalPortal
@@ -200,4 +200,4 @@ export const BookCard = forwardRef<HTMLDivElement, BookCardProps>(({ book }, ref
       </div>
     </div>
   );
-});
+};

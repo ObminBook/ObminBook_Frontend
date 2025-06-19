@@ -76,17 +76,13 @@ const customSortStyles: StylesConfig<Option, false> = {
   }),
 };
 
-type Props = {
-  placeholder: string;
-};
-
 const options: Option[] = [
   { value: 'title,asc', label: 'За назвою А-Я' },
   { value: 'title,desc', label: 'За назвою Я-А' },
   { value: 'id,desc', label: 'Нові оголошення' },
 ];
 
-export const CustomSortSelect = ({ placeholder }: Props) => {
+export const CustomSortSelect = () => {
   const selectedValue = useSelector(select.sort);
   const dispatch = useAppDispatch();
 
@@ -105,7 +101,6 @@ export const CustomSortSelect = ({ placeholder }: Props) => {
         isMulti={false}
         onChange={handleSelectChange}
         styles={customSortStyles}
-        placeholder={placeholder}
         closeMenuOnSelect={true}
         isClearable={false}
         value={selectedOption}

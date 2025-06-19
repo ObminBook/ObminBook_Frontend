@@ -13,7 +13,6 @@ import {
 import { useEffect, useMemo } from 'react';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { useInView } from 'react-intersection-observer';
-import { SearchBooksRequest } from '@/types/Book';
 import { CustomSortSelect } from '@/components/base/customSelect/customSortSelect/customSortSelect';
 import BookCardSkeleton from '@/components/skeletons/BookCardSkeleton';
 
@@ -33,7 +32,7 @@ const BookListWithFilters = () => {
   const sort = useSelector(select.sort);
   const totalElements = useSelector(select.totalElements);
 
-  const filterParams: SearchBooksRequest = useMemo(
+  const filterParams = useMemo(
     () => ({
       page,
       size,
@@ -42,7 +41,6 @@ const BookListWithFilters = () => {
       exchangeType,
       condition,
       sort,
-      totalElements,
     }),
     [page, size, titleAndAuthor, categories, exchangeType, condition, sort]
   );
@@ -51,21 +49,23 @@ const BookListWithFilters = () => {
     threshold: 0,
   });
 
+  // Підвантаження нової сторінки
   useEffect(() => {
     if (inView && hasNext && !areBooksLoading) {
       dispatch(setNextPage());
     }
-  }, [inView, hasNext, dispatch, areBooksLoading]);
+  }, [inView, hasNext, areBooksLoading, dispatch]);
 
+  // Коли змінюються фільтри — очищаємо і встановлюємо сторінку на 0
   useEffect(() => {
     dispatch(clearBooks());
     dispatch(setPage(0));
-  }, [titleAndAuthor, categories, exchangeType, condition, sort]);
+  }, [titleAndAuthor, categories, exchangeType, condition, sort, dispatch]);
 
+  // Завантаження книжок при зміні параметрів або сторінки
   useEffect(() => {
     dispatch(searchBooks(filterParams));
-    console.log(filterParams);
-  }, [page, titleAndAuthor, categories, exchangeType, condition, sort]);
+  }, [filterParams, dispatch]);
 
   return (
     <div className={styles.bookList}>
@@ -76,7 +76,7 @@ const BookListWithFilters = () => {
           </div>
           <div className={styles.searchContainer__sort}>
             Сортувати за:
-            <CustomSortSelect placeholder="Сортувати за" />
+            <CustomSortSelect />
           </div>
         </div>
       </div>
@@ -87,20 +87,21 @@ const BookListWithFilters = () => {
 
       <div className={styles.container}>
         {areBooksLoading ? (
-          // Показуємо повний скелетон під час початкового завантаження / зміни параметрів
           Array.from({ length: size }).map((_, idx) => (
             <BookCardSkeleton key={`full-skeleton-${idx}`} />
           ))
         ) : (
           <>
-            {/* Показуємо вже завантажені книжки */}
             {books.map((book, index) => (
-              <div key={book.id} className={styles.bookWrapper}>
-                <BookCard book={book} ref={index === books.length - 1 ? ref : null} />
+              <div
+                key={book.id}
+                className={styles.bookWrapper}
+                ref={index === books.length - 1 ? ref : undefined}
+              >
+                <BookCard book={book} />
               </div>
             ))}
 
-            {/* Підвантаження наступної сторінки - показуємо скелетон лише для нової партії */}
             {isFetchingNextPage &&
               Array.from({ length: size }).map((_, idx) => (
                 <BookCardSkeleton key={`nextpage-skeleton-${idx}`} />

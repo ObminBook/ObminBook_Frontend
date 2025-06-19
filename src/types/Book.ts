@@ -52,7 +52,6 @@ export interface SearchBooksRequest {
   condition: string[];
   exchangeType: string[];
   titleAndAuthor: string;
-  totalElements: number;
 }
 
 export interface SavedBookItem {

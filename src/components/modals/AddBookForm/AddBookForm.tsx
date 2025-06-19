@@ -170,7 +170,10 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
     }
   };
 
-  const prevStep = () => setStep((prevStep) => prevStep - 1);
+  const prevStep = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setStep((prevStep) => prevStep - 1);
+  };
 
   const handleCloseForm = (ev: React.MouseEvent) => {
     ev.stopPropagation();
@@ -208,10 +211,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
             {step > 0 ? (
               <div
                 className={`${styles.buttonContainer} ${styles.buttonContainer__left}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  prevStep();
-                }}
+                onClick={prevStep}
               >
                 <Button
                   _buttonVariant="social"
@@ -219,6 +219,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                   _icon={miniIcons.arrowBackBlack}
                   _iconPosition="left"
                   _fontSize="bold"
+                  _type="button"
                 />
               </div>
             ) : (
@@ -240,8 +241,13 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
               onClick={async (e) => {
                 e.stopPropagation();
                 if (step === 2) {
-                  await methods.handleSubmit(onSubmit)();
+                  // Тільки на останньому кроці сабмітимо форму
+                  const isFormValid = await methods.trigger(); // Валідуємо всю форму
+                  if (isFormValid) {
+                    await methods.handleSubmit(onSubmit)();
+                  }
                 } else {
+                  // На інших кроках просто переходимо далі
                   await nextStep();
                 }
               }}
