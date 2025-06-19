@@ -1,0 +1,70 @@
+@use '../../../../styles/fonts' as *;
+@use '../../../../styles/mixins' as *;
+
+.container {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 5px;
+  width: 150px;
+  flex-shrink: 0;
+
+  &_selected {
+    border-color: $color-blue;
+
+    &:hover {
+      border-color: $color-blue--hover;
+    }
+  }
+
+  &:hover {
+    border-color: $color-blue;
+  }
+}
+
+.image {
+  border-radius: 6px;
+  height: 100%;
+  width: 60px;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.titleBox {
+  display: flex;
+}
+
+.title {
+  display: inline-block;
+  margin-top: 5px;
+  @include fontMain--darkblue;
+  font-size: 12px;
+  max-width: 120px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comma {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include fontMain--darkblue;
+  font-size: 12px;
+}
+
+.text {
+  @include fontSmall--gray;
+}

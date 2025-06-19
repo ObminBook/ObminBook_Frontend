@@ -11,13 +11,16 @@ import { RecipientExchangeItem } from '@/components/base/exchangeItem/containers
 export const RecievedListExchanges = () => {
   const dispatch = useAppDispatch();
   const recievedExchanges = useSelector(select.recievedExchanges);
+  const pendingExchanges = recievedExchanges.filter(
+    (ex) => ex.exchangeStatus === 'PENDING'
+  );
 
   useEffect(() => {
     dispatch(getRecievedExchangesAsync());
   }, []);
   return (
     <div className={styles.container}>
-      {recievedExchanges.map((el) => {
+      {pendingExchanges.map((el) => {
         return <RecipientExchangeItem exchange={el} />;
       })}
     </div>

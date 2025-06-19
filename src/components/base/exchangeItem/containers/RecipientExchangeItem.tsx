@@ -7,6 +7,8 @@ import { dispatch } from '@/reduxStore/store';
 import { setSelectedUser } from '@/features/chatSlice/chatSlice';
 import { Button } from '../../button/Button';
 import { ExchangeItemUI } from '../ui/ExchangeItemUI';
+import { useState } from 'react';
+import { ConfirmExchangeModal } from '@/components/modals/ConfirmExchange/ConfirmExchangeModal';
 
 interface RecipientExchangeItemProps {
   exchange: ExchangeResponse;
@@ -16,14 +18,34 @@ export const RecipientExchangeItem: React.FC<RecipientExchangeItemProps> = ({
   exchange,
 }) => {
   const navigate = useNavigate();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  // const handleOpenConfirm = (ev: React.MouseEvent<HTMLDivElement>) => {
+  //   ev.preventDefault();
+  //   console.log('button clicked');
+
+  //   setIsConfirmModalOpen(true);
+  // };
 
   const actionSection = (
     <div className={styles.pairAction}>
+      {isConfirmModalOpen && (
+        <ConfirmExchangeModal
+          exchange={exchange}
+          onClose={() => setIsConfirmModalOpen(false)}
+        />
+      )}
       <img src={exchange.initiator.profilePicture || avatar} />
       <div>
         {exchange.initiator.firstName} {exchange.initiator.lastName}
       </div>
-      <div style={{ width: '200px' }}>
+      <div
+        style={{ width: '200px' }}
+        onClick={(ev) => {
+          ev.preventDefault();
+          setIsConfirmModalOpen(true);
+        }}
+      >
         <Button
           _buttonVariant="blue"
           _name="Переглянути"
@@ -35,8 +57,9 @@ export const RecipientExchangeItem: React.FC<RecipientExchangeItemProps> = ({
         style={{ width: '200px' }}
         onClick={(ev) => {
           ev.preventDefault();
-          navigate('/messages');
+          localStorage.removeItem('selectedUser');
           dispatch(setSelectedUser(exchange.initiator));
+          navigate('/messages');
         }}
       >
         <Button

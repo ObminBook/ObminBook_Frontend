@@ -35,8 +35,14 @@ import navbarSearch from './navbar/navbarSearch.svg';
 import navbarProfile from './navbar/navbarProfile.svg';
 import navbarMessage from './navbar/navbarMessage.svg';
 import bell from './bell.svg';
+import arrowDown from './arrowDown.svg';
+import checkmark from './checkmark.svg';
+import cross from './cross.svg';
 
 export const miniIcons = {
+  cross,
+  checkmark,
+  arrowDown,
   bell,
   navbarHome,
   navbarSearch,

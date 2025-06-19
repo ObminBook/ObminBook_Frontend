@@ -30,6 +30,7 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       type={props._type}
+      disabled={props._disabled}
       className={classNames(
         props._classname,
         styles['button'],
@@ -40,7 +41,7 @@ export const Button = (props: ButtonProps) => {
         ],
         styles[`button--font-${props._fontSize}`]
       )}
-      onClick={() => props.onClick}
+      onClick={(ev) => props.onClick?.(ev)}
     >
       {props._iconPosition === 'left' && icon}
       {props._name}

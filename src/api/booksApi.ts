@@ -37,7 +37,7 @@ export const booksApi = {
       throw error;
     }
   },
-  fetchTargetUser: async (userId: string): Promise<TargetUser | undefined> => {
+  fetchTargetUser: async (userId: number): Promise<TargetUser | undefined> => {
     try {
       const response = await axiosInstance.get<TargetUser>(`/books/all/${userId}`, {
         params: {
@@ -93,7 +93,7 @@ export const booksApi = {
       throw error;
     }
   },
-  removeFromSaved: async (bookId: string) => {
+  removeFromSaved: async (bookId: number) => {
     try {
       const response = await axiosInstance.delete(`/books/me/saved/${bookId}`);
       return response;
@@ -127,13 +127,29 @@ export const exchangeApi = {
   },
   getRecievedExchanges: async (): Promise<ExchangePageResponse> => {
     const response = await axiosInstance.get('/exchange/received', {
-      params: {},
+      params: { sort: 'id,desc' },
     });
 
     return response.data;
   },
-  cancelRequest: async (bookId: number): Promise<ExchangeResponse> => {
-    const response = await axiosInstance.patch(`/exchange/cancel/${bookId}`);
+  acceptOffer: async (exchangeId: number): Promise<ExchangePageResponse> => {
+    const response = await axiosInstance.patch(`/exchange/accept/${exchangeId}`);
+
+    return response.data;
+  },
+  acceptOfferAny: async (
+    exchangeId: number,
+    initiatorBookId: string
+  ): Promise<ExchangePageResponse> => {
+    const response = await axiosInstance.patch('/exchange', {
+      exchangeId,
+      initiatorBookId,
+    });
+
+    return response.data;
+  },
+  cancelRequest: async (exchangeId: number): Promise<ExchangeResponse> => {
+    const response = await axiosInstance.patch(`/exchange/cancel/${exchangeId}`);
 
     return response.data;
   },
