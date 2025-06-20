@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { checkAuth } from '@/features/authSlice/authSlice';
+import { refreshAccessToken } from '@/utils/refreshAccessToken';
 
 export const OAuth2RedirectHandlerCookies = () => {
   const navigate = useNavigate();
@@ -11,7 +12,6 @@ export const OAuth2RedirectHandlerCookies = () => {
   useEffect(() => {
     const handleOAuth = async () => {
       try {
-        // Перевіряємо URL параметри на помилки
         const urlParams = new URLSearchParams(window.location.search);
         const error = urlParams.get('error');
 
@@ -21,10 +21,21 @@ export const OAuth2RedirectHandlerCookies = () => {
           return;
         }
 
-        // Невелика затримка для того, щоб бекенд встиг встановити cookies
+        // Дати бекенду трохи часу для встановлення cookies
         await new Promise((resolve) => setTimeout(resolve, 300));
 
-        // Викликаємо checkAuth - він має отримати access token через refresh token
+        // Отримати accessToken через cookies
+        const accessToken = await refreshAccessToken();
+
+        if (accessToken) {
+          localStorage.setItem('accessToken', accessToken);
+        } else {
+          console.error('No access token received after OAuth');
+          navigate('/login?error=oauth_failed');
+          return;
+        }
+
+        // Перевірити користувача
         const result = await dispatch(checkAuth());
 
         if (checkAuth.fulfilled.match(result)) {

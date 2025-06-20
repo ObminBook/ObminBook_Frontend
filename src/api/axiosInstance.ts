@@ -23,6 +23,7 @@ const processQueue = (error: Error | AxiosError | null, token: string | null = n
   failedQueue = [];
 };
 
+// Ендпоінти, які не потребують Authorization заголовка
 const noAuthEndpoints = ['/auth/login', '/auth/register'];
 
 export const axiosInstance = axios.create({
@@ -31,6 +32,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
+  // Для цих ендпоінтів взагалі не додаємо Authorization
   if (noAuthEndpoints.some((endpoint) => config.url?.startsWith(endpoint))) {
     return config;
   }
@@ -48,7 +50,6 @@ axiosInstance.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
-    // Ось ключова перевірка, щоб не рефрешити токен для noAuthEndpoints
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
@@ -92,6 +93,10 @@ axiosInstance.interceptors.response.use(
             : new Error('Unknown error during token refresh');
 
         processQueue(typedError, null);
+
+        // Очищаємо localStorage при невдалому refresh
+        localStorage.removeItem('accessToken');
+
         return Promise.reject(typedError);
       } finally {
         isRefreshing = false;
