@@ -167,16 +167,6 @@ const LoginPage = () => {
                   _type="button"
                 />
               </div>
-              <div className={styles.logWithSocialButton}>
-                <Button
-                  _buttonVariant="social"
-                  _name="Facebook"
-                  _fontSize="bold"
-                  _iconPosition="left"
-                  _icon={miniIcons.iconFacebook}
-                  _type="button"
-                />
-              </div>
             </div>
 
             <div className={styles.footer}>
