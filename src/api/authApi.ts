@@ -21,7 +21,8 @@ export const verificationRequest = (email: string, code: string) =>
 export const userLogout = () => {
   const response = axiosInstance.post('/auth/logout');
 
-  console.log(response);
-
   return response;
 };
+
+export const exchangeCodeForToken = (code: string) =>
+  axiosInstance.post('/auth/oauth2/exchange', { code });

@@ -57,6 +57,11 @@ const LoginPage = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href =
+      'http://obminbook.us-east-1.elasticbeanstalk.com/oauth2/authorization/google';
+  };
+
   const rememberMeValue = watch('rememberMe');
 
   useEffect(() => {
@@ -157,7 +162,7 @@ const LoginPage = () => {
             </div>
 
             <div className={styles.logWithSocial}>
-              <div className={styles.logWithSocialButton}>
+              <div className={styles.logWithSocialButton} onClick={handleGoogleLogin}>
                 <Button
                   _buttonVariant="social"
                   _name="Google"

@@ -46,6 +46,28 @@ type RegisterPayload = {
   lastName: string;
 };
 
+export const oauth2Login = createAsyncThunk<
+  User,
+  { code: string },
+  { rejectValue: AuthError }
+>('auth/oauth2Login', async (_, thunkAPI) => {
+  try {
+    const userResponse = await fetchUserRequest();
+    return userResponse.data;
+  } catch (err) {
+    const error = err as AxiosError<{ message?: string }>;
+
+    if (error.response?.status === 409) {
+      return thunkAPI.rejectWithValue({
+        field: 'email',
+        message: 'Користувач з такою поштою вже існує',
+      });
+    }
+
+    return thunkAPI.rejectWithValue({ message: 'Щось пішло не так' });
+  }
+});
+
 // Async Thunks
 export const login = createAsyncThunk<
   User,
@@ -258,6 +280,19 @@ const authSlice = createSlice({
       })
       .addCase(logout.pending, (state) => {
         state.logoutStatus = 'loading';
+      })
+
+      .addCase(oauth2Login.pending, (state) => {
+        state.loginStatus = 'loading';
+        state.error = null;
+      })
+      .addCase(oauth2Login.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.loginStatus = 'authenticated';
+      })
+      .addCase(oauth2Login.rejected, (state, action) => {
+        state.loginStatus = 'unauthenticated';
+        state.error = action.payload ?? { message: 'OAuth2 авторизація не вдалася' };
       });
   },
 });
