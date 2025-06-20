@@ -20,13 +20,6 @@ export const RecipientExchangeItem: React.FC<RecipientExchangeItemProps> = ({
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-  // const handleOpenConfirm = (ev: React.MouseEvent<HTMLDivElement>) => {
-  //   ev.preventDefault();
-  //   console.log('button clicked');
-
-  //   setIsConfirmModalOpen(true);
-  // };
-
   const actionSection = (
     <div className={styles.pairAction}>
       {isConfirmModalOpen && (
@@ -35,7 +28,7 @@ export const RecipientExchangeItem: React.FC<RecipientExchangeItemProps> = ({
           onClose={() => setIsConfirmModalOpen(false)}
         />
       )}
-      <img src={exchange.initiator.profilePicture || avatar} />
+      <img className={styles.avatar} src={exchange.initiator.profilePicture || avatar} />
       <div>
         {exchange.initiator.firstName} {exchange.initiator.lastName}
       </div>

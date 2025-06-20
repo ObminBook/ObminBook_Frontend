@@ -252,3 +252,31 @@
 .time {
   @include fontSmall--gray;
 }
+
+.emptyChatBlock {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  // transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+
+  &__img {
+    width: 64px;
+    height: 64px;
+  }
+
+  &__title {
+    @include fontH5--darkblue;
+    margin-top: 16px;
+  }
+
+  &__description {
+    @include fontMainText--reg;
+    text-align: center;
+    margin-top: 4px;
+  }
+}

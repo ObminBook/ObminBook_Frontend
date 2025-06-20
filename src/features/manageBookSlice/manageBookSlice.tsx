@@ -80,7 +80,7 @@ export const deleteMyBook = createAsyncThunk<
 
 export const getTargetUser = createAsyncThunk(
   'manageBooks/getTargetUserBooks',
-  async (userId: string, thunkApi) => {
+  async (userId: number, thunkApi) => {
     try {
       const data = await booksApi.fetchTargetUser(userId);
       if (!data) {
@@ -157,15 +157,11 @@ const manageBooksSlice = createSlice({
     clearTargetUser(state) {
       state.targetUser = null;
       state.targetUserStatus = 'idle';
-      // НЕ очищуємо localStorage тут - це робиться тільки при виході з застосунку або коли користувач явно цього хоче
-      console.log('Target user очищено з Redux state (localStorage залишається)');
     },
     // ДОДАНО: окрема функція для повного очищення включно з localStorage
-    clearTargetUserCompletely(state) {
-      state.targetUser = null;
-      state.targetUserStatus = 'idle';
+    clearTargetUserCompletely() {
       removeTargetUserFromLocalStorage();
-      console.log('Target user повністю очищено (включно з localStorage)');
+      return initialState;
     },
   },
   extraReducers: (builder) => {

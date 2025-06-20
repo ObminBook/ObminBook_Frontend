@@ -87,11 +87,8 @@ const bookSearchSlice = createSlice({
       state.totalElements = 0;
       state.booksLoadingState = 'idle';
     },
-    clearSearchOption(state) {
-      state.titleAndAuthor = '';
-      state.condition = [];
-      state.exchangeType = [];
-      state.categories = [];
+    clearSearchOption() {
+      return initialState;
     },
     setTitleAndAuthor(state, action) {
       state.titleAndAuthor = action.payload;

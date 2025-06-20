@@ -31,6 +31,7 @@ import { Message } from '@/types/Chat';
 import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
 import { User } from '@/types/User';
 import { getMessageDate } from './getMessageDate';
+import { cardIcons } from '@/assets/images/cardBook/cardDetails';
 
 const getRoomId = (uid1: string, uid2: string) => [uid1, uid2].sort().join('_');
 
@@ -50,10 +51,8 @@ export const ChatPage: React.FC = () => {
   const [currentUserId, setCurrentUserId] = useState<string>('');
   const [roomId, setRoomId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
-
-  const chatRef = useRef<HTMLDivElement>(null);
-
-  // last messages for sidebar with fallback to localStorage
+  const [loadingMessages, setLoadingMessages] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
   const [lastMessages, setLastMessages] = useState<LastMessages>(() => {
     try {
       const saved = localStorage.getItem('lastMessages');
@@ -62,10 +61,7 @@ export const ChatPage: React.FC = () => {
       return {};
     }
   });
-
-  // track loading state of last messages per user
-  const [loadingMessages, setLoadingMessages] = useState<Set<string>>(new Set());
-
+  const chatRef = useRef<HTMLDivElement>(null);
   const selectedUser = useSelector((state: RootState) => state.chat.selectedUser);
   const listOfUsers = useSelector((state: RootState) => state.chat.listOfUsers);
 
@@ -306,6 +302,11 @@ export const ChatPage: React.FC = () => {
     return (msg.user === currentUserId ? 'Ви: ' : '') + truncate(msg.text);
   };
 
+  const filteredUsers = listOfUsers.filter((user) => {
+    const username = `${user.firstName} ${user.lastName}`;
+    return username.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   return (
     <div className={styles.chat}>
       <Header />
@@ -317,14 +318,18 @@ export const ChatPage: React.FC = () => {
               Назад
             </button>
             <div className={styles.sidebar__searchUserInput}>
-              <SearchQueryContainer placeholder="Пошук користувача" />
+              <SearchQueryContainer
+                placeholder="Пошук користувача"
+                onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
+              />
             </div>
           </div>
           {isLoading ? (
             <ChatListSkeleton />
           ) : (
             <div className={styles.sidebar__usersList}>
-              {listOfUsers.map((u) => (
+              {filteredUsers.map((u) => (
                 <div
                   key={u.id}
                   className={`${styles.usersList__user} ${
@@ -363,7 +368,36 @@ export const ChatPage: React.FC = () => {
               </div>
             </div>
           )}
+
           <div ref={chatRef} className={styles.main__content}>
+            {!selectedUser && (
+              <div className={styles.emptyChatBlock}>
+                <img
+                  className={styles.emptyChatBlock__img}
+                  src={cardIcons.anyBookIcon}
+                  alt="anyBook"
+                />
+                {!selectedUser && listOfUsers.length > 0 && (
+                  <>
+                    <h3 className={styles.emptyChatBlock__title}>Виберіть чат</h3>
+                    <p className={styles.emptyChatBlock__description}>
+                      Оберіть контакт зі списку зліва, щоб почати спілкування
+                    </p>
+                  </>
+                )}
+                {listOfUsers.length === 0 && (
+                  <>
+                    <h3 className={styles.emptyChatBlock__title}>
+                      У вас поки немає діалогів
+                    </h3>
+                    <p className={styles.emptyChatBlock__description}>
+                      Чат з юзером зʼявиться коли буде запропонований обмін
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
+
             {messages.map((m) => (
               <div
                 key={m.id}

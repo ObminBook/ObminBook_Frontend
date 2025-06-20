@@ -6,6 +6,8 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import { userMenuIcons } from '../../../assets/images/userMenu';
 import { logout } from '@/features/authSlice/authSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
+import { clearTargetUserCompletely } from '@/features/manageBookSlice/manageBookSlice';
+import { clearSearchOption } from '@/features/bookSearchSlice/bookSearchSlice';
 
 export const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,8 +15,10 @@ export const UserMenu: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
+    dispatch(clearSearchOption());
+    dispatch(clearTargetUserCompletely());
   };
 
   const menuItems = [

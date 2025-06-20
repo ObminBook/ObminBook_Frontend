@@ -93,7 +93,7 @@ export const booksApi = {
       throw error;
     }
   },
-  removeFromSaved: async (bookId: number) => {
+  removeFromSaved: async (bookId: string) => {
     try {
       const response = await axiosInstance.delete(`/books/me/saved/${bookId}`);
       return response;

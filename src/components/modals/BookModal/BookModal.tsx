@@ -244,7 +244,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                   </div>
                 </div>
 
-                <div className={styles['book-modal__copy']}>
+                {/* <div className={styles['book-modal__copy']}>
                   <Button
                     _buttonVariant="transparentNoBorder"
                     _name="Скопіювати посилання на книгу"
@@ -253,7 +253,7 @@ export const BookModal: React.FC<Props> = ({ book, onClose, onUserClick }) => {
                     _type="button"
                     _iconPosition="left"
                   />
-                </div>
+                </div> */}
               </div>
             ) : (
               <div

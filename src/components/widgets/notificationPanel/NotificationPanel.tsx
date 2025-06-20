@@ -7,11 +7,14 @@ import { UserNotification } from '@/types/UserNotification';
 import { Notification } from '@/components/base/notification/Notification';
 import classNames from 'classnames';
 import { NotificationSkeleton } from '@/components/skeletons/NotificationSkeleton';
+import { useSelector } from 'react-redux';
+import { select } from '@/features/exchangeSlice/exchangeSlice';
 
 const NotificationsPanel: React.FC = () => {
   const [notifications, setNotifications] = useState<UserNotification[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const recievedExchanges = useSelector(select.recievedExchanges);
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -26,7 +29,7 @@ const NotificationsPanel: React.FC = () => {
       }
     };
     fetchNotifications();
-  }, []);
+  }, [recievedExchanges]);
 
   return (
     <div

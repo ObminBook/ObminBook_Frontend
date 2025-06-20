@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { setSelectedUser } from '@/features/chatSlice/chatSlice';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
 import { User } from '@/types/User';
+import { useState } from 'react';
+import { ConfirmExchangePortal } from '@/components/modals/ConfirmExchange/ConfirmExchangePortal';
 
 interface NotificationProps {
   notification: UserNotification;
@@ -25,6 +27,7 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
   const user = useSelector(select.user);
   const exchange = notification?.exchangeDto;
   const isUserInitiator = notification.exchangeDto?.initiator.id === user?.id;
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -39,6 +42,13 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
 
   return (
     <div className={styles.container}>
+      {isModalOpen && exchange && (
+        <ConfirmExchangePortal
+          exchange={exchange}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
+
       <img
         className={styles.avatar}
         src={
@@ -123,7 +133,10 @@ export const Notification: React.FC<NotificationProps> = ({ notification }) => {
                 </div>
               ) : (
                 <div className={styles.buttonsContainer}>
-                  <div className={styles.rightButton}>
+                  <div
+                    className={styles.rightButton}
+                    onClick={() => setIsModalOpen(true)}
+                  >
                     <Button
                       _name="Переглянути"
                       _buttonVariant="blue"

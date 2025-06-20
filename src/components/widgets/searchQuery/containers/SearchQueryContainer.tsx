@@ -8,10 +8,16 @@ import { setTitleAndAuthor } from '@/features/bookSearchSlice/bookSearchSlice';
 interface Props {
   searchParams?: URLSearchParams;
   setSearchParams?: SetURLSearchParams;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
   placeholder: string;
 }
 
-export const SearchQueryContainer: React.FC<Props> = ({ placeholder }) => {
+export const SearchQueryContainer: React.FC<Props> = ({
+  placeholder,
+  onChange,
+  value,
+}) => {
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState('');
 
@@ -30,6 +36,10 @@ export const SearchQueryContainer: React.FC<Props> = ({ placeholder }) => {
   };
 
   return (
-    <SearchQuery value={inputValue} onChange={handleChange} placeholder={placeholder} />
+    <SearchQuery
+      value={value ? value : inputValue}
+      onChange={onChange ? onChange : handleChange}
+      placeholder={placeholder}
+    />
   );
 };
