@@ -5,17 +5,13 @@ export const refreshAccessToken = async (): Promise<string | null> => {
   try {
     const url = `${API_BASE}/auth/refresh`;
 
-    const response = await axios.post<string>(
-      url,
-      {},
-      {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        timeout: 10000, // 10 секунд таймаут
-      }
-    );
+    const response = await axios.post<string>(url, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 10000,
+    });
 
     const newAccessToken = response.data;
 
