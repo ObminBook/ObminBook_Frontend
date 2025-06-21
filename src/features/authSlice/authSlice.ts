@@ -69,6 +69,9 @@ export const oauth2Login = createAsyncThunk<User, void, { rejectValue: AuthError
       return thunkAPI.rejectWithValue({
         message: error.response?.data?.message || 'OAuth2 авторизація не вдалася',
       });
+    } finally {
+      const checkRefresh = await axios.get('/check-refresh');
+      console.log(checkRefresh);
     }
   }
 );
