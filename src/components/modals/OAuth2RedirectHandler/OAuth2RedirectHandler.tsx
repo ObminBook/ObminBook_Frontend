@@ -7,6 +7,8 @@ const OAuth2RedirectHandler = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  console.log('OAuth2RedirectHandler rendered');
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
