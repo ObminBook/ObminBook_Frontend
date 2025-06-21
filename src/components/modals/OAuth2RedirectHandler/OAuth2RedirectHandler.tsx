@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
-import { checkAuth } from '@/features/authSlice/authSlice';
-import { refreshAccessToken } from '@/utils/refreshAccessToken';
+import { oauth2Login } from '@/features/authSlice/authSlice';
 
 export const OAuth2RedirectHandlerCookies = () => {
   const navigate = useNavigate();
@@ -14,6 +13,7 @@ export const OAuth2RedirectHandlerCookies = () => {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const error = urlParams.get('error');
+        const code = urlParams.get('code');
 
         if (error) {
           console.error('OAuth error:', error);
@@ -21,27 +21,19 @@ export const OAuth2RedirectHandlerCookies = () => {
           return;
         }
 
-        // Дати бекенду трохи часу для встановлення cookies
-        await new Promise((resolve) => setTimeout(resolve, 300));
-
-        // Отримати accessToken через cookies
-        const accessToken = await refreshAccessToken();
-
-        if (accessToken) {
-          localStorage.setItem('accessToken', accessToken);
-        } else {
-          console.error('No access token received after OAuth');
+        if (!code) {
+          console.error('No authorization code received');
           navigate('/login?error=oauth_failed');
           return;
         }
 
-        // Перевірити користувача
-        const result = await dispatch(checkAuth());
+        // Використовуємо наявний oauth2Login thunk
+        const result = await dispatch(oauth2Login({ code }));
 
-        if (checkAuth.fulfilled.match(result)) {
+        if (oauth2Login.fulfilled.match(result)) {
           navigate('/profile');
         } else {
-          console.error('OAuth checkAuth failed:', result.payload);
+          console.error('OAuth login failed:', result.payload);
           navigate('/login?error=oauth_failed');
         }
       } catch (error) {

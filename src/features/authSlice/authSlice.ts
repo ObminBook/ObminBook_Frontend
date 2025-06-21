@@ -10,6 +10,7 @@ import {
 import { RootState } from '@/reduxStore/store';
 import axios, { AxiosError } from 'axios';
 import { showErrorToast } from '@/components/customToast/toastUtils';
+import { refreshAccessToken } from '@/utils/refreshAccessToken';
 
 interface AuthError {
   field?: string;
@@ -52,6 +53,17 @@ export const oauth2Login = createAsyncThunk<
   { rejectValue: AuthError }
 >('auth/oauth2Login', async (_, thunkAPI) => {
   try {
+    // Даємо час бекенду встановити cookies
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Спробуємо отримати access token через refresh endpoint
+    const accessToken = await refreshAccessToken();
+
+    if (!accessToken) {
+      throw new Error('No access token received');
+    }
+
+    // Отримуємо дані користувача
     const userResponse = await fetchUserRequest();
     return userResponse.data;
   } catch (err) {
@@ -64,7 +76,9 @@ export const oauth2Login = createAsyncThunk<
       });
     }
 
-    return thunkAPI.rejectWithValue({ message: 'Щось пішло не так' });
+    return thunkAPI.rejectWithValue({
+      message: error.response?.data?.message || 'OAuth2 авторизація не вдалася',
+    });
   }
 });
 

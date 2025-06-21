@@ -52,7 +52,10 @@ const App = () => {
         </Route>
 
         {/* Загальні маршрути */}
-        <Route path="/oauth2/redirect" element={<OAuth2RedirectHandlerCookies />} />
+        <Route
+          path="/oauth2/authorization/google"
+          element={<OAuth2RedirectHandlerCookies />}
+        />
         <Route path="/search" element={<BookSearchPage />} />
         <Route path="/chat" element={<ChatPage />} />
 
