@@ -6,7 +6,6 @@ import {
   registerRequest,
   verificationRequest,
   userLogout,
-  checkRefresh,
 } from '../../api/authApi';
 import { RootState } from '@/reduxStore/store';
 import axios, { AxiosError } from 'axios';
@@ -55,10 +54,7 @@ export const oauth2Login = createAsyncThunk<User, void, { rejectValue: AuthError
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Отримуємо дані користувача
-      const checkRefr = await checkRefresh();
       const userResponse = await fetchUserRequest();
-
-      console.log(checkRefr);
 
       return userResponse.data;
     } catch (err) {
