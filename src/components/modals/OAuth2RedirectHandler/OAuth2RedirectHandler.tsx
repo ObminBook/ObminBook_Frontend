@@ -1,25 +1,25 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
-import { checkAuth } from '@/features/authSlice/authSlice';
+import { fetchUser } from '@/features/authSlice/authSlice';
 
 const OAuth2RedirectHandler = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log('fetchUser started');
-    const fetchUser = async () => {
+    const fetchCurrentUser = async () => {
+      console.log('handlerworks');
+
       try {
-        await dispatch(checkAuth()).unwrap();
-        console.log('checkAuth success');
-        navigate('/search');
-      } catch (err) {
-        console.error('checkAuth error', err);
-        navigate('/login');
+        await dispatch(fetchUser()).unwrap();
+        // navigate('/search');
+      } catch {
+        // navigate('/login');
       }
     };
-    fetchUser();
+
+    fetchCurrentUser();
   }, [dispatch, navigate]);
 
   return <p>Авторизація через Google... Зачекайте</p>;
