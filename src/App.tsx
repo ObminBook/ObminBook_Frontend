@@ -31,7 +31,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Router>
+    <Router basename="/">
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
