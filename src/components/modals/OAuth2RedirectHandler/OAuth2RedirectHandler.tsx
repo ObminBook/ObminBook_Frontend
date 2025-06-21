@@ -15,7 +15,7 @@ const OAuth2RedirectHandler = () => {
         await dispatch(fetchUser()).unwrap();
         // navigate('/search');
       } catch {
-        // navigate('/login');
+        console.log('Ця залупа не працює');
       }
     };
 
