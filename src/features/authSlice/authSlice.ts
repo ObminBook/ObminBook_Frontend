@@ -10,7 +10,6 @@ import {
 import { RootState } from '@/reduxStore/store';
 import axios, { AxiosError } from 'axios';
 import { showErrorToast } from '@/components/customToast/toastUtils';
-import { refreshAccessToken } from '@/utils/refreshAccessToken';
 
 interface AuthError {
   field?: string;
@@ -52,14 +51,7 @@ export const oauth2Login = createAsyncThunk<User, void, { rejectValue: AuthError
   async (_, thunkAPI) => {
     try {
       // Даємо час бекенду встановити cookies (як було)
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Спробуємо отримати access token через refresh endpoint
-      const accessToken = await refreshAccessToken();
-
-      if (!accessToken) {
-        throw new Error('No access token received');
-      }
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Отримуємо дані користувача
       const userResponse = await fetchUserRequest();
