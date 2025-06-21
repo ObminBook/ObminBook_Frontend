@@ -47,40 +47,39 @@ type RegisterPayload = {
   lastName: string;
 };
 
-export const oauth2Login = createAsyncThunk<
-  User,
-  { code: string },
-  { rejectValue: AuthError }
->('auth/oauth2Login', async (_, thunkAPI) => {
-  try {
-    // Даємо час бекенду встановити cookies
-    await new Promise((resolve) => setTimeout(resolve, 500));
+export const oauth2Login = createAsyncThunk<User, void, { rejectValue: AuthError }>(
+  'auth/oauth2Login',
+  async (_, thunkAPI) => {
+    try {
+      // Даємо час бекенду встановити cookies (як було)
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-    // Спробуємо отримати access token через refresh endpoint
-    const accessToken = await refreshAccessToken();
+      // Спробуємо отримати access token через refresh endpoint
+      const accessToken = await refreshAccessToken();
 
-    if (!accessToken) {
-      throw new Error('No access token received');
-    }
+      if (!accessToken) {
+        throw new Error('No access token received');
+      }
 
-    // Отримуємо дані користувача
-    const userResponse = await fetchUserRequest();
-    return userResponse.data;
-  } catch (err) {
-    const error = err as AxiosError<{ message?: string }>;
+      // Отримуємо дані користувача
+      const userResponse = await fetchUserRequest();
+      return userResponse.data;
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
 
-    if (error.response?.status === 409) {
+      if (error.response?.status === 409) {
+        return thunkAPI.rejectWithValue({
+          field: 'email',
+          message: 'Користувач з такою поштою вже існує',
+        });
+      }
+
       return thunkAPI.rejectWithValue({
-        field: 'email',
-        message: 'Користувач з такою поштою вже існує',
+        message: error.response?.data?.message || 'OAuth2 авторизація не вдалася',
       });
     }
-
-    return thunkAPI.rejectWithValue({
-      message: error.response?.data?.message || 'OAuth2 авторизація не вдалася',
-    });
   }
-});
+);
 
 // Async Thunks
 export const login = createAsyncThunk<

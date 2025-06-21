@@ -1,25 +1,23 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/reduxHooks/useAppDispatch';
-import { fetchUser } from '@/features/authSlice/authSlice';
+import { oauth2Login } from '@/features/authSlice/authSlice';
 
 const OAuth2RedirectHandler = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchCurrentUser = async () => {
-      console.log('handlerworks');
-
+    const authenticateUser = async () => {
       try {
-        await dispatch(fetchUser()).unwrap();
-        // navigate('/search');
+        await dispatch(oauth2Login()).unwrap();
+        navigate('/search');
       } catch {
-        console.log('Ця залупа не працює');
+        navigate('/login');
       }
     };
 
-    fetchCurrentUser();
+    authenticateUser();
   }, [dispatch, navigate]);
 
   return <p>Авторизація через Google... Зачекайте</p>;
