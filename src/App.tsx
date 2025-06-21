@@ -21,7 +21,7 @@ import { Support } from './pages/Support/Support';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { LogoutOverlay } from './pages/LogoutOverlay/LogoutOverlay';
-import { OAuth2RedirectHandlerCookies } from './components/modals/OAuth2RedirectHandler/OAuth2RedirectHandler';
+import OAuth2RedirectHandler from './components/modals/OAuth2RedirectHandler/OAuth2RedirectHandler';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -52,10 +52,7 @@ const App = () => {
         </Route>
 
         {/* Загальні маршрути */}
-        <Route
-          path="/oauth2/authorization/google"
-          element={<OAuth2RedirectHandlerCookies />}
-        />
+        <Route path="login/oauth2/code/google" element={<OAuth2RedirectHandler />} />
         <Route path="/search" element={<BookSearchPage />} />
         <Route path="/chat" element={<ChatPage />} />
 
