@@ -51,7 +51,7 @@ export const oauth2Login = createAsyncThunk<User, void, { rejectValue: AuthError
   async (_, thunkAPI) => {
     try {
       // Даємо час бекенду встановити cookies (як було)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 20000));
 
       // Отримуємо дані користувача
       const userResponse = await fetchUserRequest();
