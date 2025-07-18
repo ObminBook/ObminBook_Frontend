@@ -1,54 +1,52 @@
-# React + TypeScript + Vite
+# 📚 ObminBook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**ObminBook** — це веб-платформа для обміну книгами між користувачами. Ви можете знаходити книги, які хочете прочитати, пропонувати свої, домовлятися про обмін та вести переписку з іншими учасниками.
 
-Currently, two official plugins are available:
+## 🔗 Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+https://obminbook.netlify.app/search
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠 Технології
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Frontend:** React, TypeScript, SCSS / CSS Modules, BEM methodology
+- **Backend:** Java.js, SpringBoot
+- **Database:** MongoDB / PostgreSQL
+- **State management:** React Context / Redux
+- **Routing:** React Router
+- **Forms:** React Hook Form / Formik
+- **Other:** Cypress (тестування), Lazy loading, Debounce
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Основні функції
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- 🔍 Пошук і фільтрація книг за жанром, станом, форматом обміну
+- 🔄 Обмін книгами між користувачами з підтвердженням на кожному етапі
+- 💬 Особисті повідомлення
+- 👤 Профіль користувача з власними книгами
+- 📦 Система балів за обміни (гейміфікація)
+- 🛡 Механізм підтвердження відправки та отримання книги
+- 🌐 Збереження фільтрів через URL (query params)
+- 📱 Адаптивний інтерфейс
+
+---
+
+## 🧠 Механіка обміну
+
+1. Користувач надсилає запит на обмін
+2. Інший користувач підтверджує
+3. Обидва надсилають свої книги та підтверджують це
+4. Після отримання книги — фінальне підтвердження
+5. Система нараховує бали
+
+---
+
+## 🔧 Локальний запуск
+
+```bash
+git clone https://github.com/your-username/obminbook.git
+cd obminbook
+npm install
+npm run dev
