@@ -12,13 +12,15 @@ export const SentListExchanges = () => {
 
   useEffect(() => {
     dispatch(getMyExchangesAsync());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={styles.container}>
-      {pendingExchanges.map((el) => {
-        return <InitiatorExchangeItem exchange={el} />;
-      })}
+      {pendingExchanges.length === 0 ? (
+        <p className={styles.emptyMessage}>Немає надісланих запитів на обмін</p>
+      ) : (
+        pendingExchanges.map((el) => <InitiatorExchangeItem key={el.id} exchange={el} />)
+      )}
     </div>
   );
 };

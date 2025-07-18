@@ -89,3 +89,10 @@
 .title {
   @include fontH4--semiBold--darkblue;
 }
+
+.noNotifications {
+  text-align: center;
+  padding: 1rem;
+  color: #777;
+  font-size: 14px;
+}

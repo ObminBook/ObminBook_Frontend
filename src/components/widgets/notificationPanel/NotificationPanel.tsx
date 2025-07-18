@@ -68,11 +68,13 @@ const NotificationsPanel: React.FC = () => {
         </div>
 
         <div className={styles.list}>
-          {isLoading
-            ? [1, 2, 3].map((el) => <NotificationSkeleton />)
-            : notifications.map((n) => {
-                return <Notification key={n.id} notification={n} />;
-              })}
+          {isLoading ? (
+            [1, 2, 3].map((el) => <NotificationSkeleton key={el} />)
+          ) : notifications.length === 0 ? (
+            <p className={styles.noNotifications}>Немає сповіщень</p>
+          ) : (
+            notifications.map((n) => <Notification key={n.id} notification={n} />)
+          )}
         </div>
       </div>
     </div>

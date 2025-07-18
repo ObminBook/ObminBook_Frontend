@@ -6,17 +6,19 @@ import { select as manageBooksSelect } from '@/features/manageBookSlice/manageBo
 export const ListSavedBooks: React.FC = () => {
   const savedBooksItems = useSelector(manageBooksSelect.savedBooks);
 
-  console.log(savedBooksItems);
-
   return (
     <div className={styles.container}>
-      <div className={styles.savedBooksList}>
-        {savedBooksItems.map((savedBooksItem) => (
-          <div className={styles.savedBookCard} key={savedBooksItem.book.id}>
-            <SavedBookCard book={savedBooksItem.book} />
-          </div>
-        ))}
-      </div>
+      {savedBooksItems.length === 0 ? (
+        <p className={styles.emptyMessage}>Немає збережених книг</p>
+      ) : (
+        <div className={styles.savedBooksList}>
+          {savedBooksItems.map((savedBooksItem) => (
+            <div className={styles.savedBookCard} key={savedBooksItem.book.id}>
+              <SavedBookCard book={savedBooksItem.book} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

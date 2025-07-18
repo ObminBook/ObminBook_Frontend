@@ -179,9 +179,6 @@
   perspective: 800px;
   transform-origin: left center;
 
-  /* Поворот по осі Y вправо і по осі X вперед/вверх */
-  transform: translateX(-38%) rotateY(12deg) translateZ(-30px) skewY(-8deg);
-
   &__obminBook {
     @include fontSmall--gray;
     margin-top: 20px;

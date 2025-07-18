@@ -145,12 +145,6 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
               book.coverImage === 'NOT FOUND' ? styles.mockedImage : styles.image
             }
           />
-
-          {book.coverImage === 'NOT FOUND' && (
-            <div className={styles.noCover}>
-              <div className={styles.noCover__title}>Обкладинка у відпустці</div>
-            </div>
-          )}
         </div>
         <div className={styles.info}>
           <h4 className={styles.title}>{book.title}</h4>

@@ -17,12 +17,15 @@ export const RecievedListExchanges = () => {
 
   useEffect(() => {
     dispatch(getRecievedExchangesAsync());
-  }, []);
+  }, [dispatch]);
+
   return (
     <div className={styles.container}>
-      {pendingExchanges.map((el) => {
-        return <RecipientExchangeItem exchange={el} />;
-      })}
+      {pendingExchanges.length === 0 ? (
+        <p className={styles.emptyMessage}>Немає отриманих запитів на обмін</p>
+      ) : (
+        pendingExchanges.map((el) => <RecipientExchangeItem key={el.id} exchange={el} />)
+      )}
     </div>
   );
 };
