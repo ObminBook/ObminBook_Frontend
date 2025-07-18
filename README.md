@@ -4,7 +4,7 @@
 
 ## 🔗 Demo
 
-[obminbook.ua]([https://obminbook.ua](https://obminbook.netlify.app/search))
+https://obminbook.netlify.app/search
 
 ---
 
