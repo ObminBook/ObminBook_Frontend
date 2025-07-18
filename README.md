@@ -11,9 +11,9 @@ https://obminbook.netlify.app/search
 ## 🛠 Технології
 
 - **Frontend:** React, TypeScript, SCSS / CSS Modules, BEM methodology
-- **Backend:** Node.js, Express *(опціонально уточнити)*
-- **Database:** MongoDB / PostgreSQL *(вказати реальне)*
-- **State management:** React Context / Redux *(вказати точне)*
+- **Backend:** Java.js, SpringBoot
+- **Database:** MongoDB / PostgreSQL
+- **State management:** React Context / Redux
 - **Routing:** React Router
 - **Forms:** React Hook Form / Formik
 - **Other:** Cypress (тестування), Lazy loading, Debounce
