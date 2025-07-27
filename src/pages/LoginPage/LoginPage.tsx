@@ -58,7 +58,9 @@ const LoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://3.218.8.20/oauth2/authorization/google';
+    window.location.href = `${
+      import.meta.env.VITE_SERVER_BASE
+    }oauth2/authorization/google`;
   };
 
   const rememberMeValue = watch('rememberMe');
