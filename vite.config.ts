@@ -17,7 +17,7 @@ export default defineConfig(({ command }) => {
       server: {
         proxy: {
           '/api': {
-            target: 'http://3.218.8.20',
+            target: 'http://obminbook.eu-central-1.elasticbeanstalk.com/',
             changeOrigin: true,
             secure: false,
             rewrite: (path) => path.replace(/^\/api/, ''),
