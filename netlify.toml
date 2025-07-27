@@ -1,7 +1,7 @@
 # Проксі для API
 [[redirects]]
   from = "/api/*"
-  to = "http://obminbook.eu-central-1.elasticbeanstalk.com/"
+  to = "http://obminbook.eu-central-1.elasticbeanstalk.com/:splat"
   status = 200
   force = true
 
